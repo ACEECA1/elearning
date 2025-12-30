@@ -1,4 +1,4 @@
-package com.app.dao.Interface;
+package com.app.dao.interfaces;
 
 import java.sql.SQLException;
 import java.util.List;

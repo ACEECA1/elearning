@@ -1,4 +1,4 @@
-package com.app.model;
+package com.app.model.users;
 
 public class Admin extends User {
     public Admin(int id, String firstName, String lastName, String email, String passwordHash, String salt) {

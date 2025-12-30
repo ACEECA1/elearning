@@ -34,6 +34,7 @@ CREATE TABLE `course` (
     enrolment_key VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
     teacher_id INT NOT NULL,
+    thumbnail_path VARCHAR(255) NOT NULL,
 
     FOREIGN KEY (teacher_id) REFERENCES teacher(id) ON DELETE CASCADE
 );

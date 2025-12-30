@@ -1,4 +1,4 @@
-package com.app.model;
+package com.app.model.users;
 
 public class Teacher extends User {
     private String domain;
