@@ -22,7 +22,7 @@ CREATE TABLE `teacher` (
 
 CREATE TABLE `student` (
     id INT PRIMARY KEY,
-    student_card_number INT NOT NULL,
+    student_card_number VARCHAR(255) NOT NULL,
     academic_year VARCHAR(255) NOT NULL,
     FOREIGN KEY (id) REFERENCES user(id) ON DELETE CASCADE
 );
