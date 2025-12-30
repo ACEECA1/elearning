@@ -1,0 +1,58 @@
+# =========================
+# Java / Maven
+# =========================
+# Compiled class files
+*.class
+
+# Maven target folder
+backend/target/
+.vscode/
+.mvn
+/backend/.env
+/backend/src/main/webapp/WEB-INF/lib
+/backend/src/main/webapp/WEB-INF/classes
+
+# Eclipse / IntelliJ / VSCode project files
+*.iml
+*.ipr
+*.iws
+.idea/
+*.classpath
+*.project
+*.settings/
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.swp
+.DS_Store
+
+# =========================
+# Node / Frontend
+# =========================
+# Node modules
+frontend/node_modules/
+
+# Build outputs
+frontend/dist/
+frontend/build/
+
+# Logs
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+
+# Environment variables
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# Misc
+frontend/.DS_Store
+
+
+backend.session.sql
