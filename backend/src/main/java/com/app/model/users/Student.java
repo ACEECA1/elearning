@@ -35,4 +35,15 @@ public class Student extends User {
     public String getRole() {
         return "STUDENT";
     }
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + getId() +
+                ", firstName='" + getFirstName() + '\'' +
+                ", lastName='" + getLastName() + '\'' +
+                ", email='" + getEmail() + '\'' +
+                ", studentCardNumber='" + studentCardNumber + '\'' +
+                ", academicYear='" + academicYear + '\'' +
+                '}';
+    }
 }

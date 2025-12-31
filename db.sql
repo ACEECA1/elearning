@@ -106,6 +106,7 @@ CREATE TABLE `video` (
 CREATE TABLE `quiz` (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
     available_from DATETIME NOT NULL,
     available_to DATETIME NOT NULL,
     chapter_id INT NOT NULL,
@@ -116,6 +117,7 @@ CREATE TABLE `quiz` (
 CREATE TABLE `question` (
     id INT AUTO_INCREMENT PRIMARY KEY,
     text TEXT NOT NULL,
+    material VARCHAR(255),
     score INT DEFAULT 0,
     quiz_id INT NOT NULL,
 

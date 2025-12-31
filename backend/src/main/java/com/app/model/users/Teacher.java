@@ -36,4 +36,15 @@ public class Teacher extends User {
     public String getRole() {
         return "TEACHER";
     }
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "id=" + getId() +
+                ", firstName='" + getFirstName() + '\'' +
+                ", lastName='" + getLastName() + '\'' +
+                ", email='" + getEmail() + '\'' +
+                ", domain='" + domain + '\'' +
+                ", grade='" + grade + '\'' +
+                '}';
+    }
 }

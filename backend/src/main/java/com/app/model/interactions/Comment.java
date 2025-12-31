@@ -1,4 +1,4 @@
-package com.app.model;
+package com.app.model.interactions;
 
 import com.app.model.users.User;
 

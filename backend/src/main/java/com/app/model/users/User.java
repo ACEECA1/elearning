@@ -61,4 +61,12 @@ public class User {
     public void setSalt(String salt) {
         this.salt = salt;
     }
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

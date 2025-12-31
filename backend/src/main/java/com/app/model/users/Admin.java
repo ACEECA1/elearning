@@ -13,4 +13,13 @@ public class Admin extends User {
     public String getRole() {
         return "ADMIN";
     }
+    @Override
+    public String toString() {
+        return "Admin{" +
+                "id=" + getId() +
+                ", firstName='" + getFirstName() + '\'' +
+                ", lastName='" + getLastName() + '\'' +
+                ", email='" + getEmail() + '\'' +
+                '}';
+    }
 }
