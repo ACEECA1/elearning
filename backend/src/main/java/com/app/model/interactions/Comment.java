@@ -1,8 +1,9 @@
 package com.app.model.interactions;
-
+import java.util.List;
 import com.app.model.users.User;
 
 public class Comment {
+    private int userId;
     private int id;
     private String content;
     private String createdAt;
@@ -10,9 +11,11 @@ public class Comment {
     private int dislikes;
     private boolean isModified;
     private int forumId;
-    private int userId;
     private Forum forum;
     private User user;
+    private boolean isReply;
+    private int parentCommentId;
+    private List<Comment> replies;
     public Comment(int id, String content, String createdAt, int likes, int dislikes,
                    boolean isModified, int forumId, int userId) {
         this.id = id;
@@ -23,6 +26,8 @@ public class Comment {
         this.isModified = isModified;
         this.forumId = forumId;
         this.userId = userId;
+        this.isReply = false;
+        this.parentCommentId = -1;
     }
     public Comment(String content, String createdAt, int likes, int dislikes,
                    boolean isModified, int forumId, int userId) {
@@ -34,6 +39,22 @@ public class Comment {
         this.isModified = isModified;
         this.forumId = forumId;
         this.userId = userId;
+        this.isReply = false;
+        this.parentCommentId = -1;
+    }
+    public Comment(String content, String createdAt, int likes, int dislikes,
+                   boolean isModified, int forumId, int userId,
+                   boolean isReply, int parentCommentId) {
+        this.id = 0; 
+        this.content = content;
+        this.createdAt = createdAt;
+        this.likes = likes;
+        this.dislikes = dislikes;
+        this.isModified = isModified;
+        this.forumId = forumId;
+        this.userId = userId;
+        this.isReply = isReply;
+        this.parentCommentId = parentCommentId;
     }
     // Getters and Setters
     public int getId() {
@@ -95,5 +116,23 @@ public class Comment {
     }
     public void setUser(User user) {
         this.user = user;
+    }
+    public boolean isReply() {
+        return isReply;
+    }
+    public void setReply(boolean isReply) {
+        this.isReply = isReply;
+    }
+    public int getParentCommentId() {
+        return parentCommentId;
+    }
+    public void setParentCommentId(int parentCommentId) {
+        this.parentCommentId = parentCommentId;
+    }
+    public List<Comment> getReplies() {
+        return replies;
+    }
+    public void setReplies(List<Comment> replies) {
+        this.replies = replies;
     }
 }
