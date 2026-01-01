@@ -6,7 +6,7 @@ import com.google.gson.JsonObject;
 
 import java.io.PrintWriter;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.*;
 @WebServlet("/testUserDAO")
 public class TestUserDAO extends HttpServlet {
     public UserDAO userDAO;
@@ -15,7 +15,7 @@ public class TestUserDAO extends HttpServlet {
         userDAO = new UserDAO();
     }
     @Override
-    protected void doGet(jakarta.servlet.http.HttpServletRequest req, jakarta.servlet.http.HttpServletResponse resp) {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         PrintWriter out;
         JsonObject jsonResponse = new JsonObject();
         try {
@@ -52,7 +52,7 @@ public class TestUserDAO extends HttpServlet {
             jsonResponse.addProperty("message", e.getMessage());
         }   
     }
-    protected void doPost(jakarta.servlet.http.HttpServletRequest req, jakarta.servlet.http.HttpServletResponse resp) {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         PrintWriter out;
         JsonObject jsonResponse = new JsonObject();
         try {

@@ -6,7 +6,7 @@ import com.google.gson.JsonObject;
 
 import java.io.PrintWriter;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.*;
 @WebServlet("/testStudentDAO")
 public class TestStudentDAO extends HttpServlet {
     public StudentDAO studentDAO;
@@ -15,7 +15,7 @@ public class TestStudentDAO extends HttpServlet {
         studentDAO = new StudentDAO();
     }
     @Override
-    protected void doGet(jakarta.servlet.http.HttpServletRequest req, jakarta.servlet.http.HttpServletResponse resp) {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         PrintWriter out;
         JsonObject jsonResponse = new JsonObject();
         try {
@@ -61,17 +61,17 @@ public class TestStudentDAO extends HttpServlet {
             jsonResponse.addProperty("message", e.getMessage());
         }   
     }
-    protected void doPost(jakarta.servlet.http.HttpServletRequest req, jakarta.servlet.http.HttpServletResponse resp) {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         PrintWriter out;
         JsonObject jsonResponse = new JsonObject();
         try {
             resp.setContentType("application/json");
             out = resp.getWriter();
             jsonResponse.addProperty("status", "success");
-            jsonResponse.addProperty("message", "POST method in TestUserDAO is operational.");
+            jsonResponse.addProperty("message", "POST method in TestStudentDAO is operational.");
             out.println(jsonResponse.toString());
         } catch (Exception e) {
-            System.out.println("Error during TestUserDAO POST operation: " + e.getMessage());
+            System.out.println("Error during TestStudentDAO POST operation: " + e.getMessage());
             jsonResponse.addProperty("status", "error");
             jsonResponse.addProperty("message", e.getMessage());
         }
