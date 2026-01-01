@@ -1,6 +1,6 @@
 package com.app.controller.Test;
 
-import com.app.dao.implementation.UserDAO;
+import com.app.dao.implementation.users.UserDAO;
 import com.app.model.users.User;
 import com.google.gson.JsonObject;
 

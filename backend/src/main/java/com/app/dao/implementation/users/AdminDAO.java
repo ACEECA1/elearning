@@ -1,4 +1,4 @@
-package com.app.dao.implementation;
+package com.app.dao.implementation.users;
 import com.app.dao.interfaces.DAO;
 import com.app.model.users.Admin;
 import com.app.model.users.User;

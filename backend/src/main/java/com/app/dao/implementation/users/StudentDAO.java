@@ -1,4 +1,4 @@
-package com.app.dao.implementation;
+package com.app.dao.implementation.users;
 import com.app.dao.interfaces.DAO;
 import com.app.model.users.Student;
 import com.app.model.users.User;
@@ -8,9 +8,6 @@ import java.sql.*;
 import java.util.List;
 import java.util.ArrayList;
 
-/*    String studentCardNumber;
-    String academicYear;
-     */
 
 public class StudentDAO implements DAO<Student> {
     void insert(Connection conn, Student student) throws SQLException {
