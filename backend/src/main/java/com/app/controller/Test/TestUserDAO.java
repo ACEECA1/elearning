@@ -22,12 +22,49 @@ public class TestUserDAO extends HttpServlet {
             resp.setContentType("application/json");
             out = resp.getWriter();
             User user = new User("walid123","Walid", "Chemat", "walidchemat@gmail.com", "123123", "salt");
-            userDAO.delete(user);
+            try{
+                userDAO.insert(user);
+                jsonResponse.addProperty("status", "success");
+                jsonResponse.addProperty("message", "User inserted with ID: " + user.getId());
+                jsonResponse.addProperty("user", user.toString());
+                out.println(jsonResponse.toString());
+            }
+            catch (Exception e){
+                jsonResponse.addProperty("status", "error");
+                jsonResponse.addProperty("message", "Insertion failed: " + e.getMessage());
+                out.println(jsonResponse.toString());
+            }
+            try{
+                user.setFirstName("UpdatedName");
+                userDAO.update(user);
+                jsonResponse.addProperty("message", "User updated : " + user.toString());
+                out.println(jsonResponse.toString());
+            }
+            catch (Exception e){
+                jsonResponse.addProperty("status", "error");
+                jsonResponse.addProperty("message", "Update failed: " + e.getMessage());
+                out.println(jsonResponse.toString());
+            }
+            
+        } catch (Exception e) {
+            System.out.println("Error during TestUserDAO operations: " + e.getMessage());
+            jsonResponse.addProperty("status", "error");
+            jsonResponse.addProperty("message", e.getMessage());
+        }   
+    }
+    protected void doPost(jakarta.servlet.http.HttpServletRequest req, jakarta.servlet.http.HttpServletResponse resp) {
+        PrintWriter out;
+        JsonObject jsonResponse = new JsonObject();
+        try {
+            resp.setContentType("application/json");
+            out = resp.getWriter();
             jsonResponse.addProperty("status", "success");
-            jsonResponse.addProperty("message", "User "+ user.getUsername() + " deleted successfully");
+            jsonResponse.addProperty("message", "POST method in TestUserDAO is operational.");
             out.println(jsonResponse.toString());
         } catch (Exception e) {
-            e.printStackTrace();
-        }   
+            System.out.println("Error during TestUserDAO POST operation: " + e.getMessage());
+            jsonResponse.addProperty("status", "error");
+            jsonResponse.addProperty("message", e.getMessage());
+        }
     }
 }

@@ -8,18 +8,16 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class UserDAO implements DAO<User>{
-    @Override
-    public void insert(User user) throws SQLException {
+    public void insert(Connection conn, User user) throws SQLException {
         String sql = "INSERT INTO user (username, first_name, last_name, email, password_hash, salt) VALUES (?, ?, ?, ?, ?, ?)";
-        Connection conn = null;
-        try{
-            conn = Database.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             setStatementParameters(pstmt, user);
+            
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Inserting user failed, no rows affected.");
             }
+
             try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     user.setId(generatedKeys.getInt(1));
@@ -27,21 +25,20 @@ public class UserDAO implements DAO<User>{
                     throw new SQLException("Inserting user failed, no ID obtained.");
                 }
             }
-            catch(SQLException e){
-                System.out.println("Error retrieving generated keys: " + e.getMessage());
-            }
-        }
-        catch(SQLException e){
-            System.out.println("Error inserting user: " + e.getMessage());
         }
     }
     @Override
-    public void update(User user) throws SQLException {
+    public void insert(User user) throws SQLException {
+        try (Connection conn = Database.getConnection()) {
+            this.insert(conn, user);
+        } catch (SQLException e) {
+            System.err.println("Error inserting user: " + e.getMessage());
+            throw e; 
+        }
+    }
+    public void update(Connection conn, User user) throws SQLException {
         String sql = "UPDATE user SET username = ?, first_name = ?, last_name = ?, email = ?, password_hash = ?, salt = ? WHERE id = ?";
-        Connection conn = null;
-        try{
-            conn = Database.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql);
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             setStatementParameters(pstmt, user);
             pstmt.setInt(7, user.getId());
             int affectedRows = pstmt.executeUpdate();
@@ -49,81 +46,96 @@ public class UserDAO implements DAO<User>{
                 throw new SQLException("Updating user failed, no rows affected.");
             }
         }
-        catch(SQLException e){
-            System.out.println("Error updating user: " + e.getMessage());
-        }
     }
     @Override
-    public void delete(int id) throws SQLException {
+    public void update(User user) throws SQLException {
+        try (Connection conn = Database.getConnection()) {
+            this.update(conn, user);
+        } catch (SQLException e) {
+            System.err.println("Error updating user: " + e.getMessage());
+            throw e; 
+        }
+    }
+    public void delete(Connection conn, int id) throws SQLException {
         String sql = "DELETE FROM user WHERE id = ?";
-        Connection conn = null;
-        try{
-            conn = Database.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql);
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Deleting user failed, no rows affected.");
             }
         }
-        catch(SQLException e){
-            System.out.println("Error deleting user: " + e.getMessage());
-        }
     }
     @Override
-    public User findById(int id) throws SQLException {
-        String sql = "SELECT * FROM user WHERE id = ?";
-        Connection conn = null;
-        try{
-            conn = Database.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, id);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                return mapRowToUser(rs);
-            }
+    public void delete(int id) throws SQLException {
+        try (Connection conn = Database.getConnection()) {
+            this.delete(conn, id);
+        } catch (SQLException e) {
+            System.err.println("Error deleting user: " + e.getMessage());
+            throw e; 
         }
-        catch(SQLException e){
-            System.out.println("Error finding user by ID: " + e.getMessage());
-            return null;
+    }
+    public User findById(Connection conn, int id) throws SQLException {
+        String sql = "SELECT * FROM user WHERE id = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapRowToUser(rs);
+                }
+            }
         }
         return null;
     }
     @Override
-    public List<User> findAll() throws SQLException {
+    public User findById(int id) throws SQLException {
+        try (Connection conn = Database.getConnection()) {
+            return this.findById(conn, id);
+        } catch (SQLException e) {
+            System.err.println("Error finding user by ID: " + e.getMessage());
+            throw e;
+        }
+    }
+    public List<User> findAll(Connection conn) throws SQLException {
         String sql = "SELECT * FROM user";
-        Connection conn = null;
         List<User> users = new ArrayList<>();
-        try{
-            conn = Database.getConnection();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
+        try (Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 users.add(mapRowToUser(rs));
             }
         }
-        catch(SQLException e){
-            System.out.println("Error finding all users: " + e.getMessage());
-        }
         return users;
     }
-    public void delete(User user) throws SQLException {
+    @Override
+    public List<User> findAll() throws SQLException {
+        try (Connection conn = Database.getConnection()) {
+            return this.findAll(conn);
+        } catch (SQLException e) {
+            System.err.println("Error finding all users: " + e.getMessage());
+            throw e;
+        }
+    }
+    public void delete(Connection conn, User user) throws SQLException {
         String sql = "DELETE FROM user WHERE email = ?";
-        Connection conn = null;
-        try{
-            conn = Database.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql);
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, user.getEmail());
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Deleting user failed, no rows affected.");
             }
         }
-        catch(SQLException e){
-            System.out.println("Error deleting user: " + e.getMessage());
+    }
+    public void delete(User user) throws SQLException {
+        try (Connection conn = Database.getConnection()) {
+            this.delete(conn, user);
+        } catch (SQLException e) {
+            System.err.println("Error deleting user: " + e.getMessage());
+            throw e; 
         }
     }
 
+    
     private void setStatementParameters(PreparedStatement pstmt, User user) throws SQLException {
         pstmt.setString(1, user.getUsername());
         pstmt.setString(2, user.getFirstName());
