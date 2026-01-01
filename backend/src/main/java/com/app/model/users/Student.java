@@ -3,20 +3,20 @@ package com.app.model.users;
 public class Student extends User {
     String studentCardNumber;
     String academicYear;
-    public Student(int id, String firstName, String lastName, String email, String passwordHash, String salt,
+    public Student(int id, String username, String firstName, String lastName, String email, String passwordHash, String salt,
                    String studentCardNumber, String academicYear) {
-        super(id, firstName, lastName, email, passwordHash, salt);
+        super(id,username, firstName, lastName, email, passwordHash, salt);
         this.studentCardNumber = studentCardNumber;
         this.academicYear = academicYear;
     }
-    public Student(String firstName, String lastName, String email, String passwordHash, String salt,
+    public Student(String username, String firstName, String lastName, String email, String passwordHash, String salt,
                    String studentCardNumber, String academicYear) {
-        super(firstName, lastName, email, passwordHash, salt);
+        super(username, firstName, lastName, email, passwordHash, salt);
         this.studentCardNumber = studentCardNumber;
         this.academicYear = academicYear;
     }
     public Student(User user, String studentCardNumber, String academicYear) {
-        super(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPasswordHash(), user.getSalt());
+        super(user.getId(), user.getUsername(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPasswordHash(), user.getSalt());
         this.studentCardNumber = studentCardNumber;
         this.academicYear = academicYear;
     }

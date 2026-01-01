@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class UserDAO implements DAO<User>{
     @Override
     public void insert(User user) throws SQLException {
-        String sql = "INSERT INTO users (first_name, last_name, email, password_hash, salt) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO user (username, first_name, last_name, email, password_hash, salt) VALUES (?, ?, ?, ?, ?, ?)";
         Connection conn = null;
         try{
             conn = Database.getConnection();
@@ -37,13 +37,13 @@ public class UserDAO implements DAO<User>{
     }
     @Override
     public void update(User user) throws SQLException {
-        String sql = "UPDATE users SET first_name = ?, last_name = ?, email = ?, password_hash = ?, salt = ? WHERE id = ?";
+        String sql = "UPDATE user SET username = ?, first_name = ?, last_name = ?, email = ?, password_hash = ?, salt = ? WHERE id = ?";
         Connection conn = null;
         try{
             conn = Database.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             setStatementParameters(pstmt, user);
-            pstmt.setInt(6, user.getId());
+            pstmt.setInt(7, user.getId());
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Updating user failed, no rows affected.");
@@ -55,7 +55,7 @@ public class UserDAO implements DAO<User>{
     }
     @Override
     public void delete(int id) throws SQLException {
-        String sql = "DELETE FROM users WHERE id = ?";
+        String sql = "DELETE FROM user WHERE id = ?";
         Connection conn = null;
         try{
             conn = Database.getConnection();
@@ -72,7 +72,7 @@ public class UserDAO implements DAO<User>{
     }
     @Override
     public User findById(int id) throws SQLException {
-        String sql = "SELECT * FROM users WHERE id = ?";
+        String sql = "SELECT * FROM user WHERE id = ?";
         Connection conn = null;
         try{
             conn = Database.getConnection();
@@ -91,7 +91,7 @@ public class UserDAO implements DAO<User>{
     }
     @Override
     public List<User> findAll() throws SQLException {
-        String sql = "SELECT * FROM users";
+        String sql = "SELECT * FROM user";
         Connection conn = null;
         List<User> users = new ArrayList<>();
         try{
@@ -107,14 +107,30 @@ public class UserDAO implements DAO<User>{
         }
         return users;
     }
-
+    public void delete(User user) throws SQLException {
+        String sql = "DELETE FROM user WHERE email = ?";
+        Connection conn = null;
+        try{
+            conn = Database.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, user.getEmail());
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Deleting user failed, no rows affected.");
+            }
+        }
+        catch(SQLException e){
+            System.out.println("Error deleting user: " + e.getMessage());
+        }
+    }
 
     private void setStatementParameters(PreparedStatement pstmt, User user) throws SQLException {
-        pstmt.setString(1, user.getFirstName());
-        pstmt.setString(2, user.getLastName());
-        pstmt.setString(3, user.getEmail());
-        pstmt.setString(4, user.getPasswordHash());
-        pstmt.setString(5, user.getSalt());
+        pstmt.setString(1, user.getUsername());
+        pstmt.setString(2, user.getFirstName());
+        pstmt.setString(3, user.getLastName());
+        pstmt.setString(4, user.getEmail());
+        pstmt.setString(5, user.getPasswordHash());
+        pstmt.setString(6, user.getSalt());
     }
     private User mapRowToUser(ResultSet rs) throws SQLException {
         int id = rs.getInt("id");
@@ -123,7 +139,8 @@ public class UserDAO implements DAO<User>{
         String email = rs.getString("email");
         String passwordHash = rs.getString("password_hash");
         String salt = rs.getString("salt");
-        return new User(id, firstName, lastName, email, passwordHash, salt);
+        String username = rs.getString("username");
+        return new User(id,username, firstName, lastName, email, passwordHash, salt);
     }
     
 }
