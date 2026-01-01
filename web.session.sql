@@ -19,7 +19,6 @@
 SELECT * FROM user;
 
 --@block
-INSERT INTO user (username, password_hash, email, first_name, last_name , salt) VALUES ('admin', 'adminpass', 'admin@example.com', 'Admin', 'User', 'somesalt');
-INSERT INTO admin (id) VALUES (LAST_INSERT_ID());
---@block
-DELETE FROM user WHERE id = 1;
+DELETE FROM user WHERE username = "walid123";
+
+

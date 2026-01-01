@@ -8,8 +8,9 @@ public class User {
     private String email;
     private String passwordHash;
     private String salt;
+    private boolean isVerified;
 
-    public User(int id,String username, String firstName, String lastName, String email, String passwordHash, String salt) {
+    public User(int id,String username, String firstName, String lastName, String email, String passwordHash, String salt , boolean isVerified) {
         this.id = id;
         this.username = username;
         this.firstName = firstName;
@@ -17,8 +18,9 @@ public class User {
         this.email = email;
         this.passwordHash = passwordHash;
         this.salt = salt;
+        this.isVerified = isVerified;
     }
-    public User(String username, String firstName, String lastName, String email, String passwordHash, String salt) {
+    public User(String username, String firstName, String lastName, String email, String passwordHash, String salt, boolean isVerified) {
         this.id = 0; // Default ID, to be set later
         this.username = username;
         this.firstName = firstName;
@@ -26,6 +28,7 @@ public class User {
         this.email = email;
         this.passwordHash = passwordHash;
         this.salt = salt;
+        this.isVerified = isVerified;
     }
     // Getters and Setters
     public int getId() {
@@ -70,7 +73,12 @@ public class User {
     public void setUsername(String username) {
         this.username = username;
     }
-
+    public boolean isVerified() {
+        return isVerified;
+    }
+    public void setVerified(boolean verified) {
+        isVerified = verified;
+    }
     @Override
     public String toString() {
         return "User{" +

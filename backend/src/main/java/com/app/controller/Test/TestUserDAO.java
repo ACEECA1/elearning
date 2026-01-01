@@ -21,7 +21,7 @@ public class TestUserDAO extends HttpServlet {
         try {
             resp.setContentType("application/json");
             out = resp.getWriter();
-            User user = new User("walid123","Walid", "Chemat", "walidchemat@gmail.com", "123123", "salt");
+            User user = new User("walid123","Walid", "Chemat", "walidchemat@gmail.com", "123123", "salt" , false);
             try{
                 userDAO.insert(user);
                 jsonResponse.addProperty("status", "success");

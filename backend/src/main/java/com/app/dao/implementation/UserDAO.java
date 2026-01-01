@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class UserDAO implements DAO<User>{
     public void insert(Connection conn, User user) throws SQLException {
-        String sql = "INSERT INTO user (username, first_name, last_name, email, password_hash, salt) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO user (username, first_name, last_name, email, password_hash, salt , is_verified) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             setStatementParameters(pstmt, user);
             
@@ -37,10 +37,10 @@ public class UserDAO implements DAO<User>{
         }
     }
     public void update(Connection conn, User user) throws SQLException {
-        String sql = "UPDATE user SET username = ?, first_name = ?, last_name = ?, email = ?, password_hash = ?, salt = ? WHERE id = ?";
+        String sql = "UPDATE user SET username = ?, first_name = ?, last_name = ?, email = ?, password_hash = ?, salt = ? , is_verified = ? WHERE id = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             setStatementParameters(pstmt, user);
-            pstmt.setInt(7, user.getId());
+            pstmt.setInt(8, user.getId());
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Updating user failed, no rows affected.");
@@ -143,8 +143,9 @@ public class UserDAO implements DAO<User>{
         pstmt.setString(4, user.getEmail());
         pstmt.setString(5, user.getPasswordHash());
         pstmt.setString(6, user.getSalt());
+        pstmt.setBoolean(7, user.isVerified());
     }
-    private User mapRowToUser(ResultSet rs) throws SQLException {
+    public static User mapRowToUser(ResultSet rs) throws SQLException {
         int id = rs.getInt("id");
         String firstName = rs.getString("first_name");
         String lastName = rs.getString("last_name");
@@ -152,7 +153,8 @@ public class UserDAO implements DAO<User>{
         String passwordHash = rs.getString("password_hash");
         String salt = rs.getString("salt");
         String username = rs.getString("username");
-        return new User(id,username, firstName, lastName, email, passwordHash, salt);
+        boolean isVerified = rs.getBoolean("is_verified");
+        return new User(id,username, firstName, lastName, email, passwordHash, salt, isVerified);
     }
     
 }

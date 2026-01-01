@@ -5,7 +5,8 @@ CREATE TABLE `user` (
     last_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
-    salt VARCHAR(255) NOT NULL
+    salt VARCHAR(255) NOT NULL,
+    is_verified BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE `admin`(
