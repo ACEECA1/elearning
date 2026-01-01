@@ -1,18 +1,18 @@
-package com.app.controller.Test;
+package com.app.controller.Test.users;
 
-import com.app.dao.implementation.users.StudentDAO;
-import com.app.model.users.*;
+import com.app.dao.implementation.users.UserDAO;
+import com.app.model.users.User;
 import com.google.gson.JsonObject;
 
 import java.io.PrintWriter;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-@WebServlet("/testStudentDAO")
-public class TestStudentDAO extends HttpServlet {
-    public StudentDAO studentDAO;
+@WebServlet("/testUserDAO")
+public class TestUserDAO extends HttpServlet {
+    public UserDAO userDAO;
     @Override
     public void init() {
-        studentDAO = new StudentDAO();
+        userDAO = new UserDAO();
     }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
@@ -21,12 +21,12 @@ public class TestStudentDAO extends HttpServlet {
         try {
             resp.setContentType("application/json");
             out = resp.getWriter();
-            Student student = new Student(new User("walid123","Walid", "Chemat", "walidchemat@gmail.com", "123123", "salt" , false), "SCN123", "2023");
+            User user = new User("walid123","Walid", "Chemat", "walidchemat@gmail.com", "123123", "salt" , false);
             try{
-                studentDAO.insert(student);
+                userDAO.insert(user);
                 jsonResponse.addProperty("status", "success");
-                jsonResponse.addProperty("message", "Student inserted with ID: " + student.getId());
-                jsonResponse.addProperty("student", student.toString());
+                jsonResponse.addProperty("message", "User inserted with ID: " + user.getId());
+                jsonResponse.addProperty("user", user.toString());
                 out.println(jsonResponse.toString());
             }
             catch (Exception e){
@@ -35,9 +35,9 @@ public class TestStudentDAO extends HttpServlet {
                 out.println(jsonResponse.toString());
             }
             try{
-                student.setAcademicYear("2024");
-                studentDAO.update(student);
-                jsonResponse.addProperty("message", "Student with ID " + student.getId() + " updated.");
+                user.setFirstName("UpdatedName");
+                userDAO.update(user);
+                jsonResponse.addProperty("message", "User updated : " + user.toString());
                 out.println(jsonResponse.toString());
             }
             catch (Exception e){
@@ -45,18 +45,9 @@ public class TestStudentDAO extends HttpServlet {
                 jsonResponse.addProperty("message", "Update failed: " + e.getMessage());
                 out.println(jsonResponse.toString());
             }
-            try{
-                studentDAO.delete(student.getId());
-                jsonResponse.addProperty("message", "Student with ID " + student.getId() + " deleted.");
-                out.println(jsonResponse.toString());
-            }
-            catch (Exception e){
-                jsonResponse.addProperty("status", "error");
-                jsonResponse.addProperty("message", "Deletion failed: " + e.getMessage());
-                out.println(jsonResponse.toString());
-            }
+            
         } catch (Exception e) {
-            System.out.println("Error during TestStudentDAO operations: " + e.getMessage());
+            System.out.println("Error during TestUserDAO operations: " + e.getMessage());
             jsonResponse.addProperty("status", "error");
             jsonResponse.addProperty("message", e.getMessage());
         }   
@@ -68,10 +59,10 @@ public class TestStudentDAO extends HttpServlet {
             resp.setContentType("application/json");
             out = resp.getWriter();
             jsonResponse.addProperty("status", "success");
-            jsonResponse.addProperty("message", "POST method in TestStudentDAO is operational.");
+            jsonResponse.addProperty("message", "POST method in TestUserDAO is operational.");
             out.println(jsonResponse.toString());
         } catch (Exception e) {
-            System.out.println("Error during TestStudentDAO POST operation: " + e.getMessage());
+            System.out.println("Error during TestUserDAO POST operation: " + e.getMessage());
             jsonResponse.addProperty("status", "error");
             jsonResponse.addProperty("message", e.getMessage());
         }

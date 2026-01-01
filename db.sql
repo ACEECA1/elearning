@@ -32,7 +32,7 @@ CREATE TABLE `course` (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     target_audience VARCHAR(255) NOT NULL,
-    enrolment_key VARCHAR(255) NOT NULL,
+    enrollment_key VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
     teacher_id INT NOT NULL,
     thumbnail_path VARCHAR(255) NOT NULL,

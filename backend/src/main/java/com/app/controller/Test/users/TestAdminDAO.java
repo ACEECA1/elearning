@@ -1,18 +1,18 @@
-package com.app.controller.Test;
+package com.app.controller.Test.users;
 
-import com.app.dao.implementation.users.TeacherDAO;
+import com.app.dao.implementation.users.AdminDAO;
 import com.app.model.users.*;
 import com.google.gson.JsonObject;
 
 import java.io.PrintWriter;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-@WebServlet("/testTeacherDAO")
-public class TestTeacherDAO extends HttpServlet {
-    public TeacherDAO teacherDAO;
+@WebServlet("/testAdminDAO")
+public class TestAdminDAO extends HttpServlet {
+    public AdminDAO adminDAO;
     @Override
     public void init() {
-        teacherDAO = new TeacherDAO();
+        adminDAO = new AdminDAO();
     }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
@@ -21,12 +21,12 @@ public class TestTeacherDAO extends HttpServlet {
         try {
             resp.setContentType("application/json");
             out = resp.getWriter();
-            Teacher teacher = new Teacher(new User("walid123","Walid", "Chemat", "walidchemat@gmail.com", "123123", "salt" , false), "Mathematics", "Senior");
+            Admin admin = new Admin(new User("walid123","Walid", "Chemat", "walidchemat@gmail.com", "123123", "salt" , false));
             try{
-                teacherDAO.insert(teacher);
+                adminDAO.insert(admin);
                 jsonResponse.addProperty("status", "success");
-                jsonResponse.addProperty("message", "Teacher inserted with ID: " + teacher.getId());
-                jsonResponse.addProperty("teacher", teacher.toString());
+                jsonResponse.addProperty("message", "Admin inserted with ID: " + admin.getId());
+                jsonResponse.addProperty("admin", admin.toString());
                 out.println(jsonResponse.toString());
             }
             catch (Exception e){
@@ -35,9 +35,8 @@ public class TestTeacherDAO extends HttpServlet {
                 out.println(jsonResponse.toString());
             }
             try{
-                teacher.setDomain("Physics");
-                teacherDAO.update(teacher);
-                jsonResponse.addProperty("message", "Teacher with ID " + teacher.getId() + " updated.");
+                adminDAO.update(admin);
+                jsonResponse.addProperty("message", "Admin with ID " + admin.getId() + " updated.");
                 out.println(jsonResponse.toString());
             }
             catch (Exception e){
@@ -46,8 +45,8 @@ public class TestTeacherDAO extends HttpServlet {
                 out.println(jsonResponse.toString());
             }
             try{
-                teacherDAO.delete(teacher.getId());
-                jsonResponse.addProperty("message", "Teacher with ID " + teacher.getId() + " deleted.");
+                adminDAO.delete(admin.getId());
+                jsonResponse.addProperty("message", "Admin with ID " + admin.getId() + " deleted.");
                 out.println(jsonResponse.toString());
             }
             catch (Exception e){
@@ -56,7 +55,7 @@ public class TestTeacherDAO extends HttpServlet {
                 out.println(jsonResponse.toString());
             }
         } catch (Exception e) {
-            System.out.println("Error during TestUserDAO operations: " + e.getMessage());
+            System.out.println("Error during TestAdminDAO operations: " + e.getMessage());
             jsonResponse.addProperty("status", "error");
             jsonResponse.addProperty("message", e.getMessage());
         }   
@@ -68,10 +67,10 @@ public class TestTeacherDAO extends HttpServlet {
             resp.setContentType("application/json");
             out = resp.getWriter();
             jsonResponse.addProperty("status", "success");
-            jsonResponse.addProperty("message", "POST method in TestTeacherDAO is operational.");
+            jsonResponse.addProperty("message", "POST method in TestAdminDAO is operational.");
             out.println(jsonResponse.toString());
         } catch (Exception e) {
-            System.out.println("Error during TestTeacherDAO POST operation: " + e.getMessage());
+            System.out.println("Error during TestAdminDAO POST operation: " + e.getMessage());
             jsonResponse.addProperty("status", "error");
             jsonResponse.addProperty("message", e.getMessage());
         }
