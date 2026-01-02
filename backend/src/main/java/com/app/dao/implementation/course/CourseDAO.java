@@ -127,6 +127,26 @@ public class CourseDAO implements DAO<Course>{
             throw e;
         }
     }
+    public static boolean existsById(Connection conn, int id) throws SQLException {
+        String sql = "SELECT 1 FROM course WHERE id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            System.out.println("Error checking existence of course by id: " + e.getMessage());
+            throw e;
+        }
+    }
+    public static boolean existsById(int id) throws SQLException {
+        try (Connection conn = Database.getConnection()) {
+            return existsById(conn, id);
+        } catch (SQLException e) {
+            System.out.println("Error checking existence of course by id: " + e.getMessage());
+            throw e;
+        }
+    }
 
     public void setStatementParameters(PreparedStatement ps, Course course) throws SQLException {
         ps.setInt(1, course.getTeacherId());
