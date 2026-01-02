@@ -16,7 +16,7 @@ private int id;
 
 public class ModuleDAO implements DAO<Module>{
     public void insert(Connection conn , Module module)throws SQLException{
-        String sql = "INSERT INTO module (course_id, title, description) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO module (course_id, title, description, order_index) VALUES (?, ?, ?, ?)";
         try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             setStatementParameters(ps, module);
             ps.executeUpdate();
@@ -45,10 +45,10 @@ public class ModuleDAO implements DAO<Module>{
         }
     }
     public void update(Connection conn , Module module)throws SQLException{
-        String sql = "UPDATE module SET course_id = ?, title = ?, description = ? WHERE id = ?";
+        String sql = "UPDATE module SET course_id = ?, title = ?, description = ?, order_index = ? WHERE id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             setStatementParameters(ps, module);
-            ps.setInt(4, module.getId());
+            ps.setInt(5, module.getId());
             ps.executeUpdate();
         }
         catch(SQLException e){
@@ -169,6 +169,7 @@ public class ModuleDAO implements DAO<Module>{
         ps.setInt(1, module.getCourseId());
         ps.setString(2, module.getTitle());
         ps.setString(3, module.getDescription());
+        ps.setInt(4, module.getOrderIndex());
     }
     
     public Module mapResultToModule(ResultSet rs) throws SQLException {
@@ -176,7 +177,8 @@ public class ModuleDAO implements DAO<Module>{
         int courseId = rs.getInt("course_id");
         String title = rs.getString("title");
         String description = rs.getString("description");
-        Module module = new Module(id , courseId , title , description);
+        int orderIndex = rs.getInt("order_index");
+        Module module = new Module(id , courseId , title , description, orderIndex);
         return module;
     }
 }

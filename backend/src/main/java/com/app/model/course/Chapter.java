@@ -5,19 +5,23 @@ public class Chapter {
     private int moduleId;
     private String title;
     private String content;
+    private int orderIndex;
     private Module module;
-    public Chapter(int id, int moduleId, String title, String content) {
+
+    public Chapter(int id, int moduleId, String title, String content, int orderIndex) {
         this.id = id;
         this.moduleId = moduleId;
         this.title = title;
         this.content = content;
+        this.orderIndex = orderIndex;
     }
 
-    public Chapter(int moduleId, String title, String content) {
+    public Chapter(int moduleId, String title, String content, int orderIndex) {
         this.id = 0;
         this.moduleId = moduleId;
         this.title = title;
         this.content = content;
+        this.orderIndex = orderIndex;
     }
 
     public int getId() {
@@ -56,5 +60,11 @@ public class Chapter {
     }
     public void setModule(Module module) {
         this.module = module;
+    }
+    public int getOrderIndex() {
+        return orderIndex;
+    }
+    public void setOrderIndex(int orderIndex) {
+        this.orderIndex = orderIndex;
     }
 }

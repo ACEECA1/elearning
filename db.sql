@@ -45,7 +45,7 @@ CREATE TABLE `module` (
     title VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
     course_id INT NOT NULL,
-
+    order_index INT DEFAULT 0,
     FOREIGN KEY (course_id) REFERENCES course(id) ON DELETE CASCADE
 );
 
@@ -54,7 +54,7 @@ CREATE TABLE `chapter` (
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
     module_id INT NOT NULL,
-
+    order_index INT DEFAULT 0,
     FOREIGN KEY (module_id) REFERENCES module(id) ON DELETE CASCADE
 );
 

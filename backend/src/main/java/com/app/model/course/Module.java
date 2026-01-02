@@ -5,18 +5,21 @@ public class Module {
     private int courseId;
     private String title;
     private String description;
+    private int orderIndex;
     private Course course;
-    public Module(int id, int courseId, String title, String description) {
+    public Module(int id, int courseId, String title, String description, int orderIndex) {
         this.id = id;
         this.courseId = courseId;
         this.title = title;
         this.description = description;
+        this.orderIndex = orderIndex;
     }
-    public Module(int courseId, String title, String description) {
+    public Module(int courseId, String title, String description, int orderIndex) {
         this.id = 0; 
         this.courseId = courseId;
         this.title = title;
         this.description = description;
+        this.orderIndex = orderIndex;
     }
     // Getters and Setters
     public int getId() {
@@ -48,5 +51,11 @@ public class Module {
     }
     public void setCourse(Course course) {
         this.course = course;
+    }
+    public int getOrderIndex() {
+        return orderIndex;
+    }
+    public void setOrderIndex(int orderIndex) {
+        this.orderIndex = orderIndex;
     }
 }
