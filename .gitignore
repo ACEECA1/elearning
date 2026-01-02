@@ -57,6 +57,10 @@ frontend/.DS_Store
 # git rm --cached
 #git rm --cached
 #fatal: No pathspec was given. Which files should I remove?
-
+# Perhaps you want to say 'git rm --cached <file>...'?
+# yes
+# git rm --cached web.session.sql ? 
+# is that correct
+# fatal: pathspec 'web.session.sql' did not match any files
 backend.session.sql
 web.session.sql
