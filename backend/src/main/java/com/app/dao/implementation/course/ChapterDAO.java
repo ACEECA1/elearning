@@ -166,14 +166,13 @@ public class ChapterDAO implements DAO<Chapter> {
             throw new RuntimeException(e);
         }
     }
-    public List<Chapter> findByCourseId(int courseId) {
+    public List<Chapter> findByCourseId(Connection conn , int courseId)throws SQLException{
         String sql = "SELECT ch.* FROM chapter ch " +
                      "JOIN module m ON ch.module_id = m.id " +
                      "WHERE m.course_id = ? " +
                      "ORDER BY m.order_index ASC, ch.order_index ASC";
         List<Chapter> chapters = new ArrayList<>();
-        try (Connection conn = Database.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, courseId);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -181,11 +180,23 @@ public class ChapterDAO implements DAO<Chapter> {
                     chapters.add(chapter);
                 }
             }
-        } catch (SQLException e) {
+        }
+        catch(SQLException e){
+            System.out.println("Error finding chapters by course ID: " + e.getMessage());
+            throw e;
+        }
+        return chapters;
+    }
+
+
+    public List<Chapter> findByCourseId(int courseId) {
+        try (Connection conn = Database.getConnection()) {
+            return this.findByCourseId(conn, courseId);
+        }
+        catch(SQLException e){
             System.out.println("Error finding chapters by course ID: " + e.getMessage());
             throw new RuntimeException(e);
         }
-        return chapters;
     }
 
 
