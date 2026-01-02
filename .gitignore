@@ -53,5 +53,10 @@ frontend/.env.production.local
 # Misc
 frontend/.DS_Store
 
+# Clear git cache so i remove this web.session.sql ? 
+# git rm --cached
+#git rm --cached
+#fatal: No pathspec was given. Which files should I remove?
 
 backend.session.sql
+web.session.sql
