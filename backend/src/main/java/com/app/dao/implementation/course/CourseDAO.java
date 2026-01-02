@@ -7,16 +7,6 @@ import java.sql.*;
 import java.util.List;
 import java.util.ArrayList;
 
-/* 
-private int id;
-    private int teacherId;
-    private String title;
-    private String targetAudience;
-    private String description;
-    private String enrollmentKey;
-    private String thumbnailPath;
-    private Teacher teacher;
-*/
 public class CourseDAO implements DAO<Course>{
     public void insert(Connection conn , Course course)throws SQLException{
         String sql = "INSERT INTO course (teacher_id, title, target_audience, description, enrollment_key, thumbnail_path) VALUES (?, ?, ?, ?, ?, ?)";

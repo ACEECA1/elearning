@@ -16,7 +16,7 @@ DROP TABLE IF EXISTS teacher;
 DROP TABLE IF EXISTS student;
 DROP TABLE IF EXISTS user;
 --@block
-SELECT * FROM user;
+SELECT username ,first_name ,last_name ,email ,domain ,grade FROM user JOIN teacher ON user.id = teacher.id;
 
 --@block
 DELETE FROM user WHERE username = "walid123";
@@ -29,4 +29,5 @@ ALTER TABLE `course`
     DROP COLUMN `enrolment_key`;
 
 
----@block 
+--@block
+SELECT * FROM course;
