@@ -90,34 +90,34 @@ public class TestChapterDAO extends HttpServlet {
             if (pathInfo != null && pathInfo.startsWith("/find")) {
                 String idStr = req.getParameter("id");
                 String moduleIdStr = req.getParameter("moduleId");
-
-                if (idStr == null || idStr.isEmpty()) {
-                    if (moduleIdStr == null || moduleIdStr.isEmpty()) {
-                        // CASE: Find All Chapters
-                        List<Chapter> chapters = chapterDAO.findAll();
-                        jsonResponse.addProperty("status", "success");
-                        jsonResponse.add("chapters", gson.toJsonTree(chapters));
-                    } else {
-                        // CASE: Find Chapters by Module ID
-                        int mId = Integer.parseInt(moduleIdStr);
-                        List<Chapter> chapters = chapterDAO.findByModuleId(mId);
-                        jsonResponse.addProperty("status", "success");
-                        jsonResponse.add("chapters", gson.toJsonTree(chapters));
-                    }
-                } else {
-                    // CASE: Find One Chapter by ID
-                    int id = Integer.parseInt(idStr);
-                    Chapter chapter = chapterDAO.findById(id);
-                    
+                String courseIdStr = req.getParameter("courseId");
+                if (idStr != null) {
+                    int chapterId = Integer.parseInt(idStr);
+                    Chapter chapter = chapterDAO.findById(chapterId);
                     if (chapter != null) {
                         jsonResponse.addProperty("status", "success");
                         jsonResponse.add("chapter", gson.toJsonTree(chapter));
                     } else {
                         resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
                         jsonResponse.addProperty("status", "error");
-                        jsonResponse.addProperty("message", "Chapter not found with ID: " + id);
+                        jsonResponse.addProperty("message", "Chapter not found with ID: " + chapterId);
                     }
+                } else if (moduleIdStr != null) {
+                    int moduleId = Integer.parseInt(moduleIdStr);
+                    List<Chapter> chapters = chapterDAO.findByModuleId(moduleId);
+                    jsonResponse.addProperty("status", "success");
+                    jsonResponse.add("chapters", gson.toJsonTree(chapters));
+                } else if (courseIdStr != null) {
+                    int courseId = Integer.parseInt(courseIdStr);
+                    List<Chapter> chapters = chapterDAO.findByCourseId(courseId);
+                    jsonResponse.addProperty("status", "success");
+                    jsonResponse.add("chapters", gson.toJsonTree(chapters));
+                } else {
+                    List<Chapter> chapters = chapterDAO.findAll();
+                    jsonResponse.addProperty("status", "success");
+                    jsonResponse.add("chapters", gson.toJsonTree(chapters));
                 }
+
                 out.println(jsonResponse.toString());
             } else {
                 resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
