@@ -6,6 +6,7 @@ CREATE TABLE `user` (
     email VARCHAR(255) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
     salt VARCHAR(255) NOT NULL,
+    profile_picture_path VARCHAR(255),
     is_verified BOOLEAN DEFAULT FALSE
 );
 
@@ -80,6 +81,7 @@ CREATE TABLE `comment` (
     is_reply BOOLEAN DEFAULT FALSE,
     parent_comment_id INT,
 
+    FOREIGN KEY (parent_comment_id) REFERENCES comment(id) ON DELETE CASCADE,
     FOREIGN KEY (forum_id) REFERENCES forum(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
 );

@@ -64,3 +64,5 @@ frontend/.DS_Store
 # fatal: pathspec 'web.session.sql' did not match any files
 backend.session.sql
 web.session.sql
+
+uploads/
