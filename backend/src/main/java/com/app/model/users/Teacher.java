@@ -3,20 +3,21 @@ package com.app.model.users;
 public class Teacher extends User {
     private String domain;
     private String grade;
-    public Teacher(int id, String username, String firstName, String lastName, String email, String passwordHash, String salt, boolean isVerified,
+    public Teacher(int id, String username, String firstName, String lastName, String email, String passwordHash,
+         String salt, String profilePicturePath, boolean isVerified,
                    String domain, String grade) {
-        super(id,username, firstName, lastName, email, passwordHash, salt, isVerified);
+        super(id,username, firstName, lastName, email, passwordHash, salt, profilePicturePath, isVerified);
         this.domain = domain;
         this.grade = grade;
     }
-    public Teacher(String username, String firstName, String lastName, String email, String passwordHash, String salt, boolean isVerified,
+    public Teacher(String username, String firstName, String lastName, String email, String passwordHash, String salt, String profilePicturePath, boolean isVerified,
                    String domain, String grade) {
-        super(username, firstName, lastName, email, passwordHash, salt, isVerified);
+        super(username, firstName, lastName, email, passwordHash, salt, profilePicturePath, isVerified);
         this.domain = domain;
         this.grade = grade;
     }
     public Teacher(User user, String domain, String grade) {
-        super(user.getId(), user.getUsername(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPasswordHash(), user.getSalt(), user.isVerified());
+        super(user.getId(), user.getUsername(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPasswordHash(), user.getSalt(), user.getProfilePicturePath(), user.isVerified());
         this.domain = domain;
         this.grade = grade;
     }

@@ -1,14 +1,15 @@
 package com.app.model.users;
 
 public class Admin extends User {
-    public Admin(int id, String username, String firstName, String lastName, String email, String passwordHash, String salt, boolean isVerified) {
-        super(id, username, firstName, lastName, email, passwordHash, salt, isVerified);
+    public Admin(int id, String username, String firstName, String lastName, String email, String passwordHash, String salt,
+         String profilePicturePath, boolean isVerified) {
+        super(id, username, firstName, lastName, email, passwordHash, salt, profilePicturePath, isVerified);
     }
-    public Admin(String username, String firstName, String lastName, String email, String passwordHash, String salt, boolean isVerified) {
-        super(username, firstName, lastName, email, passwordHash, salt, isVerified);
+    public Admin(String username, String firstName, String lastName, String email, String passwordHash, String salt, String profilePicturePath, boolean isVerified) {
+        super(username, firstName, lastName, email, passwordHash, salt, profilePicturePath, isVerified);
     }
     public Admin(User user) {
-        super(user.getId(), user.getUsername(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPasswordHash(), user.getSalt(), user.isVerified());
+        super(user.getId(), user.getUsername(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPasswordHash(), user.getSalt(), user.getProfilePicturePath(), user.isVerified());
     }
     public String getRole() {
         return "ADMIN";

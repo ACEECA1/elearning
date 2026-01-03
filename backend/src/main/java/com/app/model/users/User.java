@@ -8,9 +8,11 @@ public class User {
     private String email;
     private String passwordHash;
     private String salt;
+    private String profilePicturePath;
     private boolean isVerified;
 
-    public User(int id,String username, String firstName, String lastName, String email, String passwordHash, String salt , boolean isVerified) {
+    public User(int id,String username, String firstName, String lastName, String email,
+         String passwordHash, String salt , String profilePicturePath, boolean isVerified) {
         this.id = id;
         this.username = username;
         this.firstName = firstName;
@@ -18,9 +20,11 @@ public class User {
         this.email = email;
         this.passwordHash = passwordHash;
         this.salt = salt;
+        this.profilePicturePath = profilePicturePath;
         this.isVerified = isVerified;
     }
-    public User(String username, String firstName, String lastName, String email, String passwordHash, String salt, boolean isVerified) {
+    public User(String username, String firstName, String lastName, String email, String passwordHash, String salt, String profilePicturePath, 
+        boolean isVerified) {
         this.id = 0; // Default ID, to be set later
         this.username = username;
         this.firstName = firstName;
@@ -28,6 +32,7 @@ public class User {
         this.email = email;
         this.passwordHash = passwordHash;
         this.salt = salt;
+        this.profilePicturePath = profilePicturePath;
         this.isVerified = isVerified;
     }
     // Getters and Setters
@@ -78,6 +83,12 @@ public class User {
     }
     public void setVerified(boolean verified) {
         isVerified = verified;
+    }
+    public String getProfilePicturePath() {
+        return profilePicturePath;
+    }
+    public void setProfilePicturePath(String profilePicturePath) {
+        this.profilePicturePath = profilePicturePath;
     }
     @Override
     public String toString() {
