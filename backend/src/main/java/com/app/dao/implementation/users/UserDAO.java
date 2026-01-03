@@ -37,7 +37,7 @@ public class UserDAO implements DAO<User>{
         }
     }
     public void update(Connection conn, User user) throws SQLException {
-        String sql = "UPDATE user SET username = ?, first_name = ?, last_name = ?, email = ?, password_hash = ?, salt = ? , is_verified = ? WHERE id = ?";
+        String sql = "UPDATE user SET username = ?, first_name = ?, last_name = ?, email = ?, password_hash = ?, salt = ? , profile_picture_path = ?, is_verified = ? WHERE id = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             setStatementParameters(pstmt, user);
             pstmt.setInt(9, user.getId());
