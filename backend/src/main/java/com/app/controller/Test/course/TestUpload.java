@@ -8,6 +8,10 @@ import java.nio.file.Paths;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
+
+import com.app.dao.implementation.course.MaterialDAO;
+import com.app.model.course.Material;
+
 @WebServlet("/uploads/*")
 @MultipartConfig(
     fileSizeThreshold = 1024 * 1024, // 1 MB
@@ -15,6 +19,7 @@ import jakarta.servlet.http.*;
     maxRequestSize = 50 * 1024 * 1024 // 50 MB
 )
 public class TestUpload extends HttpServlet {
+    private MaterialDAO materialDAO = new MaterialDAO();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         String pathInfo = req.getPathInfo();
@@ -57,8 +62,9 @@ public class TestUpload extends HttpServlet {
             FileUtil.prepareDirectories();
 
             Part filePart = req.getPart("file"); 
-            
-            if (filePart != null && filePart.getSize() > 0) {
+            int materialId = Integer.parseInt(req.getParameter("materialId"));
+            System.out.println("Uploading file for material ID: " + materialId);
+            if (filePart != null && filePart.getSize() > 0 && materialId > 0) {
                 String originalFileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
                 //.mp4, .pdf, .jpg, etc.
                 String fileExtension = ""; 
@@ -79,6 +85,18 @@ public class TestUpload extends HttpServlet {
                 String uniqueFileName = fileName + "_" + System.currentTimeMillis() + fileExtension;
                 File uploadFile = new File(FileUtil.getPath(subFolder), uniqueFileName);
                 filePart.write(uploadFile.getAbsolutePath());
+                Material material = materialDAO.findById(materialId);
+                if(material != null) {
+                    material.setPath(subFolder + "/" + uniqueFileName);
+                    materialDAO.update(material);
+                } else {
+                    resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                    jsonResponse.addProperty("status", "error");
+                    jsonResponse.addProperty("message", "Material not found with ID: " + materialId);
+                    out.print(jsonResponse.toString());
+                    return;
+                }
+                System.out.println("File uploaded to: " + uploadFile.getPath());
                 jsonResponse.addProperty("status", "success");
                 jsonResponse.addProperty("message", "File uploaded successfully");
                 jsonResponse.addProperty("fileName", uniqueFileName); 
