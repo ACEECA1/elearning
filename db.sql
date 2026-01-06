@@ -62,7 +62,7 @@ CREATE TABLE `chapter` (
 CREATE TABLE `forum` (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
-    created_at DATETIME NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     chapter_id INT NOT NULL UNIQUE,
 
     FOREIGN KEY (chapter_id) REFERENCES chapter(id) ON DELETE CASCADE
@@ -72,7 +72,7 @@ CREATE TABLE `comment` (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     content TEXT NOT NULL,
-    created_at DATETIME NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     likes INT DEFAULT 0,
     dislikes INT DEFAULT 0,
     is_modified BOOLEAN DEFAULT FALSE,
@@ -142,8 +142,10 @@ CREATE TABLE `answer` (
 CREATE TABLE `enrollment` (
     student_id INT NOT NULL,
     course_id INT NOT NULL,
-    enrollment_date DATETIME NOT NULL,
+    enrollment_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (student_id, course_id),
     FOREIGN KEY (student_id) REFERENCES student(id) ON DELETE CASCADE,
     FOREIGN KEY (course_id) REFERENCES course(id) ON DELETE CASCADE
 );
+
+--TODO: Add the Note table for student grades

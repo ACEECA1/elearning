@@ -1,4 +1,4 @@
-package com.app.model.Enums;
+package com.app.model.enums;
 
 public enum Role {
     ADMIN,

@@ -100,7 +100,6 @@ public class TestUpload extends HttpServlet {
                 jsonResponse.addProperty("status", "success");
                 jsonResponse.addProperty("message", "File uploaded successfully");
                 jsonResponse.addProperty("fileName", uniqueFileName); 
-                
             } else {
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 jsonResponse.addProperty("status", "error");

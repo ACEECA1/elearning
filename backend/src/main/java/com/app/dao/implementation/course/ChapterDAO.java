@@ -7,13 +7,6 @@ import java.sql.*;
 import java.util.List;
 import java.util.ArrayList;
 
-/*
-private int id;
-    private int moduleId;
-    private String title;
-    private String content;
-    private Module module;
-*/
 public class ChapterDAO implements DAO<Chapter> {
     public void insert(Connection conn , Chapter chapter)throws SQLException{
         String sql = "INSERT INTO chapter (module_id, title, content , order_index) VALUES (?, ?, ?, ?)";

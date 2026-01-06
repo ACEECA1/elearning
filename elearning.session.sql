@@ -14,3 +14,41 @@ ORDER BY m.order_index ASC, ch.order_index ASC;
 
 --@block 
 SELECT * FROM material;
+
+
+--@block
+SELECT * FROM material;
+
+--@block
+SELECT * FROM chapter;
+
+--@block
+SELECT * FROM forum;
+
+--@block
+SELECT * FROM comment;
+
+--@block 
+SELECT * FROM quiz;
+
+--@block
+SELECT * FROM question;
+
+--@block
+SELECT * FROM answer;
+
+--@block
+SELECT * FROM student;
+
+--@block
+SELECT * FROM course;
+
+
+--@block
+ALTER TABLE `enrollment`
+DROP COLUMN `enrollment_date`;
+ALTER TABLE `enrollment`
+ADD COLUMN `enrollment_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
+
+--@block
+SELECT * FROM enrollment;

@@ -4,14 +4,6 @@ import java.util.Date;
 import com.app.model.users.Student;
 import com.app.model.course.Course;
 
-// CREATE TABLE `enrollment` (
-//     student_id INT NOT NULL,
-//     course_id INT NOT NULL,
-//     enrollment_date DATETIME NOT NULL,
-//     PRIMARY KEY (student_id, course_id),
-//     FOREIGN KEY (student_id) REFERENCES student(id) ON DELETE CASCADE,
-//     FOREIGN KEY (course_id) REFERENCES course(id) ON DELETE CASCADE
-// );
 public class Enrollment {
     private int studentId;
     private int courseId;
