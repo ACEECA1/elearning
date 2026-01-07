@@ -10,7 +10,6 @@ import java.util.List;
 
 public class AnswerDAO implements DAO<Answer> {
 
-    // --- INSERT ---
     public void insert(Connection conn, Answer answer) throws SQLException {
         String sql = "INSERT INTO answer (question_id, text, is_correct) VALUES (?, ?, ?)";
         
@@ -42,7 +41,6 @@ public class AnswerDAO implements DAO<Answer> {
         }
     }
 
-    // --- UPDATE ---
     public void update(Connection conn, Answer answer) throws SQLException {
         String sql = "UPDATE answer SET question_id = ?, text = ?, is_correct = ? WHERE id = ?";
         
@@ -66,7 +64,6 @@ public class AnswerDAO implements DAO<Answer> {
         }
     }
 
-    // --- DELETE ---
     public void delete(Connection conn, int id) throws SQLException {
         String sql = "DELETE FROM answer WHERE id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -88,7 +85,6 @@ public class AnswerDAO implements DAO<Answer> {
         }
     }
 
-    // --- FIND BY ID ---
     public Answer findById(Connection conn, int id) throws SQLException {
         String sql = "SELECT * FROM answer WHERE id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -112,7 +108,6 @@ public class AnswerDAO implements DAO<Answer> {
         }
     }
 
-    // --- FIND ALL ---
     public List<Answer> findAll(Connection conn) throws SQLException {
         List<Answer> answers = new ArrayList<>();
         String sql = "SELECT * FROM answer";
@@ -138,7 +133,6 @@ public class AnswerDAO implements DAO<Answer> {
         }
     }
 
-    // --- FIND BY QUESTION ID ---
     public List<Answer> findByQuestionId(Connection conn, int questionId) throws SQLException {
         List<Answer> answers = new ArrayList<>();
         String sql = "SELECT * FROM answer WHERE question_id = ?";
@@ -165,7 +159,6 @@ public class AnswerDAO implements DAO<Answer> {
         }
     }
 
-    // --- HELPERS ---
 
     private void setStatementParameters(PreparedStatement ps, Answer answer) throws SQLException {
         ps.setInt(1, answer.getQuestionId());

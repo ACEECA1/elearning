@@ -9,7 +9,7 @@ SELECT
 FROM course c
 JOIN module m ON c.id = m.course_id
 JOIN chapter ch ON m.id = ch.module_id
-WHERE c.id = 2  -- Replace 50 with your actual Course ID
+WHERE c.id = 2 
 ORDER BY m.order_index ASC, ch.order_index ASC;
 
 --@block 

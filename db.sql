@@ -95,19 +95,19 @@ CREATE TABLE `material` (
     FOREIGN KEY (chapter_id) REFERENCES chapter(id) ON DELETE CASCADE
 );
 
-CREATE TABLE `pdf` (
-    id INT PRIMARY KEY,
-    number_of_pages INT NOT NULL,
+-- CREATE TABLE `pdf` (
+--     id INT PRIMARY KEY,
+--     number_of_pages INT NOT NULL,
 
-    FOREIGN KEY (id) REFERENCES material(id) ON DELETE CASCADE
-);
+--     FOREIGN KEY (id) REFERENCES material(id) ON DELETE CASCADE
+-- );
 
-CREATE TABLE `video` (
-    id INT PRIMARY KEY,
-    duration INT NOT NULL,
+-- CREATE TABLE `video` (
+--     id INT PRIMARY KEY,
+--     duration INT NOT NULL,
 
-    FOREIGN KEY (id) REFERENCES material(id) ON DELETE CASCADE
-);
+--     FOREIGN KEY (id) REFERENCES material(id) ON DELETE CASCADE
+-- );
 
 CREATE TABLE `quiz` (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -148,4 +148,12 @@ CREATE TABLE `enrollment` (
     FOREIGN KEY (course_id) REFERENCES course(id) ON DELETE CASCADE
 );
 
---TODO: Add the Note table for student grades
+CREATE TABLE `note` (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT NOT NULL,
+    course_id INT NOT NULL,
+    grade DECIMAL(5,2) NOT NULL,
+    date_recorded DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (student_id) REFERENCES student(id) ON DELETE CASCADE,
+    FOREIGN KEY (course_id) REFERENCES course(id) ON DELETE CASCADE
+);
