@@ -159,4 +159,34 @@ public class UserDAO implements DAO<User>{
         return new User(id,username, firstName, lastName, email, passwordHash, salt,profilePicturePath, isVerified);
     }
     
+
+    public boolean emailExists(String email) throws SQLException {
+        String sql = "SELECT 1 FROM user WHERE email = ?";
+        try (Connection conn = Database.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, email);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return true;
+                }
+            }
+        }
+        catch(Exception e){
+            System.out.println("Error checking email existence: " + e.getMessage());
+        }
+        return false;
+    }
+    public User findByEmail(String email) throws SQLException {
+        String sql = "SELECT * FROM user WHERE email = ?";
+        try (Connection conn = Database.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, email);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return mapRowToUser(rs);
+                }
+            }
+        }
+        return null;
+    }
 }

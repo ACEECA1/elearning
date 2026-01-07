@@ -148,8 +148,6 @@ CREATE TABLE `enrollment` (
     FOREIGN KEY (course_id) REFERENCES course(id) ON DELETE CASCADE
 );
 
---@block
-
 CREATE TABLE `note` (
     id INT AUTO_INCREMENT PRIMARY KEY,
     student_id INT NOT NULL,
@@ -159,4 +157,13 @@ CREATE TABLE `note` (
     UNIQUE (student_id, quiz_id),
     FOREIGN KEY (student_id) REFERENCES student(id) ON DELETE CASCADE,
     FOREIGN KEY (quiz_id) REFERENCES quiz(id) ON DELETE CASCADE
+);
+
+
+-- Not related to conception
+CREATE TABLE `verification_code` (
+    email VARCHAR(255) PRIMARY KEY,
+    code VARCHAR(10) NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    expires_at DATETIME NOT NULL
 );

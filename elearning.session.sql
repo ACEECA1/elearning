@@ -60,5 +60,7 @@ DROP TABLE `note`;
 SELECT * FROM note where student_id = 6 ORDER BY date_recorded DESC;
 
 --@block
-ALTER TABLE `note`
-ADD UNIQUE (student_id, quiz_id);
+SELECT * FROM verification_code;
+
+--@block
+SELECT * FROM user;
