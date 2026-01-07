@@ -148,12 +148,15 @@ CREATE TABLE `enrollment` (
     FOREIGN KEY (course_id) REFERENCES course(id) ON DELETE CASCADE
 );
 
+--@block
+
 CREATE TABLE `note` (
     id INT AUTO_INCREMENT PRIMARY KEY,
     student_id INT NOT NULL,
-    course_id INT NOT NULL,
+    quiz_id INT NOT NULL,
     grade DECIMAL(5,2) NOT NULL,
     date_recorded DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (student_id, quiz_id),
     FOREIGN KEY (student_id) REFERENCES student(id) ON DELETE CASCADE,
-    FOREIGN KEY (course_id) REFERENCES course(id) ON DELETE CASCADE
+    FOREIGN KEY (quiz_id) REFERENCES quiz(id) ON DELETE CASCADE
 );

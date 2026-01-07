@@ -1,6 +1,6 @@
 package com.app.dao.implementation.interactions;
 
-import com.app.dao.interfaces.DAO;
+// import com.app.dao.interfaces.DAO; // Removed if your DAO interface enforces findById(int)
 import com.app.model.interactions.Note;
 import com.app.util.Database;
 
@@ -8,34 +8,29 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NoteDAO implements DAO<Note> {
+public class NoteDAO { // Removed "implements DAO<Note>" if the interface enforces single-ID methods
 
+    // --- INSERT ---
     public void insert(Connection conn, Note note) throws SQLException {
+        // No ID generation here
         String sql = "INSERT INTO note (student_id, quiz_id, grade) VALUES (?, ?, ?)";
         
-        try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            setStatementParameters(ps, note);
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            setStatementParameters(ps, note); // Sets: student, quiz, grade
             ps.executeUpdate();
-            
-            try (ResultSet rs = ps.getGeneratedKeys()) {
-                if (rs.next()) {
-                    note.setId(rs.getInt(1));
-                }
-            }
         } catch (SQLException e) {
             System.out.println("Error inserting note: " + e.getMessage());
             throw e;
         }
     }
 
-    @Override
     public void insert(Note note) {
         try (Connection conn = Database.getConnection()) {
             if (!studentExists(conn, note.getStudentId())) {
-                throw new SQLException("Cannot insert note: Student with ID " + note.getStudentId() + " does not exist.");
+                throw new SQLException("Cannot insert note: Student " + note.getStudentId() + " does not exist.");
             }
             if (!quizExists(conn, note.getQuizId())) {
-                 throw new SQLException("Cannot insert note: Quiz with ID " + note.getQuizId() + " does not exist.");
+                 throw new SQLException("Cannot insert note: Quiz " + note.getQuizId() + " does not exist.");
             }
             this.insert(conn, note);
         } catch (SQLException e) {
@@ -44,12 +39,17 @@ public class NoteDAO implements DAO<Note> {
         }
     }
 
+    // --- UPDATE ---
     public void update(Connection conn, Note note) throws SQLException {
-        String sql = "UPDATE note SET student_id = ?, quiz_id = ?, grade = ? WHERE id = ?";
+        // FIXED: Parameter order must match SQL (Grade first, then IDs)
+        String sql = "UPDATE note SET grade = ? WHERE student_id = ? AND quiz_id = ?";
         
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            setStatementParameters(ps, note);
-            ps.setInt(4, note.getId());
+            // Manual mapping because order is different from INSERT
+            ps.setDouble(1, note.getGrade());
+            ps.setInt(2, note.getStudentId());
+            ps.setInt(3, note.getQuizId());
+            
             ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error updating note: " + e.getMessage());
@@ -57,7 +57,6 @@ public class NoteDAO implements DAO<Note> {
         }
     }
 
-    @Override
     public void update(Note note) {
         try (Connection conn = Database.getConnection()) {
             this.update(conn, note);
@@ -67,10 +66,12 @@ public class NoteDAO implements DAO<Note> {
         }
     }
 
-    public void delete(Connection conn, int id) throws SQLException {
-        String sql = "DELETE FROM note WHERE id = ?";
+    // --- DELETE (Composite Key) ---
+    public void delete(Connection conn, int studentId, int quizId) throws SQLException {
+        String sql = "DELETE FROM note WHERE student_id = ? AND quiz_id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, id);
+            ps.setInt(1, studentId);
+            ps.setInt(2, quizId);
             ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error deleting note: " + e.getMessage());
@@ -78,39 +79,40 @@ public class NoteDAO implements DAO<Note> {
         }
     }
 
-    @Override
-    public void delete(int id) {
+    public void delete(int studentId, int quizId) {
         try (Connection conn = Database.getConnection()) {
-            this.delete(conn, id);
+            this.delete(conn, studentId, quizId);
         } catch (SQLException e) {
             System.out.println("Error deleting note: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }
 
-    public Note findById(Connection conn, int id) throws SQLException {
-        String sql = "SELECT * FROM note WHERE id = ?";
+    // --- FIND BY COMPOSITE ID ---
+    public Note findByCompositeId(Connection conn, int studentId, int quizId) throws SQLException {
+        String sql = "SELECT * FROM note WHERE student_id = ? AND quiz_id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, id);
+            ps.setInt(1, studentId);
+            ps.setInt(2, quizId);
             try (ResultSet rs = ps.executeQuery()) {
                 return rs.next() ? mapResultSetToNote(rs) : null;
             }
         } catch (SQLException e) {
-            System.out.println("Error finding note by ID: " + e.getMessage());
+            System.out.println("Error finding note: " + e.getMessage());
             throw e;
         }
     }
 
-    @Override
-    public Note findById(int id) {
+    public Note findByCompositeId(int studentId, int quizId) {
         try (Connection conn = Database.getConnection()) {
-            return this.findById(conn, id);
+            return this.findByCompositeId(conn, studentId, quizId);
         } catch (SQLException e) {
-            System.out.println("Error finding note by ID: " + e.getMessage());
+            System.out.println("Error finding note: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }
 
+    // --- FIND ALL ---
     public List<Note> findAll(Connection conn) throws SQLException {
         List<Note> notes = new ArrayList<>();
         String sql = "SELECT * FROM note";
@@ -126,7 +128,6 @@ public class NoteDAO implements DAO<Note> {
         return notes;
     }
 
-    @Override
     public List<Note> findAll() {
         try (Connection conn = Database.getConnection()) {
             return this.findAll(conn);
@@ -136,6 +137,7 @@ public class NoteDAO implements DAO<Note> {
         }
     }
 
+    // --- FIND BY STUDENT ---
     public List<Note> findByStudentId(Connection conn, int studentId) throws SQLException {
         List<Note> notes = new ArrayList<>();
         String sql = "SELECT * FROM note WHERE student_id = ? ORDER BY date_recorded DESC";
@@ -147,7 +149,7 @@ public class NoteDAO implements DAO<Note> {
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Error finding notes by student ID: " + e.getMessage());
+            System.out.println("Error finding notes by student: " + e.getMessage());
             throw e;
         }
         return notes;
@@ -157,11 +159,12 @@ public class NoteDAO implements DAO<Note> {
         try (Connection conn = Database.getConnection()) {
             return this.findByStudentId(conn, studentId);
         } catch (SQLException e) {
-            System.out.println("Error finding notes by student ID: " + e.getMessage());
+            System.out.println("Error finding notes by student: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }
 
+    // --- FIND BY QUIZ ---
     public List<Note> findByQuizId(Connection conn, int quizId) throws SQLException {
         List<Note> notes = new ArrayList<>();
         String sql = "SELECT * FROM note WHERE quiz_id = ? ORDER BY grade DESC";
@@ -173,7 +176,7 @@ public class NoteDAO implements DAO<Note> {
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Error finding notes by quiz ID: " + e.getMessage());
+            System.out.println("Error finding notes by quiz: " + e.getMessage());
             throw e;
         }
         return notes;
@@ -183,10 +186,12 @@ public class NoteDAO implements DAO<Note> {
         try (Connection conn = Database.getConnection()) {
             return this.findByQuizId(conn, quizId);
         } catch (SQLException e) {
-            System.out.println("Error finding notes by quiz ID: " + e.getMessage());
+            System.out.println("Error finding notes by quiz: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }
+
+    // --- HELPERS ---
 
     private void setStatementParameters(PreparedStatement ps, Note note) throws SQLException {
         ps.setInt(1, note.getStudentId());
@@ -195,13 +200,13 @@ public class NoteDAO implements DAO<Note> {
     }
 
     private Note mapResultSetToNote(ResultSet rs) throws SQLException {
-        int id = rs.getInt("id");
         int studentId = rs.getInt("student_id");
         int quizId = rs.getInt("quiz_id");
         double grade = rs.getDouble("grade");
+        // Ensure your Note class has a constructor that matches this!
         java.util.Date dateRecorded = new java.util.Date(rs.getTimestamp("date_recorded").getTime());
 
-        return new Note(id, studentId, quizId, grade, dateRecorded);
+        return new Note(studentId, quizId, grade, dateRecorded);
     }
 
     private boolean studentExists(Connection conn, int studentId) throws SQLException {

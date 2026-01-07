@@ -52,3 +52,13 @@ ADD COLUMN `enrollment_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
 
 --@block
 SELECT * FROM enrollment;
+
+--@block
+DROP TABLE `note`;
+
+--@block
+SELECT * FROM note where student_id = 6 ORDER BY date_recorded DESC;
+
+--@block
+ALTER TABLE `note`
+ADD UNIQUE (student_id, quiz_id);
