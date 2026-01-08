@@ -11,7 +11,7 @@ import java.util.List;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
-@WebServlet("/api/question/*")
+@WebServlet("/test/api/question/*")
 public class TestQuestionDAO extends HttpServlet {
 
     private QuestionDAO questionDAO;

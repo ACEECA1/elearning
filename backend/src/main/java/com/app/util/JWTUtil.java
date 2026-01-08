@@ -42,4 +42,8 @@ public class JWTUtil {
         int code = (int) (Math.random() * 900000) + 100000;
         return String.valueOf(code);
     }
+    public static boolean isTokenValid(String token) {
+        DecodedJWT jwt = validateToken(token);
+        return jwt != null && jwt.getExpiresAt().after(new Date());
+    }
 }

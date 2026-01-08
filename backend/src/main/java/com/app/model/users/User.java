@@ -25,7 +25,7 @@ public class User {
     }
     public User(String username, String firstName, String lastName, String email, String passwordHash, String salt, String profilePicturePath, 
         boolean isVerified) {
-        this.id = 0; // Default ID, to be set later
+        this.id = 0;
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;

@@ -13,7 +13,7 @@ public class CorsFilter implements Filter {
         throws IOException, ServletException {
         HttpServletResponse response = (HttpServletResponse) res;
         response.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
-        response.setHeader("Access-Control-Allow-Methods", "*"); // allow all methods
+        response.setHeader("Access-Control-Allow-Methods", "*");
         response.setHeader("Access-Control-Allow-Headers", "Content-Type");
         chain.doFilter(req, res);
     }

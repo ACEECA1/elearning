@@ -22,6 +22,17 @@ public class AuthServlet extends HttpServlet {
     private final AuthService authService = new AuthService();
     private final Gson gson = new Gson();
 
+    /*
+    POST : (Format: application/json)
+        /send-code
+            Body: { "email": email }
+        /register/student
+            Body: { "email": email, "password": password, "verificationCode": code, ...studentDetails }
+        /register/teacher
+            Body: { "email": email, "password": password, "verificationCode": code, ...teacherDetails }
+        /login
+            Body: { "email": email, "password": password }
+    */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("application/json");
@@ -66,7 +77,7 @@ public class AuthServlet extends HttpServlet {
 
             // register student
             } else if ("/register/student".equals(pathInfo)) {
-                validateRegistrationRequest(jsonObject); // Check basic fields
+                validateRegistrationRequest(jsonObject);
                 
                 String code = jsonObject.get("verificationCode").getAsString();
                 String pass = jsonObject.get("password").getAsString();
@@ -109,7 +120,18 @@ public class AuthServlet extends HttpServlet {
                 resp.addCookie(tokenCookie);
                 jsonResponse.addProperty("status", "success");
                 jsonResponse.addProperty("message", "Login successful.");
-            } else {
+            }
+            else if("/logout".equals(pathInfo)){
+                Cookie tokenCookie = new Cookie("authToken", "");
+                tokenCookie.setHttpOnly(true);
+                tokenCookie.setSecure(false);
+                tokenCookie.setPath("/");
+                tokenCookie.setMaxAge(0); 
+                resp.addCookie(tokenCookie);
+                jsonResponse.addProperty("status", "success");
+                jsonResponse.addProperty("message", "Logout successful.");
+            }
+            else {
                 resp.setStatus(404);
                 System.out.println("Invalid endpoint: " + pathInfo);
                 jsonResponse.addProperty("status", "error");
@@ -137,14 +159,14 @@ public class AuthServlet extends HttpServlet {
     }
     
     private void validateRegistrationRequest(JsonObject json) throws Exception {
-        if (!json.has("verificationCode")){
-            System.out.println("Missing verification code");
-        }
-        if (!json.has("password")){
-            System.out.println("Missing password");
-        }
         if (!json.has("email")) {
             throw new Exception("Email is required");
+        }
+        if (!json.has("verificationCode") || json.get("verificationCode").getAsString().isEmpty()){
+            throw new Exception("Missing or empty verification code");
+        }
+        if (!json.has("password") || json.get("password").getAsString().isEmpty()){
+            throw new Exception("Missing or empty password");
         }
     }
 }

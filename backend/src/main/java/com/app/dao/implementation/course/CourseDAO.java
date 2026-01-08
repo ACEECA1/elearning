@@ -147,6 +147,22 @@ public class CourseDAO implements DAO<Course>{
             throw e;
         }
     }
+    public List<Course> findByTeacherId(Connection conn, int teacherId) throws SQLException {
+        List<Course> courses = new ArrayList<>();
+        String sql = "SELECT * FROM course WHERE teacher_id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, teacherId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    courses.add(mapResultSetToObject(rs));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error finding courses by teacher id: " + e.getMessage());
+            throw e;
+        }
+        return courses;
+    }
 
     public void setStatementParameters(PreparedStatement ps, Course course) throws SQLException {
         ps.setInt(1, course.getTeacherId());

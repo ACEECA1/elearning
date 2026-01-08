@@ -15,12 +15,6 @@ public class EnrollmentDAO {
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, enrollment.getStudentId());
             ps.setInt(2, enrollment.getCourseId());
-            
-            if (enrollment.getEnrollmentDate() != null) {
-                ps.setTimestamp(3, new Timestamp(enrollment.getEnrollmentDate().getTime()));
-            } else {
-            }
-            
             ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error inserting enrollment: " + e.getMessage());

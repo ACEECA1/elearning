@@ -12,7 +12,7 @@ import java.util.List;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
-@WebServlet("/api/comment/*")
+@WebServlet("/test/api/comment/*")
 public class TestCommentDAO extends HttpServlet {
 
     private CommentDAO commentDAO;

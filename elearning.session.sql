@@ -43,13 +43,6 @@ SELECT * FROM student;
 --@block
 SELECT * FROM course;
 
-
---@block
-ALTER TABLE `enrollment`
-DROP COLUMN `enrollment_date`;
-ALTER TABLE `enrollment`
-ADD COLUMN `enrollment_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
-
 --@block
 SELECT * FROM enrollment;
 
@@ -64,3 +57,8 @@ SELECT * FROM verification_code;
 
 --@block
 SELECT * FROM user;
+SELECT * FROM teacher;
+
+--@block
+SELECT * FROM student;
+SELECT * FROM enrollment;

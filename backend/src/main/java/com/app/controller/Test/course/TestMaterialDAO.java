@@ -11,7 +11,7 @@ import java.util.List;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
-@WebServlet("/api/material/*")
+@WebServlet("/test/api/material/*")
 public class TestMaterialDAO extends HttpServlet {
     private MaterialDAO materialDAO;
     private final Gson gson = new Gson();

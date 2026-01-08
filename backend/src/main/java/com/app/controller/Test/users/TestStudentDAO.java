@@ -10,7 +10,7 @@ import java.util.List;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
-@WebServlet("/api/student/*")
+@WebServlet("/test/api/student/*")
 public class TestStudentDAO extends HttpServlet {
     private StudentDAO studentDAO;
     private final Gson gson = new Gson();

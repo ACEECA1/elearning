@@ -1,4 +1,4 @@
-package com.app.controller.Test.course;
+package com.app.controller.Api.files;
 
 import com.google.gson.JsonObject;
 import com.app.util.FileUtil;
@@ -9,17 +9,13 @@ import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
-import com.app.dao.implementation.course.MaterialDAO;
-import com.app.model.course.Material;
-
-@WebServlet("/test/uploads/*")
+@WebServlet("/uploads/*")
 @MultipartConfig(
     fileSizeThreshold = 1024 * 1024, // 1 MB
     maxFileSize = 10 * 1024 * 1024,  // 10 MB
     maxRequestSize = 50 * 1024 * 1024 // 50 MB
 )
-public class TestUpload extends HttpServlet {
-    private MaterialDAO materialDAO = new MaterialDAO();
+public class UploadServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         String pathInfo = req.getPathInfo();
@@ -28,7 +24,9 @@ public class TestUpload extends HttpServlet {
             resp.setContentType("application/json");
             try (PrintWriter out = resp.getWriter()) {
                 out.print("{\"status\":\"success\", \"message\":\"Reachable\"}");
-            } catch (IOException e) { System.out.println("Error writing response: " + e.getMessage()); }
+            } catch (IOException e){ 
+                System.out.println("Error writing response: " + e.getMessage());
+            }
             return;
         }
 
@@ -43,13 +41,14 @@ public class TestUpload extends HttpServlet {
 
                 try (FileInputStream in = new FileInputStream(file);
                     OutputStream out = resp.getOutputStream()) {
-                    //Send file content to browser
-                    in.transferTo(out); 
+                    in.transferTo(out);
                 } catch (IOException e) {
                     System.out.println("Error streaming file: " + e.getMessage());
                 }
             } else {
-                try { resp.sendError(HttpServletResponse.SC_NOT_FOUND); } catch (IOException ignored) {}
+                try { 
+                    resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+                }catch(IOException ignored){ }
             }
         }
     }
@@ -60,11 +59,8 @@ public class TestUpload extends HttpServlet {
         
         try (PrintWriter out = resp.getWriter()) {
             FileUtil.prepareDirectories();
-
             Part filePart = req.getPart("file"); 
-            int materialId = Integer.parseInt(req.getParameter("materialId"));
-            System.out.println("Uploading file for material ID: " + materialId);
-            if (filePart != null && filePart.getSize() > 0 && materialId > 0) {
+            if (filePart != null && filePart.getSize() > 0) {
                 String originalFileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
                 //.mp4, .pdf, .jpg, etc.
                 String fileExtension = ""; 
@@ -82,31 +78,32 @@ public class TestUpload extends HttpServlet {
                     subFolder = "thumbnails";
                 }
                 String fileName = originalFileName.substring(0, dotIndex);
+                
                 String uniqueFileName = fileName + "_" + System.currentTimeMillis() + fileExtension;
                 File uploadFile = new File(FileUtil.getPath(subFolder), uniqueFileName);
                 filePart.write(uploadFile.getAbsolutePath());
-                Material material = materialDAO.findById(materialId);
-                if(material != null) {
-                    material.setPath(subFolder + "/" + uniqueFileName);
-                    materialDAO.update(material);
-                } else {
-                    resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                    jsonResponse.addProperty("status", "error");
-                    jsonResponse.addProperty("message", "Material not found with ID: " + materialId);
-                    out.print(jsonResponse.toString());
-                    return;
-                }
+                
                 System.out.println("File uploaded to: " + uploadFile.getPath());
                 jsonResponse.addProperty("status", "success");
                 jsonResponse.addProperty("message", "File uploaded successfully");
-                jsonResponse.addProperty("fileName", uniqueFileName); 
+                jsonResponse.addProperty("fileName", uniqueFileName);
+                String fullPath = uploadFile.getCanonicalPath();
+
+                int index = fullPath.indexOf("uploads");
+
+                if (index != -1) {
+                    String relativePath = fullPath.substring(index);
+                    relativePath = relativePath.replace("\\", "/");
+                    jsonResponse.addProperty("filePath", relativePath);
+                } else {
+                    jsonResponse.addProperty("filePath", fullPath);
+                }
             } else {
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 jsonResponse.addProperty("status", "error");
                 jsonResponse.addProperty("message", "No file part found in request");
             }
             out.print(jsonResponse.toString());
-
         } catch (Exception e) {
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             System.out.println("Upload Error: " + e.getMessage());

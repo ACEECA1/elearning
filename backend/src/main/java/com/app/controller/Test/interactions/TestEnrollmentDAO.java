@@ -12,7 +12,7 @@ import java.util.List;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
-@WebServlet("/api/enrollment/*")
+@WebServlet("/test/api/enrollment/*")
 public class TestEnrollmentDAO extends HttpServlet {
 
     private EnrollmentDAO enrollmentDAO;
