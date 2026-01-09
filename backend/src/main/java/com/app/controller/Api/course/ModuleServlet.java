@@ -51,9 +51,7 @@ public class ModuleServlet extends HttpServlet {
     private final CourseService courseService = new CourseService();
     private final Gson gson = new Gson();
 
-    // ==========================================
-    // GET: List Modules OR Get Module Details
-    // ==========================================
+    //list modules or get module details
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("application/json");
@@ -90,7 +88,6 @@ public class ModuleServlet extends HttpServlet {
                 List<Module> modules = moduleService.getModulesByCourse(courseId);
                 out.print(gson.toJson(modules));
 
-            // 2. Get Single Module Details
             } else if (moduleIdParam != null) {
                 int moduleId = Integer.parseInt(moduleIdParam);
                 Module module = moduleService.getModuleById(moduleId);
@@ -125,31 +122,24 @@ public class ModuleServlet extends HttpServlet {
         }
     }
 
-    // ==========================================
     // POST: Create Module (Teacher Only)
-    // ==========================================
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         handleWriteRequest(req, resp, "CREATE");
     }
 
-    // ==========================================
     // PUT: Update Module (Teacher Only)
-    // ==========================================
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         handleWriteRequest(req, resp, "UPDATE");
     }
 
-    // ==========================================
     // DELETE: Delete Module (Teacher Only)
-    // ==========================================
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         handleWriteRequest(req, resp, "DELETE");
     }
 
-    // Helper to handle POST/PUT/DELETE since they share similar logic
     private void handleWriteRequest(HttpServletRequest req, HttpServletResponse resp, String action) throws IOException {
         resp.setContentType("application/json");
         PrintWriter out = resp.getWriter();

@@ -47,6 +47,7 @@ CREATE TABLE `module` (
     description TEXT NOT NULL,
     course_id INT NOT NULL,
     order_index INT DEFAULT 0,
+    thumbnail_path VARCHAR(255),
     FOREIGN KEY (course_id) REFERENCES course(id) ON DELETE CASCADE
 );
 

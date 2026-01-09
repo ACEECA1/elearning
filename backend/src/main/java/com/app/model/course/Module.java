@@ -6,20 +6,23 @@ public class Module {
     private String title;
     private String description;
     private int orderIndex;
+    private String thumbnailPath;
     private Course course;
-    public Module(int id, int courseId, String title, String description, int orderIndex) {
+    public Module(int id, int courseId, String title, String description, int orderIndex, String thumbnailPath) {
         this.id = id;
         this.courseId = courseId;
         this.title = title;
         this.description = description;
         this.orderIndex = orderIndex;
+        this.thumbnailPath = thumbnailPath;
     }
-    public Module(int courseId, String title, String description, int orderIndex) {
+    public Module(int courseId, String title, String description, int orderIndex, String thumbnailPath) {
         this.id = 0; 
         this.courseId = courseId;
         this.title = title;
         this.description = description;
         this.orderIndex = orderIndex;
+        this.thumbnailPath = thumbnailPath;
     }
     // Getters and Setters
     public int getId() {
@@ -57,5 +60,11 @@ public class Module {
     }
     public void setOrderIndex(int orderIndex) {
         this.orderIndex = orderIndex;
+    }
+    public String getThumbnailPath() {
+        return thumbnailPath;
+    }
+    public void setThumbnailPath(String thumbnailPath) {
+        this.thumbnailPath = thumbnailPath;
     }
 }

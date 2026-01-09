@@ -16,7 +16,7 @@ private int id;
 
 public class ModuleDAO implements DAO<Module>{
     public void insert(Connection conn , Module module)throws SQLException{
-        String sql = "INSERT INTO module (course_id, title, description, order_index) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO module (course_id, title, description, order_index , thumbnail_path) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             setStatementParameters(ps, module);
             ps.executeUpdate();
@@ -45,10 +45,10 @@ public class ModuleDAO implements DAO<Module>{
         }
     }
     public void update(Connection conn , Module module)throws SQLException{
-        String sql = "UPDATE module SET course_id = ?, title = ?, description = ?, order_index = ? WHERE id = ?";
+        String sql = "UPDATE module SET course_id = ?, title = ?, description = ?, order_index = ?, thumbnail_path = ? WHERE id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             setStatementParameters(ps, module);
-            ps.setInt(5, module.getId());
+            ps.setInt(6, module.getId());
             ps.executeUpdate();
         }
         catch(SQLException e){
@@ -174,6 +174,12 @@ public class ModuleDAO implements DAO<Module>{
         ps.setString(2, module.getTitle());
         ps.setString(3, module.getDescription());
         ps.setInt(4, module.getOrderIndex());
+        if(module.getThumbnailPath() != null){
+            ps.setString(5, module.getThumbnailPath());
+        }
+        else{
+            ps.setNull(5, Types.VARCHAR);
+        }
     }
     
     public Module mapResultToModule(ResultSet rs) throws SQLException {
@@ -182,7 +188,8 @@ public class ModuleDAO implements DAO<Module>{
         String title = rs.getString("title");
         String description = rs.getString("description");
         int orderIndex = rs.getInt("order_index");
-        Module module = new Module(id , courseId , title , description, orderIndex);
+        String thumbnailPath = rs.getString("thumbnail_path");
+        Module module = new Module(id , courseId , title , description, orderIndex , thumbnailPath);
         return module;
     }
 }

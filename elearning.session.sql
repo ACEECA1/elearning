@@ -64,3 +64,4 @@ SELECT * FROM student;
 SELECT * FROM enrollment;
 SELECT * FROM course;
 SELECT * FROM module;
+SELECT * FROM chapter;
