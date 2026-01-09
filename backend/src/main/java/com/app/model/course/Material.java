@@ -2,20 +2,23 @@ package com.app.model.course;
 
 public class Material {
     private int id;
+    private String title;
     private String path;
     private String type;
     private int chapterId;
     private Chapter chapter;
 
-    public Material(int id, String path, String type, int chapterId) {
+    public Material(int id,String title, String path, String type, int chapterId) {
         this.id = id;
+        this.title = title;
         this.path = path;
         this.type = type;
         this.chapterId = chapterId;
     }
 
-    public Material(String path, String type, int chapterId) {
+    public Material(String title, String path, String type, int chapterId) {
         this.id = 0; 
+        this.title = title;
         this.path = path;
         this.type = type;
         this.chapterId = chapterId;
@@ -60,5 +63,11 @@ public class Material {
 
     public void setChapter(Chapter chapter) {
         this.chapter = chapter;
+    }
+    public String getTitle() {
+        return title;
+    }
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

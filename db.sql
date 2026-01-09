@@ -89,6 +89,7 @@ CREATE TABLE `comment` (
 
 CREATE TABLE `material` (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
     path VARCHAR(255) NOT NULL,
     type VARCHAR(255) NOT NULL,
     chapter_id INT NOT NULL,

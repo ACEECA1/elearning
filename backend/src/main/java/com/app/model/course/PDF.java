@@ -2,13 +2,13 @@ package com.app.model.course;
 
 public class PDF extends Material {
     private int numberOfPages;
-    public PDF(int id, String path, int chapterId , int numberOfPages) {
-        super(id, path, "PDF", chapterId);
+    public PDF(int id, String title, String path, int chapterId , int numberOfPages) {
+        super(id, title, path, "PDF", chapterId);
         this.numberOfPages = numberOfPages;
     }
 
-    public PDF(String path, int chapterId, int numberOfPages) {
-        super(path, "PDF", chapterId);
+    public PDF(String title , String path, int chapterId, int numberOfPages) {
+        super(title, path, "PDF", chapterId);
         this.numberOfPages = numberOfPages;
     }
 

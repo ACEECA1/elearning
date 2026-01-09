@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class MaterialDAO implements DAO<Material> {
 
     public void insert(Connection conn, Material material) throws SQLException {
-        String sql = "INSERT INTO material (path, type, chapter_id) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO material (title, path, type, chapter_id) VALUES (?, ?, ?, ?)";
         try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             setStatementParameters(ps, material);
             ps.executeUpdate();
@@ -37,10 +37,10 @@ public class MaterialDAO implements DAO<Material> {
     }
 
     public void update(Connection conn, Material material) throws SQLException {
-        String sql = "UPDATE material SET path = ?, type = ?, chapter_id = ? WHERE id = ?";
+        String sql = "UPDATE material SET title = ?, path = ?, type = ?, chapter_id = ? WHERE id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             setStatementParameters(ps, material);
-            ps.setInt(4, material.getId());
+            ps.setInt(5, material.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error updating material: " + e.getMessage());
@@ -169,17 +169,19 @@ public class MaterialDAO implements DAO<Material> {
     }
 
     public void setStatementParameters(PreparedStatement ps, Material material) throws SQLException {
-        ps.setString(1, material.getPath());
-        ps.setString(2, material.getType());
-        ps.setInt(3, material.getChapterId());
+        ps.setString(1, material.getTitle());
+        ps.setString(2, material.getPath());
+        ps.setString(3, material.getType());
+        ps.setInt(4, material.getChapterId());
     }
 
     public Material mapResultSetToObject(ResultSet rs) throws SQLException {
         int id = rs.getInt("id");
+        String title = rs.getString("title");
         String path = rs.getString("path");
         String type = rs.getString("type");
         int chapterId = rs.getInt("chapter_id");
 
-        return new Material(id, path, type, chapterId);
+        return new Material(id, title, path, type, chapterId);
     }
 }
