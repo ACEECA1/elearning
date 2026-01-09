@@ -152,8 +152,9 @@ public class ModuleServlet extends HttpServlet {
             resp.setStatus(401);
             return;
         }
-
-        if (!"TEACHER".equalsIgnoreCase(role)) {
+        boolean isTeacher = "TEACHER".equalsIgnoreCase(role);
+        boolean isAdmin = "ADMIN".equalsIgnoreCase(role);
+        if (!isTeacher && !isAdmin) {
             resp.setStatus(403);
             out.print("{\"error\": \"Only teachers can modify modules.\"}");
             return;

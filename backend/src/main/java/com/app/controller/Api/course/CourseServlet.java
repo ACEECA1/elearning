@@ -163,7 +163,9 @@ public class CourseServlet extends HttpServlet {
 
             // 1. /api/course (Create Course - Teacher Only)
             if (pathInfo == null || "/".equals(pathInfo)) {
-                if (!"TEACHER".equalsIgnoreCase(role)) {
+                boolean isTeacher = "TEACHER".equalsIgnoreCase(role);
+                boolean isAdmin = "ADMIN".equalsIgnoreCase(role);
+                if (!isTeacher && !isAdmin) {
                     throw new Exception("Only teachers can create courses.");
                 }
                 
@@ -229,8 +231,9 @@ public class CourseServlet extends HttpServlet {
         }
 
         try {
-            // Check Teacher Role
-            if (!"TEACHER".equalsIgnoreCase(role)) {
+            boolean isTeacher = "TEACHER".equalsIgnoreCase(role);
+            boolean isAdmin = "ADMIN".equalsIgnoreCase(role);
+            if (!isTeacher && !isAdmin) {
                 throw new Exception("Only teachers can update courses.");
             }
 
@@ -270,7 +273,9 @@ public class CourseServlet extends HttpServlet {
         }
 
         try {
-            if (!"TEACHER".equalsIgnoreCase(role)) {
+            boolean isTeacher = "TEACHER".equalsIgnoreCase(role);
+            boolean isAdmin = "ADMIN".equalsIgnoreCase(role);
+            if (!isTeacher && !isAdmin) {
                 throw new Exception("Only teachers can delete courses.");
             }
 
