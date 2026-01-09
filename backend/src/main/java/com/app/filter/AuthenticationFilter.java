@@ -25,7 +25,6 @@ public class AuthenticationFilter implements Filter {
             return;
         }
 
-        // 2. Check for Cookie
         String token = null;
         if (httpRequest.getCookies() != null) {
             for (Cookie c : httpRequest.getCookies()) {
@@ -36,7 +35,6 @@ public class AuthenticationFilter implements Filter {
             }
         }
 
-        // 3. Validate Token
         try {
             if (token == null || !JWTUtil.isTokenValid(token)) {
                 httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

@@ -62,3 +62,5 @@ SELECT * FROM teacher;
 --@block
 SELECT * FROM student;
 SELECT * FROM enrollment;
+SELECT * FROM course;
+SELECT * FROM module;

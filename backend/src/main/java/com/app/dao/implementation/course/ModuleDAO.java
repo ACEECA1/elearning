@@ -145,12 +145,10 @@ public class ModuleDAO implements DAO<Module>{
             throw new RuntimeException(e);
         }
     }
-
-    public List<Module> findByCourseId(int courseId) {
+    public List<Module> findByCourseId(Connection conn , int courseId)throws SQLException{
         String sql = "SELECT * FROM module WHERE course_id = ?";
         List<Module> modules = new ArrayList<>();
-        try (Connection conn = Database.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, courseId);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -158,11 +156,17 @@ public class ModuleDAO implements DAO<Module>{
                     modules.add(module);
                 }
             }
+        }
+        return modules;
+    }
+
+    public List<Module> findByCourseId(int courseId) {
+        try (Connection conn = Database.getConnection()) {
+            return this.findByCourseId(conn, courseId);
         } catch (SQLException e) {
             System.out.println("Error finding modules by course ID: " + e.getMessage());
             throw new RuntimeException(e);
         }
-        return modules;
     }
 
     public void setStatementParameters(PreparedStatement ps , Module module)throws SQLException{
