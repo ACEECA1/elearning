@@ -120,6 +120,8 @@ public class AuthServlet extends HttpServlet {
                 resp.addCookie(tokenCookie);
                 jsonResponse.addProperty("status", "success");
                 jsonResponse.addProperty("message", "Login successful.");
+                JsonObject userJson = authService.getUserInfoAsJson(email);
+                jsonResponse.add("user", userJson);
             }
             else if("/logout".equals(pathInfo)){
                 Cookie tokenCookie = new Cookie("authToken", "");

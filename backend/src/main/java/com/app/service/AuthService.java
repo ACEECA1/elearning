@@ -11,6 +11,7 @@ import com.app.model.users.User;
 import com.app.util.EmailService;
 import com.app.util.JWTUtil;
 import com.app.util.PasswordUtils;
+import com.google.gson.*;
 
 public class AuthService {
 
@@ -18,6 +19,7 @@ public class AuthService {
     private final StudentDAO studentDAO = new StudentDAO();
     private final TeacherDAO teacherDAO = new TeacherDAO();
     private final AdminDAO adminDAO = new AdminDAO();
+    private final Gson gson = new Gson();
     private final VerificationCodeDAO verificationDAO = new VerificationCodeDAO();
     private final int VERIFICATION_CODE_TTL_MINUTES = 15; // 15 minutes
 
@@ -92,5 +94,21 @@ public class AuthService {
         teacher.setVerified(true);
 
         teacherDAO.insert(teacher);
+    }
+    public JsonObject getUserInfoAsJson(String email) throws Exception {
+        User user = userDAO.findByEmail(email);
+        if (user == null) throw new Exception("User not found");
+
+        JsonObject userJson = gson.toJsonTree(user).getAsJsonObject();
+        if (studentDAO.findById(user.getId()) != null) {
+            userJson.addProperty("role", "STUDENT");
+        } else if (teacherDAO.findById(user.getId()) != null) {
+            userJson.addProperty("role", "TEACHER");
+        } else if (adminDAO.findById(user.getId()) != null) {
+            userJson.addProperty("role", "ADMIN");
+        } else {
+            userJson.addProperty("role", "USER");
+        }
+        return userJson;
     }
 }

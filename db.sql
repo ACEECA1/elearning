@@ -72,12 +72,12 @@ CREATE TABLE `forum` (
 CREATE TABLE `comment` (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
+    forum_id INT NOT NULL,
     content TEXT NOT NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     likes INT DEFAULT 0,
     dislikes INT DEFAULT 0,
     is_modified BOOLEAN DEFAULT FALSE,
-    forum_id INT NOT NULL,
 
     is_reply BOOLEAN DEFAULT FALSE,
     parent_comment_id INT,

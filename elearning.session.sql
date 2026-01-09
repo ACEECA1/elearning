@@ -60,10 +60,14 @@ SELECT * FROM user;
 SELECT * FROM teacher;
 
 --@block
+SELECT * FROM user;
 SELECT * FROM student;
 SELECT * FROM enrollment;
 SELECT * FROM course;
 SELECT * FROM module;
 SELECT * FROM material;
 SELECT * FROM chapter;
+SELECT * FROM forum;
+SELECT * FROM comment;
+
 --@block

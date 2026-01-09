@@ -204,7 +204,7 @@ public class CommentDAO implements DAO<Comment> {
         }
 
         if (isReply) {
-            return new Comment(content, createdAt, likes, dislikes, isModified, forumId, userId, isReply, parentCommentId);
+            return new Comment(id , content, createdAt, likes, dislikes, isModified, forumId, userId, isReply, parentCommentId);
         } else {
             return new Comment(id, content, createdAt, likes, dislikes, isModified, forumId, userId);
         }
