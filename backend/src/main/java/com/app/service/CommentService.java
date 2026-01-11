@@ -43,7 +43,6 @@ public class CommentService {
             commentDAO.insert(conn, comment);
 
             if(comment.isReply()){
-                // Optionally, notify the author of the parent comment about the reply
                 Comment parentComment = commentDAO.findById(conn, comment.getParentCommentId());
                 if (parentComment != null && parentComment.getUserId() != userId) {
                     String title = "New Reply to Your Comment";
@@ -66,7 +65,6 @@ public class CommentService {
             boolean isAuthor = existing.getUserId() == userId;
             
             if (!isAuthor && "TEACHER".equalsIgnoreCase(role)) {
-                // Check if teacher owns the course
                 if (!isTeacherOfCommentForum(conn, existing.getForumId(), userId)) {
                     throw new Exception("Unauthorized: You do not own this course");
                 }
@@ -139,7 +137,6 @@ public class CommentService {
                 throw new Exception("Unauthorized: You do not own this course");
             }
         } else {
-            // Check enrollment for students
             if (!EnrollmentDAO.isEnrolled(conn, userId, course.getId())) {
                 throw new Exception("Unauthorized: You must be enrolled to comment");
             }
