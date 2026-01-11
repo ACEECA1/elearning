@@ -98,6 +98,11 @@ public class AnswerServlet extends HttpServlet {
 
                 // 3. Return Data
                 List<Answer> answers = answerService.getAnswersByQuestion(qId);
+                if ("STUDENT".equalsIgnoreCase(role)) {
+                for (Answer a : answers) {
+                        a.setCorrect(false);
+                    }
+                }
                 out.print(gson.toJson(answers));
 
             } else if (answerIdParam != null) {
@@ -130,7 +135,9 @@ public class AnswerServlet extends HttpServlet {
                         return;
                     }
                 }
-
+                if ("STUDENT".equalsIgnoreCase(role)) {
+                    answer.setCorrect(false);
+                }
                 // 3. Return Data
                 out.print(gson.toJson(answer));
 

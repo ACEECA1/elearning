@@ -113,11 +113,13 @@ CREATE TABLE `material` (
 
 CREATE TABLE `quiz` (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    chapter_id INT NOT NULL,
     title VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
+    file_path VARCHAR(255),
+    max_grade INT NOT NULL,
     available_from DATETIME NOT NULL,
     available_to DATETIME NOT NULL,
-    chapter_id INT NOT NULL,
     CONSTRAINT chk_available_dates CHECK (available_to > available_from),
     FOREIGN KEY (chapter_id) REFERENCES chapter(id) ON DELETE CASCADE
 );
@@ -150,17 +152,17 @@ CREATE TABLE `enrollment` (
     FOREIGN KEY (course_id) REFERENCES course(id) ON DELETE CASCADE
 );
 
-CREATE TABLE `note` (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE `submission`(
     student_id INT NOT NULL,
     quiz_id INT NOT NULL,
-    grade DECIMAL(5,2) NOT NULL,
-    date_recorded DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE (student_id, quiz_id),
+    submission_path VARCHAR(255),
+    submission_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    grade DECIMAL(5,2),
+    feedback TEXT,
+    PRIMARY KEY (student_id, quiz_id),
     FOREIGN KEY (student_id) REFERENCES student(id) ON DELETE CASCADE,
     FOREIGN KEY (quiz_id) REFERENCES quiz(id) ON DELETE CASCADE
 );
-
 
 -- Not related to conception
 CREATE TABLE `verification_code` (
