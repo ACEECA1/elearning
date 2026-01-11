@@ -163,6 +163,7 @@ public class QuestionDAO implements DAO<Question> {
     private void setStatementParameters(PreparedStatement ps, Question question) throws SQLException {
         ps.setInt(1, question.getQuizId());
         ps.setString(2, question.getText());
+        ps.setString(3, question.getMaterialPath());
         ps.setInt(4, question.getScore());
     }
 

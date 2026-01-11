@@ -69,5 +69,9 @@ SELECT * FROM material;
 SELECT * FROM chapter;
 SELECT * FROM forum;
 SELECT * FROM comment;
+--@block
+SELECT * FROM quiz;
+SELECT * FROM question;
+SELECT * FROM answer;
 
 --@block
