@@ -205,6 +205,27 @@ public class SubmissionDAO implements DAO<Submission> {
         }
     }
 
+    public List<Submission> findByStudentId(Connection conn, int studentId) throws SQLException {
+        List<Submission> submissions = new ArrayList<>();
+        String sql = "SELECT * FROM submission WHERE student_id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, studentId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    submissions.add(mapResultSetToSubmission(rs));
+                }
+            }
+        }
+        return submissions;
+    }
+    public List<Submission> findByStudentId(int studentId) {
+        try (Connection conn = Database.getConnection()) {
+            return this.findByStudentId(conn, studentId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     // ---------------------------------------------------
     // UTILITIES
     // ---------------------------------------------------

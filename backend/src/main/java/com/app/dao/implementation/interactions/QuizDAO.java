@@ -11,7 +11,7 @@ import java.util.List;
 public class QuizDAO implements DAO<Quiz> {
 
     public void insert(Connection conn, Quiz quiz) throws SQLException {
-        String sql = "INSERT INTO quiz (chapter_id, title, description, available_from, available_to) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO quiz (chapter_id, title, description, max_grade, file_path, available_from, available_to) VALUES (?, ?, ?, ?, ?, ?, ?)";
         
         try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             setStatementParameters(ps, quiz);
@@ -42,11 +42,11 @@ public class QuizDAO implements DAO<Quiz> {
     }
 
     public void update(Connection conn, Quiz quiz) throws SQLException {
-        String sql = "UPDATE quiz SET chapter_id = ?, title = ?, description = ?, available_from = ?, available_to = ? WHERE id = ?";
+        String sql = "UPDATE quiz SET chapter_id = ?, title = ?, description = ?, max_grade = ?, file_path = ?, available_from = ?, available_to = ? WHERE id = ?";
         
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             setStatementParameters(ps, quiz);
-            ps.setInt(6, quiz.getId());
+            ps.setInt(8, quiz.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error updating quiz: " + e.getMessage());
@@ -195,17 +195,18 @@ public class QuizDAO implements DAO<Quiz> {
         ps.setInt(1, quiz.getChapterId());
         ps.setString(2, quiz.getTitle());
         ps.setString(3, quiz.getDescription());
-        
+        ps.setDouble(4, quiz.getMaxGrade());
+        ps.setString(5, quiz.getFilePath());
         if (quiz.getAvailableFrom() != null) {
-            ps.setTimestamp(4, new Timestamp(quiz.getAvailableFrom().getTime()));
+            ps.setTimestamp(6, new Timestamp(quiz.getAvailableFrom().getTime()));
         } else {
-            ps.setNull(4, Types.TIMESTAMP);
+            ps.setNull(6, Types.TIMESTAMP);
         }
         
         if (quiz.getAvailableTo() != null) {
-            ps.setTimestamp(5, new Timestamp(quiz.getAvailableTo().getTime()));
+            ps.setTimestamp(7, new Timestamp(quiz.getAvailableTo().getTime()));
         } else {
-            ps.setNull(5, Types.TIMESTAMP);
+            ps.setNull(7, Types.TIMESTAMP);
         }
     }
 
@@ -214,9 +215,11 @@ public class QuizDAO implements DAO<Quiz> {
         int chapterId = rs.getInt("chapter_id");
         String title = rs.getString("title");
         String description = rs.getString("description");
+        double maxGrade = rs.getDouble("max_grade");
         Timestamp availableFrom = rs.getTimestamp("available_from");
         Timestamp availableTo = rs.getTimestamp("available_to");
-        return new Quiz(id, chapterId, title, description, availableFrom, availableTo);
+        String filePath = rs.getString("file_path");
+        return new Quiz(id, chapterId, title, description, maxGrade, filePath, availableFrom, availableTo);
     }
 
     private boolean chapterExists(Connection conn, int chapterId) throws SQLException {

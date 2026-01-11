@@ -75,3 +75,4 @@ SELECT * FROM question;
 SELECT * FROM answer;
 
 --@block
+SELECT * FROM submission;

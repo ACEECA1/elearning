@@ -6,8 +6,8 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
-    private String passwordHash;
-    private String salt;
+    private transient String passwordHash;
+    private transient String salt;
     private String profilePicturePath;
     private boolean isVerified;
 

@@ -9,24 +9,30 @@ public class Quiz {
     private int chapterId;
     private String title;
     private String description;
+    private double maxGrade;
+    private String filePath;
     private Date availableFrom;
     private Date availableTo;
     private Chapter chapter;
 
-    public Quiz(int id, int chapterId, String title, String description, Date availableFrom, Date availableTo) {
+    public Quiz(int id, int chapterId, String title, String description, double maxGrade, String filePath, Date availableFrom, Date availableTo) {
         this.id = id;
         this.chapterId = chapterId;
         this.title = title;
         this.description = description;
+        this.maxGrade = maxGrade;
+        this.filePath = filePath;
         this.availableFrom = availableFrom;
         this.availableTo = availableTo;
     }
 
-    public Quiz(int chapterId, String title, String description, Date availableFrom, Date availableTo) {
+    public Quiz(int chapterId, String title, String description, double maxGrade, String filePath, Date availableFrom, Date availableTo) {
         this.id = 0; 
         this.chapterId = chapterId;
         this.title = title;
         this.description = description;
+        this.maxGrade = maxGrade;
+        this.filePath = filePath;
         this.availableFrom = availableFrom;
         this.availableTo = availableTo;
     }
@@ -82,5 +88,17 @@ public class Quiz {
     }
     public void setAvailableTo(Date availableTo) {
         this.availableTo = availableTo;
+    }
+    public double getMaxGrade() {
+        return maxGrade;
+    }
+    public void setMaxGrade(double maxGrade) {
+        this.maxGrade = maxGrade;
+    }
+    public String getFilePath() {
+        return filePath;
+    }
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 }
