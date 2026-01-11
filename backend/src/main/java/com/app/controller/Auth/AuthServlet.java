@@ -2,7 +2,7 @@ package com.app.controller.Auth;
 
 import com.app.model.users.Student;
 import com.app.model.users.Teacher;
-import com.app.service.AuthService;
+import com.app.service.auth.AuthService;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

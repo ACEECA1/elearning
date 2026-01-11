@@ -1,4 +1,4 @@
-package com.app.service;
+package com.app.service.interactions;
 
 import com.app.dao.implementation.interactions.CommentDAO;
 import com.app.dao.implementation.interactions.ForumDAO;

@@ -1,4 +1,4 @@
-package com.app.service;
+package com.app.service.interactions;
 
 import com.app.dao.implementation.course.ChapterDAO;
 import com.app.dao.implementation.course.CourseDAO;
@@ -11,6 +11,7 @@ import com.app.model.interactions.Answer;
 import com.app.model.interactions.Question;
 import com.app.model.interactions.Quiz;
 import com.app.model.interactions.Submission;
+import com.app.service.course.CourseService;
 import com.app.model.course.Chapter;
 import com.app.model.course.Course;
 import com.app.model.course.Module;

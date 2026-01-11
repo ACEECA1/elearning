@@ -1,7 +1,7 @@
 package com.app.controller.Api;
 
 import com.app.model.course.Course;
-import com.app.service.CourseService;
+import com.app.service.course.CourseService;
 import com.google.gson.Gson;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

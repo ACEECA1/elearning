@@ -1,4 +1,4 @@
-package com.app.service;
+package com.app.service.course;
 
 import com.app.dao.implementation.course.CourseDAO;
 import com.app.dao.implementation.interactions.EnrollmentDAO;
@@ -6,6 +6,7 @@ import com.app.dao.implementation.users.StudentDAO;
 import com.app.model.course.Course;
 import com.app.model.interactions.Enrollment;
 import com.app.model.users.Student;
+import com.app.service.interactions.NotificationService;
 import com.app.util.Database;
 
 import java.sql.Connection;

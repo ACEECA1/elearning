@@ -14,7 +14,8 @@ import java.io.PrintWriter;
 
 import com.app.model.course.Course;
 import com.app.model.users.Student;
-import com.app.service.CourseService;
+import com.app.service.course.CourseService;
+
 import java.util.List;
 
 /*

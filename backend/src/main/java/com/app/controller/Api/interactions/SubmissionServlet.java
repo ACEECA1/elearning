@@ -1,7 +1,7 @@
 package com.app.controller.Api.interactions;
 
 import com.app.model.interactions.Submission;
-import com.app.service.SubmissionService;
+import com.app.service.interactions.SubmissionService;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

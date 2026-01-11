@@ -1,4 +1,4 @@
-package com.app.service;
+package com.app.service.course;
 
 import com.app.dao.implementation.course.ChapterDAO;
 import com.app.dao.implementation.course.CourseDAO;

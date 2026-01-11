@@ -1,4 +1,4 @@
-package com.app.service;
+package com.app.service.auth;
 
 import com.app.dao.implementation.auth.VerificationCodeDAO;
 import com.app.dao.implementation.users.StudentDAO;

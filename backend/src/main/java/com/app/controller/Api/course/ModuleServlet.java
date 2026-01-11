@@ -1,8 +1,8 @@
 package com.app.controller.Api.course;
 
 import com.app.model.course.Module;
-import com.app.service.CourseService;
-import com.app.service.ModuleService;
+import com.app.service.course.CourseService;
+import com.app.service.course.ModuleService;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
