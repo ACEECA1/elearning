@@ -1,5 +1,6 @@
 package com.app.util;
 
+import java.security.SecureRandom;
 import java.util.Date;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -39,7 +40,8 @@ public class JWTUtil {
     }
 
     public static String generateCode() {
-        int code = (int) (Math.random() * 900000) + 100000;
+        SecureRandom secureRandom = new SecureRandom();
+        int code = secureRandom.nextInt(900000) + 100000;
         return String.valueOf(code);
     }
     public static boolean isTokenValid(String token) {

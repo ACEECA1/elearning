@@ -24,7 +24,7 @@ public class AuthenticationFilter implements Filter {
         }
         String requestURI = httpRequest.getRequestURI();
         
-        if (requestURI.contains("/api/auth/")) {
+        if (requestURI.startsWith(httpRequest.getContextPath() + "/api/auth/")) {
             chain.doFilter(request, response);
             return;
         }
