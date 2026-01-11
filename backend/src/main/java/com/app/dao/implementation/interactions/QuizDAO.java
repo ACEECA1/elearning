@@ -158,7 +158,38 @@ public class QuizDAO implements DAO<Quiz> {
             throw new RuntimeException(e);
         }
     }
-
+    public List<Quiz> findAllAvailableForStudent(Connection conn, int chapterId, Timestamp currentTime) throws SQLException {
+        List<Quiz> quizzes = new ArrayList<>();
+        String sql = "SELECT * FROM quiz WHERE chapter_id = ? AND (available_from IS NULL OR available_from <= ?) AND (available_to IS NULL OR available_to >= ?)";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, chapterId);
+            ps.setTimestamp(2, currentTime);
+            ps.setTimestamp(3, currentTime);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    quizzes.add(mapResultSetToQuiz(rs));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error finding available quizzes for student: " + e.getMessage());
+            throw e;
+        }
+        return quizzes;
+    }
+    public Quiz findAvailableForStudent(Connection conn, int quizId, Timestamp currentTime) throws SQLException {
+        String sql = "SELECT * FROM quiz WHERE id = ? AND (available_from IS NULL OR available_from <= ?) AND (available_to IS NULL OR available_to >= ?)";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, quizId);
+            ps.setTimestamp(2, currentTime);
+            ps.setTimestamp(3, currentTime);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() ? mapResultSetToQuiz(rs) : null;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error finding quiz by ID for student: " + e.getMessage());
+            throw e;
+        }
+    }
 
     private void setStatementParameters(PreparedStatement ps, Quiz quiz) throws SQLException {
         ps.setInt(1, quiz.getChapterId());

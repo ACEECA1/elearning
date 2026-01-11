@@ -2,12 +2,13 @@ package com.app.controller.Api.interactions;
 
 import com.app.model.course.Chapter;
 import com.app.model.course.Module;
-import com.app.model.interactions.Forum;
+import com.app.model.interactions.Quiz;
 import com.app.service.ChapterService;
 import com.app.service.CourseService;
-import com.app.service.ForumService;
 import com.app.service.ModuleService;
+import com.app.service.QuizService;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -21,45 +22,32 @@ import java.io.PrintWriter;
 import java.util.List;
 
 /*
-    Teacher:
-    POST : Create Forum
-        (Format: application/json)
-        Body: { "chapterId": 1, "title": "Chapter Discussion" }
+    Teacher/Admin:
+    POST : Create Quiz
+        Body: { "chapterId": 1, "title": "Quiz 1", "description": "...", "availableFrom": "...", "availableTo": "..." }
 
-    DELETE : Delete Forum
-        (Format: application/json)
-        URL: /api/forum
-        Body: { "forumId": ... } or { "id": ... }
+    DELETE : Delete Quiz
+        Body: { "quizId": ... } or { "id": ... }
 
-    PUT : Update Forum
-        (Format: application/json)
-        URL: /api/forum
-        Body: { "forumId": ..., "title": "Updated Title" }
+    PUT : Update Quiz
+        Body: { "quizId": ..., "title": "Updated Title", ... }
 
-    GET : Get Forum Details
-        (Format: application/json)
-        URL: /api/forum?forumId=...
-        Response: { ...forumDetails }
+    GET : Get Quiz Details
+        URL: /api/quiz?quizId=...
 
-    GET : List All Forums in a Chapter
-        (Format: application/json)
-        URL: /api/forum?chapterId=...
-        Response: [ { ...forum1 }, { ...forum2 }, ... ]
-    
-    Student:
-    GET : List All Forums in a Chapter
-        (Format: application/json)
-        URL: /api/forum?chapterId=...
-        Response: [ { ...forum1 }, { ...forum2 }, ... ]
+    GET : List All Quizzes in a Chapter
+        URL: /api/quiz?chapterId=...
 */
-@WebServlet("/api/forum")
-public class ForumServlet extends HttpServlet {
 
-    private final ForumService forumService = new ForumService();
+@WebServlet("/api/quiz")
+public class QuizServlet extends HttpServlet {
+
+    private final QuizService quizService = new QuizService();
     private final ChapterService chapterService = new ChapterService();
     private final ModuleService moduleService = new ModuleService();
     private final CourseService courseService = new CourseService();
-    private final Gson gson = new Gson();
+    
+    private final Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy HH:mm:ss").create(); 
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -67,7 +55,7 @@ public class ForumServlet extends HttpServlet {
         PrintWriter out = resp.getWriter();
         
         String chapterIdParam = req.getParameter("chapterId");
-        String forumIdParam = req.getParameter("forumId");
+        String quizIdParam = req.getParameter("quizId");
         
         Integer userIdObj = (Integer) req.getAttribute("userId");
         String role = (String) req.getAttribute("role");
@@ -91,7 +79,7 @@ public class ForumServlet extends HttpServlet {
                     boolean isEnrolled = courseService.isStudentEnrolledInCourse(userId, courseId);
                     if (!isEnrolled) {
                         resp.setStatus(403);
-                        out.print("{\"error\": \"You must be enrolled in the course to view its forums.\"}");
+                        out.print("{\"error\": \"You must be enrolled in the course to view its quizzes.\"}");
                         return;
                     }
                 }
@@ -99,21 +87,24 @@ public class ForumServlet extends HttpServlet {
                     boolean ownsCourse = courseService.teacherOwnsCourse(userId, courseId);
                     if (!ownsCourse) {
                         resp.setStatus(403);
-                        out.print("{\"error\": \"You do not have permission to view forums of this course.\"}");
+                        out.print("{\"error\": \"You do not have permission to view quizzes of this course.\"}");
                         return;
                     }
                 }
 
-                List<Forum> forums = forumService.getForumsByChapter(chapterId);
-                out.print(gson.toJson(forums));
+                List<Quiz> quizzes = quizService.getQuizzesByChapter(chapterId, role);
+                out.print(gson.toJson(quizzes));
 
             } 
-            else if (forumIdParam != null) {
-                int forumId = Integer.parseInt(forumIdParam);
-                
-                Forum forum = forumService.getForumById(forumId);
-                
-                Chapter chapter = chapterService.getChapterById(forum.getChapterId());
+            else if (quizIdParam != null) {
+                int quizId = Integer.parseInt(quizIdParam);
+                Quiz quiz = quizService.getQuizById(quizId, role);
+                if(quiz == null) {
+                    resp.setStatus(404);
+                    out.print("{\"error\": \"Quiz not found.\"}");
+                    return;
+                }
+                Chapter chapter = chapterService.getChapterById(quiz.getChapterId());
                 Module module = moduleService.getModuleById(chapter.getModuleId());
                 int courseId = module.getCourseId();
 
@@ -121,24 +112,23 @@ public class ForumServlet extends HttpServlet {
                     boolean isEnrolled = courseService.isStudentEnrolledInCourse(userId, courseId);
                     if (!isEnrolled) {
                         resp.setStatus(403);
-                        out.print("{\"error\": \"You must be enrolled in the course to view this forum.\"}");
+                        out.print("{\"error\": \"You must be enrolled in the course to view this quiz.\"}");
                         return;
                     }
+                    
                 }
                 if ("TEACHER".equalsIgnoreCase(role)) {
                     boolean ownsCourse = courseService.teacherOwnsCourse(userId, courseId);
                     if (!ownsCourse) {
                         resp.setStatus(403);
-                        out.print("{\"error\": \"You do not have permission to view this forum.\"}");
+                        out.print("{\"error\": \"You do not have permission to view this quiz.\"}");
                         return;
                     }
                 }
-
-                out.print(gson.toJson(forum));
-
+                out.print(gson.toJson(quiz));
             } else {
                 resp.setStatus(400);
-                out.print("{\"error\": \"Missing chapterId or forumId parameter\"}");
+                out.print("{\"error\": \"Missing chapterId or quizId parameter\"}");
             }
 
         } catch (Exception e) {
@@ -179,7 +169,7 @@ public class ForumServlet extends HttpServlet {
         boolean isAdmin = "ADMIN".equalsIgnoreCase(role);
         if (!isTeacher && !isAdmin) {
             resp.setStatus(403);
-            out.print("{\"error\": \"Only teachers or admins can modify forums.\"}");
+            out.print("{\"error\": \"Only teachers or admins can modify quizzes.\"}");
             return;
         }
 
@@ -187,30 +177,29 @@ public class ForumServlet extends HttpServlet {
             JsonObject body = parseBody(req);
 
             if ("CREATE".equals(action)) {
-                Forum forum = gson.fromJson(body, Forum.class);
-                forumService.createForum(forum, userId);
-                responseJson.addProperty("message", "Forum created successfully");
+                Quiz quiz = gson.fromJson(body, Quiz.class);
+                quizService.createQuiz(quiz, userId, role);
+                responseJson.addProperty("message", "Quiz created successfully");
 
             } else if ("UPDATE".equals(action)) {
-                Forum forum = gson.fromJson(body, Forum.class);
-                
-                if (!body.has("forumId") && !body.has("id")) {
-                    throw new Exception("forumId is required");
+                Quiz quiz = gson.fromJson(body, Quiz.class);
+                if (!body.has("quizId") && !body.has("id")) {
+                    throw new Exception("quizId is required");
                 }
-                int id = body.has("forumId") ? body.get("forumId").getAsInt() : body.get("id").getAsInt();
-                forum.setId(id);
+                int id = body.has("quizId") ? body.get("quizId").getAsInt() : body.get("id").getAsInt();
+                quiz.setId(id);
                 
-                forumService.updateForum(forum, userId);
-                responseJson.addProperty("message", "Forum updated successfully");
+                quizService.updateQuiz(quiz, userId, role);
+                responseJson.addProperty("message", "Quiz updated successfully");
 
             } else if ("DELETE".equals(action)) {
-                if (!body.has("forumId") && !body.has("id")) {
-                    throw new Exception("forumId is required");
+                if (!body.has("quizId") && !body.has("id")) {
+                    throw new Exception("quizId is required");
                 }
-                int forumId = body.has("forumId") ? body.get("forumId").getAsInt() : body.get("id").getAsInt();
+                int quizId = body.has("quizId") ? body.get("quizId").getAsInt() : body.get("id").getAsInt();
                 
-                forumService.deleteForum(forumId, userId);
-                responseJson.addProperty("message", "Forum deleted successfully");
+                quizService.deleteQuiz(quizId, userId, role);
+                responseJson.addProperty("message", "Quiz deleted successfully");
             }
             
             responseJson.addProperty("status", "success");

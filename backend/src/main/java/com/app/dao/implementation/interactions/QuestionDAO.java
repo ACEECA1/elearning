@@ -10,9 +10,7 @@ import java.util.List;
 
 public class QuestionDAO implements DAO<Question> {
 
-    // --- INSERT ---
     public void insert(Connection conn, Question question) throws SQLException {
-        // Note: Java field 'materialPath' maps to SQL column 'material'
         String sql = "INSERT INTO question (quiz_id, text, material, score) VALUES (?, ?, ?, ?)";
         
         try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -43,7 +41,6 @@ public class QuestionDAO implements DAO<Question> {
         }
     }
 
-    // --- UPDATE ---
     public void update(Connection conn, Question question) throws SQLException {
         String sql = "UPDATE question SET quiz_id = ?, text = ?, material = ?, score = ? WHERE id = ?";
         
@@ -67,7 +64,6 @@ public class QuestionDAO implements DAO<Question> {
         }
     }
 
-    // --- DELETE ---
     public void delete(Connection conn, int id) throws SQLException {
         String sql = "DELETE FROM question WHERE id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -89,7 +85,6 @@ public class QuestionDAO implements DAO<Question> {
         }
     }
 
-    // --- FIND BY ID ---
     public Question findById(Connection conn, int id) throws SQLException {
         String sql = "SELECT * FROM question WHERE id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -113,7 +108,6 @@ public class QuestionDAO implements DAO<Question> {
         }
     }
 
-    // --- FIND ALL ---
     public List<Question> findAll(Connection conn) throws SQLException {
         List<Question> questions = new ArrayList<>();
         String sql = "SELECT * FROM question";
@@ -139,7 +133,6 @@ public class QuestionDAO implements DAO<Question> {
         }
     }
 
-    // --- FIND BY QUIZ ID ---
     public List<Question> findByQuizId(Connection conn, int quizId) throws SQLException {
         List<Question> questions = new ArrayList<>();
         String sql = "SELECT * FROM question WHERE quiz_id = ?";
@@ -166,12 +159,10 @@ public class QuestionDAO implements DAO<Question> {
         }
     }
 
-    // --- HELPERS ---
 
     private void setStatementParameters(PreparedStatement ps, Question question) throws SQLException {
         ps.setInt(1, question.getQuizId());
         ps.setString(2, question.getText());
-        ps.setString(3, question.getMaterialPath()); // Maps to 'material' column
         ps.setInt(4, question.getScore());
     }
 

@@ -118,7 +118,7 @@ CREATE TABLE `quiz` (
     available_from DATETIME NOT NULL,
     available_to DATETIME NOT NULL,
     chapter_id INT NOT NULL,
-
+    CONSTRAINT chk_available_dates CHECK (available_to > available_from),
     FOREIGN KEY (chapter_id) REFERENCES chapter(id) ON DELETE CASCADE
 );
 
