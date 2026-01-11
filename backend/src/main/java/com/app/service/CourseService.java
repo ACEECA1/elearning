@@ -144,7 +144,7 @@ public class CourseService {
             Enrollment enrollment = new Enrollment(studentId, courseId, new java.sql.Timestamp(System.currentTimeMillis()));
             enrollmentDAO.insert(conn, enrollment);
             int teacherId = course.getTeacherId();
-            notificationService.sendNotification(teacherId, "New Enrollment",
+            notificationService.sendNotification(conn ,teacherId, "New Enrollment",
                     "A new student has enrolled in your course: " + course.getTitle(),
                     "NEW_ENROLLMENT");
             conn.commit();

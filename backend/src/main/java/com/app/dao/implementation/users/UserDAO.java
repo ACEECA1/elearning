@@ -189,10 +189,9 @@ public class UserDAO implements DAO<User>{
         }
         return null;
     }
-    public String getUserEmailById(int userId) throws SQLException {
+    public String getUserEmailById(Connection conn, int userId) throws SQLException {
         String sql = "SELECT email FROM user WHERE id = ?";
-        try (Connection conn = Database.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, userId);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -201,5 +200,13 @@ public class UserDAO implements DAO<User>{
             }
         }
         return null;
+    }
+    public String getUserEmailById(int userId) throws SQLException {
+        try (Connection conn = Database.getConnection()) {
+            return getUserEmailById(conn, userId);
+        } catch (SQLException e) {
+            System.err.println("Error retrieving user email by ID: " + e.getMessage());
+            throw e;
+        }
     }
 }

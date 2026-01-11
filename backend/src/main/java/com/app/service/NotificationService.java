@@ -24,16 +24,33 @@ public class NotificationService {
         }
     }
 
-    public void sendNotification(int userId, String title, String message, String type) {
+    public void sendNotification(Connection conn, int userId, String title, String message, String type) {
         try {
-            Notification notification = new Notification(userId, title, message, type);
-            String email = userDAO.getUserEmailById(userId);
+            String email = userDAO.getUserEmailById(conn, userId);
+            
+            // 2. Run email asynchronously (Fixes blocking issue)
             if (email != null && !email.isEmpty()) {
-                EmailService.sendNotificationEmail(email, title, message);
+                java.util.concurrent.CompletableFuture.runAsync(() -> {
+                    try {
+                        EmailService.sendNotificationEmail(email, title, message);
+                    } catch (Exception e) {
+                        System.err.println("Email failed: " + e.getMessage());
+                    }
+                });
             }
-            createNotification(notification);
+            Notification notification = new Notification(userId, title, message, type);
+            notificationDAO.insert(conn, notification);
+
         } catch (Exception e) {
-            System.err.println("Failed to send notification to user " + userId + ": " + e.getMessage());
+            System.err.println("Failed to send notification: " + e.getMessage());
+        }
+    }
+
+    public void sendNotification(int userId, String title, String message, String type) {
+        try (Connection conn = Database.getConnection()) {
+            sendNotification(conn, userId, title, message, type);
+        } catch (Exception e) {
+            System.err.println("Failed to send notification: " + e.getMessage());
         }
     }
 

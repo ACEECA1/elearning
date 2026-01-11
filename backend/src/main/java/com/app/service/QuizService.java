@@ -60,8 +60,9 @@ public class QuizService {
             int courseId = module.getCourseId();
             List<Student> enrolledStudents = courseService.getCourseParticipants(courseId, userId);
             quizDAO.insert(conn, quiz);
+
             for(Student student : enrolledStudents){
-                notificationService.sendNotification(student.getId(), "New Quiz Available",
+                notificationService.sendNotification(conn, student.getId(), "New Quiz Available",
                         "A new quiz titled '" + quiz.getTitle() + "' has been created in chapter '" + chapter.getTitle() + "'.",
                         "NEW_QUIZ");
             }

@@ -42,7 +42,7 @@ public class ChapterService {
             Module module = moduleDAO.findById(conn, chapter.getModuleId());
             Course course = courseDAO.findById(conn, module.getCourseId());
             List<Student> enrolledStudents = courseService.getCourseParticipants(course.getId(), teacherId);
-            sendChapterCreationNotification(enrolledStudents, chapter, course);
+            sendChapterCreationNotification(conn ,enrolledStudents, chapter, course);
         }
     }
 
@@ -83,11 +83,11 @@ public class ChapterService {
             throw new Exception("Unauthorized: You do not own the course this chapter belongs to.");
         }
     }
-    private void sendChapterCreationNotification(List<Student> students, Chapter chapter, Course course) {
+    private void sendChapterCreationNotification(Connection conn, List<Student> students, Chapter chapter, Course course) {
         String title = "New Chapter Added: " + chapter.getTitle();
         String message = "A new chapter titled '" + chapter.getTitle() + "' has been added to the course '" + course.getTitle() + "'.";
         for (Student student : students) {
-            notificationService.sendNotification(student.getId(), title, message, "NEW_CHAPTER");
+            notificationService.sendNotification(conn, student.getId(), title, message, "NEW_CHAPTER");
         }
     }
 }
