@@ -97,20 +97,6 @@ CREATE TABLE `material` (
     FOREIGN KEY (chapter_id) REFERENCES chapter(id) ON DELETE CASCADE
 );
 
--- CREATE TABLE `pdf` (
---     id INT PRIMARY KEY,
---     number_of_pages INT NOT NULL,
-
---     FOREIGN KEY (id) REFERENCES material(id) ON DELETE CASCADE
--- );
-
--- CREATE TABLE `video` (
---     id INT PRIMARY KEY,
---     duration INT NOT NULL,
-
---     FOREIGN KEY (id) REFERENCES material(id) ON DELETE CASCADE
--- );
-
 CREATE TABLE `quiz` (
     id INT AUTO_INCREMENT PRIMARY KEY,
     chapter_id INT NOT NULL,
