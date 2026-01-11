@@ -48,4 +48,10 @@ public class EmailService {
                     + "<p>This code will expire in 15 minutes.</p>";
         sendEmail(to, subject, body);
     }
+    public static void sendNotificationEmail(String to, String title, String messageContent) {
+        String subject = "New Notification: " + title;
+        String body = "<h3>" + title + "</h3>"
+                    + "<p>" + messageContent + "</p>";
+        sendEmail(to, subject, body);
+    }
 }

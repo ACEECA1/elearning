@@ -5,6 +5,7 @@ import com.app.dao.implementation.course.ModuleDAO;
 import com.app.dao.implementation.course.CourseDAO;
 import com.app.model.course.Chapter;
 import com.app.model.course.Module;
+import com.app.model.users.Student;
 import com.app.model.course.Course;
 import com.app.util.Database;
 
@@ -16,6 +17,8 @@ public class ChapterService {
     private final ChapterDAO chapterDAO = new ChapterDAO();
     private final ModuleDAO moduleDAO = new ModuleDAO();
     private final CourseDAO courseDAO = new CourseDAO();
+    private final CourseService courseService = new CourseService();
+    private final NotificationService notificationService = new NotificationService();
 
     public List<Chapter> getChaptersByModule(int moduleId) throws Exception {
         try (Connection conn = Database.getConnection()) {
@@ -36,6 +39,10 @@ public class ChapterService {
             verifyModuleOwnership(conn, chapter.getModuleId(), teacherId);
             
             chapterDAO.insert(conn, chapter);
+            Module module = moduleDAO.findById(conn, chapter.getModuleId());
+            Course course = courseDAO.findById(conn, module.getCourseId());
+            List<Student> enrolledStudents = courseService.getCourseParticipants(course.getId(), teacherId);
+            sendChapterCreationNotification(enrolledStudents, chapter, course);
         }
     }
 
@@ -74,6 +81,13 @@ public class ChapterService {
 
         if (course.getTeacherId() != teacherId) {
             throw new Exception("Unauthorized: You do not own the course this chapter belongs to.");
+        }
+    }
+    private void sendChapterCreationNotification(List<Student> students, Chapter chapter, Course course) {
+        String title = "New Chapter Added: " + chapter.getTitle();
+        String message = "A new chapter titled '" + chapter.getTitle() + "' has been added to the course '" + course.getTitle() + "'.";
+        for (Student student : students) {
+            notificationService.sendNotification(student.getId(), title, message, "NEW_CHAPTER");
         }
     }
 }

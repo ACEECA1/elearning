@@ -83,7 +83,7 @@ public class CourseDAO implements DAO<Course>{
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return mapResultSetToObject(rs);
+                    return mapResultSetToCourse(rs);
                 }
             }
         }
@@ -110,7 +110,7 @@ public class CourseDAO implements DAO<Course>{
         try (PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                courses.add(mapResultSetToObject(rs));
+                courses.add(mapResultSetToCourse(rs));
             }
         } catch (SQLException e) {
             System.out.println("Error finding all courses: " + e.getMessage());
@@ -154,12 +154,30 @@ public class CourseDAO implements DAO<Course>{
             ps.setInt(1, teacherId);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    courses.add(mapResultSetToObject(rs));
+                    courses.add(mapResultSetToCourse(rs));
                 }
             }
         } catch (SQLException e) {
             System.out.println("Error finding courses by teacher id: " + e.getMessage());
             throw e;
+        }
+        return courses;
+    }
+
+    public List<Course> searchCourses(Connection conn, String query) throws SQLException {
+        String sql = "SELECT * FROM course WHERE title LIKE ? OR description LIKE ?";
+        List<Course> courses = new ArrayList<>();
+        
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            String searchTerm = "%" + query + "%";
+            stmt.setString(1, searchTerm);
+            stmt.setString(2, searchTerm);
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    courses.add(mapResultSetToCourse(rs));
+                }
+            }
         }
         return courses;
     }
@@ -172,7 +190,7 @@ public class CourseDAO implements DAO<Course>{
         ps.setString(5, course.getEnrollmentKey());
         ps.setString(6, course.getThumbnailPath());
     }
-    public Course mapResultSetToObject(ResultSet rs) throws SQLException {
+    public Course mapResultSetToCourse(ResultSet rs) throws SQLException {
         int id = rs.getInt("id");
         int teacherId = rs.getInt("teacher_id");
         String title = rs.getString("title");

@@ -18,7 +18,7 @@ public class CourseService {
     private final CourseDAO courseDAO = new CourseDAO();
     private final EnrollmentDAO enrollmentDAO = new EnrollmentDAO();
     private final StudentDAO studentDAO = new StudentDAO();
-
+    private final NotificationService notificationService = new NotificationService();
 
     public List<Course> getAllAvailableCourses() throws Exception {
         try (Connection conn = Database.getConnection()) {
@@ -135,7 +135,6 @@ public class CourseService {
 
             Course course = courseDAO.findById(conn, courseId);
             if (course == null) throw new Exception("Course not found");
-            
             if (course.getEnrollmentKey() != null && !course.getEnrollmentKey().isEmpty()) {
                 if (!course.getEnrollmentKey().equals(enrollmentKey)) {
                     throw new Exception("Invalid enrollment key");
@@ -144,7 +143,10 @@ public class CourseService {
 
             Enrollment enrollment = new Enrollment(studentId, courseId, new java.sql.Timestamp(System.currentTimeMillis()));
             enrollmentDAO.insert(conn, enrollment);
-
+            int teacherId = course.getTeacherId();
+            notificationService.sendNotification(teacherId, "New Enrollment",
+                    "A new student has enrolled in your course: " + course.getTitle(),
+                    "NEW_ENROLLMENT");
             conn.commit();
         } catch (Exception e) {
             if (conn != null) conn.rollback();
@@ -170,6 +172,11 @@ public class CourseService {
                 throw new Exception("Course not found");
             }
             return course.getTeacherId() == teacherId;
+        }
+    }
+    public List<Course> search(String query) throws Exception {
+        try (Connection conn = Database.getConnection()) {
+            return courseDAO.searchCourses(conn, query);
         }
     }
 }

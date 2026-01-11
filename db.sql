@@ -150,6 +150,17 @@ CREATE TABLE `submission`(
     FOREIGN KEY (quiz_id) REFERENCES quiz(id) ON DELETE CASCADE
 );
 
+CREATE TABLE `notification` (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    message TEXT NOT NULL,
+    type VARCHAR(50), -- e.g., 'COURSE_UPDATE', 'NEW_QUIZ', 'FORUM_REPLY'
+    is_read BOOLEAN DEFAULT FALSE,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
+);
+
 -- Not related to conception
 CREATE TABLE `verification_code` (
     email VARCHAR(255) PRIMARY KEY,

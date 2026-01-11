@@ -26,6 +26,7 @@ public class CommentService {
     private final ChapterDAO chapterDAO = new ChapterDAO();
     private final ModuleDAO moduleDAO = new ModuleDAO();
     private final CourseDAO courseDAO = new CourseDAO();
+    private final NotificationService notificationService = new NotificationService();
 
     public List<Comment> getCommentsByForum(int forumId) throws Exception {
         try (Connection conn = Database.getConnection()) {
@@ -40,6 +41,17 @@ public class CommentService {
             
             comment.setUserId(userId);
             commentDAO.insert(conn, comment);
+
+            if(comment.isReply()){
+                // Optionally, notify the author of the parent comment about the reply
+                Comment parentComment = commentDAO.findById(conn, comment.getParentCommentId());
+                if (parentComment != null && parentComment.getUserId() != userId) {
+                    String title = "New Reply to Your Comment";
+                    String message = "Your comment has received a new reply." + 
+                            "\n\nReply Content: " + comment.getContent();
+                    notificationService.sendNotification(parentComment.getUserId(), title, message, "NEW_REPLY");
+                }
+            }
         }
     }
 
