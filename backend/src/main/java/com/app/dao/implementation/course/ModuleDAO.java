@@ -178,6 +178,7 @@ public class ModuleDAO implements DAO<Module>{
             ps.setString(5, module.getThumbnailPath());
         }
         else{
+            System.out.println("Setting thumbnail_path to NULL for module ID: " + module.getId());
             ps.setNull(5, Types.VARCHAR);
         }
     }

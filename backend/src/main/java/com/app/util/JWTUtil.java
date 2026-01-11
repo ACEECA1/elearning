@@ -11,7 +11,7 @@ public class JWTUtil {
 
     private static final String SECRET_KEY = Dotenv.load().get("JWT_SECRET");
     private static final Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
-    private static final long EXPIRATION_MS = 60 * 60 * 1000; // 1 hour
+    private static final long EXPIRATION_MS = 60 * 60 * 1000 * 5; // 5 hours
 
     public static String generateToken(int userId, String role) {
         return JWT.create()

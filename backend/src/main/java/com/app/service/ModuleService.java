@@ -46,7 +46,7 @@ public class ModuleService {
             existing.setTitle(moduleUpdates.getTitle());
             existing.setDescription(moduleUpdates.getDescription());
             existing.setOrderIndex(moduleUpdates.getOrderIndex());
-
+            existing.setThumbnailPath(moduleUpdates.getThumbnailPath());
             moduleDAO.update(conn, existing);
         }
     }

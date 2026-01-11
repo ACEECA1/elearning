@@ -1,7 +1,15 @@
 package com.app.controller.Api.interactions;
 
+import com.app.model.course.Chapter;
+import com.app.model.course.Course;
+import com.app.model.course.Module;
 import com.app.model.interactions.Comment;
+import com.app.model.interactions.Forum;
+import com.app.service.ChapterService;
 import com.app.service.CommentService;
+import com.app.service.CourseService;
+import com.app.service.ForumService;
+import com.app.service.ModuleService;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -31,18 +39,48 @@ import java.util.List;
 public class CommentServlet extends HttpServlet {
 
     private final CommentService commentService = new CommentService();
+    private final ChapterService chapterService = new ChapterService();
+    private final ForumService forumService = new ForumService();
+    private final ModuleService moduleService = new ModuleService();
+    private final CourseService courseService = new CourseService();
     private final Gson gson = new Gson();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("application/json");
         PrintWriter out = resp.getWriter();
-        
+        Integer userIdObj = (Integer) req.getAttribute("userId");
+        String role = (String) req.getAttribute("role");
         String forumIdParam = req.getParameter("forumId");
-        
+        if(userIdObj == null) {
+            resp.setStatus(401);
+            out.print("{\"error\": \"Unauthorized: User not logged in.\"}");
+            return;
+        }
+        int userId = userIdObj;
         try {
             if (forumIdParam != null) {
                 int forumId = Integer.parseInt(forumIdParam);
+                Forum forum = forumService.getForumById(forumId);
+                Chapter chapter = chapterService.getChapterById(forum.getChapterId());
+                Module module = moduleService.getModuleById(chapter.getModuleId());
+                Course course = courseService.getCourseById(module.getCourseId());
+                if("STUDENT".equalsIgnoreCase(role)){
+                    boolean isEnrolled = courseService.isStudentEnrolledInCourse(userId, course.getId());
+                    if (!isEnrolled) {
+                        resp.setStatus(403);
+                        out.print("{\"error\": \"Forbidden: You are not enrolled in this course.\"}");
+                        return;
+                    }
+                }
+                if("TEACHER".equalsIgnoreCase(role)){
+                    boolean isTeacher = courseService.teacherOwnsCourse(userId, course.getId());
+                    if (!isTeacher) {
+                        resp.setStatus(403);
+                        out.print("{\"error\": \"Forbidden: You are not the teacher of this course.\"}");
+                        return;
+                    }
+                }
                 List<Comment> comments = commentService.getCommentsByForum(forumId);
                 out.print(gson.toJson(comments));
             } else {
