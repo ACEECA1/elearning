@@ -29,29 +29,29 @@ backend/target/
 .DS_Store
 
 # =========================
-# Node / Frontend
+# Node / client
 # =========================
 # Node modules
-frontend/node_modules/
+client/node_modules/
 
 # Build outputs
-frontend/dist/
-frontend/build/
+client/dist/
+client/build/
 
 # Logs
-frontend/npm-debug.log*
-frontend/yarn-debug.log*
-frontend/yarn-error.log*
+client/npm-debug.log*
+client/yarn-debug.log*
+client/yarn-error.log*
 
 # Environment variables
-frontend/.env
-frontend/.env.local
-frontend/.env.development.local
-frontend/.env.test.local
-frontend/.env.production.local
+client/.env
+client/.env.local
+client/.env.development.local
+client/.env.test.local
+client/.env.production.local
 
 # Misc
-frontend/.DS_Store
+client/.DS_Store
 
 # Clear git cache so i remove this web.session.sql ? 
 # git rm --cached
@@ -66,5 +66,3 @@ backend.session.sql
 web.session.sql
 
 uploads/
-client
-frontend

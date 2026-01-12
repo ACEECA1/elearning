@@ -22,7 +22,7 @@ public class UploadServlet extends HttpServlet {
 
     /**
      * SECURE DOWNLOAD (GET)
-     * Handles file retrieval with strict access control based on folder types.
+     * Handles file retrieval
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -118,7 +118,7 @@ public class UploadServlet extends HttpServlet {
 
     /**
      * SECURE UPLOAD (POST)
-     * Handles file uploads enforcing "Upload Types", Roles, and Naming Conventions.
+     * Handles file uploads
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
@@ -203,7 +203,7 @@ public class UploadServlet extends HttpServlet {
                 
                 filePart.write(uploadFile.getAbsolutePath());
 
-                String dbPath = subFolder + "/" + uniqueFileName;
+                String dbPath ="uploads/" + subFolder + "/" + uniqueFileName;
 
                 jsonResponse.addProperty("status", "success");
                 jsonResponse.addProperty("message", "File uploaded successfully");

@@ -72,6 +72,7 @@ public class MaterialServlet extends HttpServlet {
         
         Integer userIdObj = (Integer) req.getAttribute("userId");
         String role = (String) req.getAttribute("role");
+        System.out.println("The id : "+userIdObj + " role: "+role);
 
         if (userIdObj == null) {
             resp.setStatus(401);
