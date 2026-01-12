@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { courseApi } from '../api';
 import ChapterItem from './ChapterItem';
 
-const BASE_API_URL = "http://localhost:8080/api/";
+const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 export default function ModuleItem({ module, courseId }) { // Receive courseId prop
     const [chapters, setChapters] = useState([]);

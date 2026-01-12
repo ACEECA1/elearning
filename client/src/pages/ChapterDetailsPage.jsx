@@ -4,7 +4,7 @@ import { courseApi } from '../api';
 import MaterialItem from '../Components/MaterialItem';
 import ForumSection from '../Components/ForumSection'; // ✅ Import
 
-const BASE_API_URL = "http://192.168.100.3:8080/api/";
+const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 export default function ChapterDetailsPage() {
     const { courseId, moduleId, chapterId } = useParams();

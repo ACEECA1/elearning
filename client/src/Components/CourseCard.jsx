@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-const BASE_API_URL = "http://localhost:8080/api/";
+const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 export default function CourseCard({ course }) {
     const navigate = useNavigate();
