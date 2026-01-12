@@ -1,4 +1,4 @@
-package com.app.controller.Api.files;
+package com.app.controller.api.files;
 
 import com.google.gson.JsonObject;
 import com.app.util.FileUtil;

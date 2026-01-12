@@ -1,4 +1,4 @@
-package com.app.controller.Api.course;
+package com.app.controller.api.course;
 
 import com.app.model.course.Module;
 import com.app.service.course.CourseService;

@@ -1,4 +1,4 @@
-package com.app.controller.Api.course;
+package com.app.controller.api.course;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;

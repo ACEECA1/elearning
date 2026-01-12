@@ -1,4 +1,4 @@
-package com.app.controller.Auth;
+package com.app.controller.auth;
 
 import com.app.model.users.Student;
 import com.app.model.users.Teacher;

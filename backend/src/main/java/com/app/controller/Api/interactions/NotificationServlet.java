@@ -1,4 +1,4 @@
-package com.app.controller.Api.interactions;
+package com.app.controller.api.interactions;
 
 import com.app.model.interactions.Notification;
 import com.app.service.interactions.NotificationService;
