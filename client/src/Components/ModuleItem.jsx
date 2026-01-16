@@ -23,9 +23,9 @@ export default function ModuleItem({ module, courseId }) { // Receive courseId p
                     <span className="module-number">#{module.orderIndex}</span>
                     <h3>{module.title}</h3>
                 </div>
-                {module.imagePath && (
+                {module.thumbnailPath && (
                     <img 
-                        src={`${BASE_API_URL}${module.imagePath}`} 
+                        src={`${BASE_API_URL}${module.thumbnailPath}`} 
                         alt="module thumb" 
                         className="module-thumb"
                     />

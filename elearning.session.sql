@@ -99,3 +99,6 @@ DROP TABLE IF EXISTS `user`;
 
 --@block
 SELECT * FROM notification;
+
+--@block
+UPDATE module SET thumbnail_path = "uploads/thumbnails/B3p2Cn8n_400x400.jpg" WHERE id = 1;

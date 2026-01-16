@@ -2,9 +2,8 @@ import { useNavigate } from 'react-router-dom';
 
 export default function ChapterItem({ chapter, courseId, moduleId }) {
     const navigate = useNavigate();
-
+    
     const handleClick = () => {
-        // Navigate to the dedicated chapter page
         navigate(`/course/${courseId}/module/${moduleId}/chapter/${chapter.id}`);
     };
 
