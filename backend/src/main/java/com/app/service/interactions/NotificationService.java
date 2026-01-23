@@ -53,7 +53,30 @@ public class NotificationService {
             System.err.println("Failed to send notification: " + e.getMessage());
         }
     }
-
+    public void sendStudentWelcomeNotification(int userId) {
+        String title = "Welcome to the E-Learning Platform!";
+        String message = "Hello! We're excited to have you on board. Explore courses, connect with teachers, and start learning today!";
+        String type = "WELCOME";
+        sendNotification(userId, title, message, type);
+    }
+    public void sendTeacherWelcomeNotification(int userId) {
+        String title = "Welcome to the E-Learning Platform!";
+        String message = "Hello! Thank you for joining our teaching community. We're thrilled to have you share your knowledge with our students!";
+        String type = "WELCOME";
+        sendNotification(userId, title, message, type);
+    }
+    public void sendUpdateNotification(int userId) {
+        String title = "Platform Update Notification";
+        String message = "Dear User, Your information has been updated";
+        String type = "UPDATE";
+        sendNotification(userId, title, message, type);
+    }
+    public void sendAccountDeletionNotification(int userId) {
+        String title = "Account Deletion";
+        String message = "Your account has been deleted from our platform.";
+        String type = "ACCOUNT_DELETION";
+        sendNotification(userId, title, message, type);
+    }
     public List<Notification> getUserNotifications(int userId) throws Exception {
         try (Connection conn = Database.getConnection()) {
             return notificationDAO.findByUserId(conn, userId);

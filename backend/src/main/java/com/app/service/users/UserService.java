@@ -4,6 +4,7 @@ import com.app.dao.implementation.users.AdminDAO;
 import com.app.dao.implementation.users.StudentDAO;
 import com.app.dao.implementation.users.TeacherDAO;
 import com.app.dao.implementation.users.UserDAO;
+import com.app.service.interactions.NotificationService;
 import com.app.model.users.Admin;
 import com.app.model.users.Student;
 import com.app.model.users.Teacher;
@@ -20,6 +21,7 @@ public class UserService {
     private final StudentDAO studentDAO = new StudentDAO();
     private final TeacherDAO teacherDAO = new TeacherDAO();
     private final AdminDAO adminDAO = new AdminDAO();
+    private final NotificationService notificationService = new NotificationService();
     public int userCount() throws Exception {
         try (Connection conn = Database.getConnection()) {
             return userDAO.count(conn);
@@ -69,6 +71,7 @@ public class UserService {
             student.setVerified(true);
 
             studentDAO.insert(conn, student);
+            notificationService.sendStudentWelcomeNotification(student.getId());
         }
     }
 
@@ -86,6 +89,7 @@ public class UserService {
             teacher.setVerified(true);
 
             teacherDAO.insert(conn, teacher);
+            notificationService.sendTeacherWelcomeNotification(teacher.getId());
         }
     }
     public void addAdmin(Admin admin, String rawPassword) throws Exception {
@@ -120,6 +124,7 @@ public class UserService {
             }
 
             studentDAO.update(conn, student);
+            notificationService.sendUpdateNotification(student.getId());
         }
     }
 
@@ -138,6 +143,7 @@ public class UserService {
             }
 
             teacherDAO.update(conn, teacher);
+            notificationService.sendUpdateNotification(teacher.getId());
         }
     }
 
@@ -148,6 +154,8 @@ public class UserService {
                 throw new Exception("User not found");
             }
             userDAO.delete(conn, userId);
+            notificationService.sendAccountDeletionNotification(userId);
         }
+        
     }
 }
