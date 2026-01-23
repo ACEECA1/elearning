@@ -12,7 +12,7 @@ private String domain;
     private String grade;
 */
 public class TeacherDAO implements DAO<Teacher> {
-    void insert(Connection conn, Teacher teacher) throws SQLException {
+    public void insert(Connection conn, Teacher teacher) throws SQLException {
         UserDAO userDAO = new UserDAO();
         userDAO.insert(conn, teacher);
         String sql = "INSERT INTO teacher (id, domain, grade) VALUES (?, ?, ?)";

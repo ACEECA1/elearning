@@ -167,7 +167,7 @@ public class CourseServlet extends HttpServlet {
                 boolean isTeacher = "TEACHER".equalsIgnoreCase(role);
                 boolean isAdmin = "ADMIN".equalsIgnoreCase(role);
                 if (!isTeacher && !isAdmin) {
-                    throw new Exception("Only teachers can create courses.");
+                    throw new Exception("Only teachers or admins can create courses.");
                 }
                 
                 Course newCourse = gson.fromJson(body, Course.class);

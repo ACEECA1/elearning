@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 
 public class StudentDAO implements DAO<Student> {
-    void insert(Connection conn, Student student) throws SQLException {
+    public void insert(Connection conn, Student student) throws SQLException {
         UserDAO userDAO = new UserDAO();
         userDAO.insert(conn, student);
         String sql = "INSERT INTO student (id, student_card_number, academic_year) VALUES (?, ?, ?)";

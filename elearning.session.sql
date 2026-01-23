@@ -57,6 +57,7 @@ SELECT * FROM verification_code;
 
 --@block
 SELECT * FROM user;
+SELECT * FROM admin;
 SELECT * FROM teacher;
 
 --@block

@@ -134,6 +134,24 @@ public class UserDAO implements DAO<User>{
             throw e; 
         }
     }
+    public int count(Connection conn) throws SQLException {
+        String sql = "SELECT COUNT(*) AS total FROM user";
+        try (Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) {
+                return rs.getInt("total");
+            }
+        }
+        return 0;
+    }
+    public int count() throws SQLException {
+        try (Connection conn = Database.getConnection()) {
+            return count(conn);
+        } catch (SQLException e) {
+            System.err.println("Error counting users: " + e.getMessage());
+            throw e;
+        }
+    }
 
     
     private void setStatementParameters(PreparedStatement pstmt, User user) throws SQLException {
@@ -176,10 +194,9 @@ public class UserDAO implements DAO<User>{
         }
         return false;
     }
-    public User findByEmail(String email) throws SQLException {
+    public User findByEmail(Connection conn, String email) throws SQLException {
         String sql = "SELECT * FROM user WHERE email = ?";
-        try (Connection conn = Database.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, email);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -188,6 +205,16 @@ public class UserDAO implements DAO<User>{
             }
         }
         return null;
+    }
+
+
+    public User findByEmail(String email) throws SQLException {
+        try (Connection conn = Database.getConnection()) {
+            return findByEmail(conn, email);
+        } catch (SQLException e) {
+            System.err.println("Error finding user by email: " + e.getMessage());
+            throw e;
+        }
     }
     public String getUserEmailById(Connection conn, int userId) throws SQLException {
         String sql = "SELECT email FROM user WHERE id = ?";

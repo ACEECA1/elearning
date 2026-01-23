@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class AdminDAO implements DAO<Admin> {
-    void insert(Connection conn, Admin admin)  throws SQLException {
+    public void insert(Connection conn, Admin admin)  throws SQLException {
         UserDAO userDAO = new UserDAO();
         userDAO.insert(conn, admin);
         String sql = "INSERT INTO admin (id) VALUES (?)";

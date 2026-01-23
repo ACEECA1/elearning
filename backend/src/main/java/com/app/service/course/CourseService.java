@@ -146,8 +146,8 @@ public class CourseService {
             enrollmentDAO.insert(conn, enrollment);
             int teacherId = course.getTeacherId();
             notificationService.sendNotification(conn ,teacherId, "New Enrollment",
-                    "A new student has enrolled in your course: " + course.getTitle(),
-                    "NEW_ENROLLMENT");
+                "A new student has enrolled in your course: " + course.getTitle(),
+                "NEW_ENROLLMENT");
             conn.commit();
         } catch (Exception e) {
             if (conn != null) conn.rollback();

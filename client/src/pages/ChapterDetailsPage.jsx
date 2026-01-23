@@ -15,12 +15,10 @@ export default function ChapterDetailsPage() {
     const [videoMaterial, setVideoMaterial] = useState(null);
 
     useEffect(() => {
-        // 1. Get Chapter Details
         courseApi.getChapter(chapterId)
             .then(res => setChapter(res.data))
             .catch(err => console.error(err));
 
-        // 2. Get Materials
         courseApi.getMaterials(chapterId)
             .then(res => {
                 const allMaterials = res.data;
