@@ -107,6 +107,30 @@ public class UserServlet extends HttpServlet {
                 return;
             }
         }
+        else if ("student/total".equals(pathInfo)) {
+            try{
+                int count = userService.studentCount();
+                out.print("{\"count\": " + count + "}");
+                return;
+            }
+            catch(Exception e){
+                resp.setStatus(500);
+                out.print("{\"error\": \"" + e.getMessage() + "\"}");
+                return;
+            }
+        }
+        else if ("teacher/total".equals(pathInfo)) {
+            try{
+                int count = userService.teacherCount();
+                out.print("{\"count\": " + count + "}");
+                return;
+            }
+            catch(Exception e){
+                resp.setStatus(500);
+                out.print("{\"error\": \"" + e.getMessage() + "\"}");
+                return;
+            }
+        }
         else{
             if (!isAdmin(req)) {
                 resp.setStatus(HttpServletResponse.SC_FORBIDDEN);

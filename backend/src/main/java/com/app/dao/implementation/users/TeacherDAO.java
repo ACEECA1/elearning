@@ -7,10 +7,7 @@ import com.app.util.Database;
 import java.sql.*;
 import java.util.List;
 import java.util.ArrayList;
-/*
-private String domain;
-    private String grade;
-*/
+
 public class TeacherDAO implements DAO<Teacher> {
     public void insert(Connection conn, Teacher teacher) throws SQLException {
         UserDAO userDAO = new UserDAO();
@@ -147,6 +144,16 @@ public class TeacherDAO implements DAO<Teacher> {
             System.err.println("Error finding all teachers: " + e.getMessage());
             throw e;
         }
+    }
+    public int count(Connection conn) throws SQLException {
+        String sql = "SELECT COUNT(*) AS total FROM teacher";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt("total");
+            }
+        }
+        return 0;
     }
 
     private void setStatementParameters(PreparedStatement pstmt, Teacher teacher) throws SQLException {

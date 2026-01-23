@@ -159,6 +159,16 @@ public class StudentDAO implements DAO<Student> {
             }
         }
     }
+    public int count(Connection conn) throws SQLException {
+        String sql = "SELECT COUNT(*) AS total FROM student";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt("total");
+            }
+        }
+        return 0;
+    }
 
     private void setStatementParameters(PreparedStatement pstmt, Student student) throws SQLException {
         pstmt.setInt(1, student.getId());

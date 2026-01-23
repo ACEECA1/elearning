@@ -27,6 +27,16 @@ public class UserService {
             return userDAO.count(conn);
         }
     }
+    public int studentCount() throws Exception {
+        try (Connection conn = Database.getConnection()) {
+            return studentDAO.count(conn);
+        }
+    }
+    public int teacherCount() throws Exception {
+        try (Connection conn = Database.getConnection()) {
+            return teacherDAO.count(conn);
+        }
+    }
     public User getUserById(int id) throws Exception {
         try (Connection conn = Database.getConnection()) {
             Student s = studentDAO.findById(conn, id);
