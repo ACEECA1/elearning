@@ -8,7 +8,7 @@ public class Course {
     private String title;
     private String targetAudience;
     private String description;
-    private transient String enrollmentKey;
+    private String enrollmentKey;
     private String thumbnailPath;
     private Teacher teacher;
     public Course(int id, int teacherId, String title, String targetAudience, String description,

@@ -32,6 +32,8 @@ public class AuthServlet extends HttpServlet {
             Body: { "email": email, "password": password, "verificationCode": code, ...teacherDetails }
         /login
             Body: { "email": email, "password": password }
+        /logout
+            Body: {}
     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
