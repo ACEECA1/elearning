@@ -22,7 +22,7 @@ public class AuthService {
     private final Gson gson = new Gson();
     private final VerificationCodeDAO verificationDAO = new VerificationCodeDAO();
     private final int VERIFICATION_CODE_TTL_MINUTES = 15; // 15 minutes
-
+    
     public void sendVerificationCode(String email) throws Exception {
         if (userDAO.emailExists(email)) {
             throw new Exception("Email is already registered.");
@@ -30,7 +30,7 @@ public class AuthService {
 
         String code = JWTUtil.generateCode();
         verificationDAO.save(email, code, VERIFICATION_CODE_TTL_MINUTES);
-
+        
         EmailService.sendVerificationEmail(email, code);
     }
 
