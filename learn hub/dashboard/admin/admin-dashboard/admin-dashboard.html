@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Overview - UniLearn Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="admin-dashboard.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="nav-container">
+            <a href="../../../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <span>UniLearn</span>
+            </a>
+
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search courses, teachers...">
+            </div>
+
+            <div class="nav-actions">
+                <button class="notification-btn" id="notificationBtn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">2</span>
+                </button>
+
+                <div class="user-profile">
+                    <div class="user-info-header">
+                        <div class="user-name-header">Alex Johnson</div>
+                        <div class="user-role-header">Admin</div>
+                    </div>
+                    <div class="user-avatar">
+                        <span>AJ</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-layout">
+        <aside class="admin-sidebar" id="adminSidebar">
+            <div class="admin-panel-label">ADMIN PANEL</div>
+            <nav class="admin-nav">
+                <ul class="admin-menu">
+                    <li class="admin-menu-item">
+                        <a href="admin-dashboard.html" class="admin-link active">
+                            <i class="fas fa-th-large"></i>
+                            <span>Overview</span>
+                        </a>
+                    </li>
+                    <li class="admin-menu-item">
+                        <a href="../teachers/teachers.html" class="admin-link">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                            <span>Teachers</span>
+                        </a>
+                    </li>
+                    <li class="admin-menu-item">
+                        <a href="../student/students.html" class="admin-link">
+                            <i class="fas fa-user-graduate"></i>
+                            <span>Students</span>
+                        </a>
+                    </li>
+                    <li class="admin-menu-item">
+                        <a href="../courses/admin-courses.html" class="admin-link">
+                            <i class="fas fa-book"></i>
+                            <span>Courses</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-wrapper">
+                
+                <div class="dashboard-header">
+                    <div>
+                        <h1 class="dashboard-title">Dashboard Overview</h1>
+                        <p class="dashboard-subtitle">Welcome back, Admin</p>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon students-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-label">Total Students</div>
+                            <div class="stat-value">12,345</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon courses-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-label">Active Courses</div>
+                            <div class="stat-value">234</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon teachers-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-label">Active Teachers</div>
+                            <div class="stat-value">156</div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="registrations-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Recent Registrations</h2>
+                        <a href="#" class="view-all-link">View All</a>
+                    </div>
+
+                    <div class="registrations-list">
+                        
+                        <div class="registration-item">
+                            <div class="registration-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="registration-info">
+                                <div class="registration-name">Student Name</div>
+                                <div class="registration-email">student@uni.edu</div>
+                            </div>
+                            <span class="registration-badge new-badge">New</span>
+                        </div>
+
+                        <div class="registration-item">
+                            <div class="registration-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="registration-info">
+                                <div class="registration-name">Student Name 2</div>
+                                <div class="registration-email">student2@uni.edu</div>
+                            </div>
+                            <span class="registration-badge new-badge">New</span>
+                        </div>
+
+                        <div class="registration-item">
+                            <div class="registration-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="registration-info">
+                                <div class="registration-name">Student Name 3</div>
+                                <div class="registration-email">student3@uni.edu</div>
+                            </div>
+                            <span class="registration-badge new-badge">New</span>
+                        </div>
+
+                        <div class="registration-item">
+                            <div class="registration-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="registration-info">
+                                <div class="registration-name">Student Name 4</div>
+                                <div class="registration-email">student4@uni.edu</div>
+                            </div>
+                            <span class="registration-badge new-badge">New</span>
+                        </div>
+
+                        <div class="registration-item">
+                            <div class="registration-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="registration-info">
+                                <div class="registration-name">Student Name 5</div>
+                                <div class="registration-email">student5@uni.edu</div>
+                            </div>
+                            <span class="registration-badge new-badge">New</span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <footer class="footer">
+                    <div class="footer-content">
+                        
+                        <div class="footer-brand-section">
+                            <div class="footer-brand">
+                                <div class="logo-icon">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </div>
+                                <span class="logo">UniLearn</span>
+                            </div>
+                            <p class="footer-description">
+                                Empowering the next generation of learners with cutting-edge technology and world-class education.
+                            </p>
+                        </div>
+
+
+                        <div class="footer-section">
+                                <li><a href="../../../index.html#contact">Contact</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="footer-section">
+                            <h4>Legal</h4>
+                            <ul class="footer-links">
+                                <li><a href="../../../index.html#terms">Terms</a></li>
+                                <li><a href="../../../index.html#privacy">Privacy</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                    <div class="footer-bottom">
+                        <p>© 2025 UniLearn University. All rights reserved.</p>
+                    </div>
+                </footer>
+
+            </div>
+        </main>
+
+    </div>
+
+    <button class="mobile-sidebar-toggle" id="mobileSidebarToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <script src="admin-dashboard.js"></script>
+</body>
+</html>

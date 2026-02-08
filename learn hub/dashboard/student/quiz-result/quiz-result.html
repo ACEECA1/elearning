@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Completed - UniLearn</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="quiz-result.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="nav-container">
+            <a href="../../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <span>UniLearn</span>
+            </a>
+
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search courses, teachers...">
+            </div>
+
+            <div class="nav-actions">
+                <button class="notification-btn" id="notificationBtn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">2</span>
+                </button>
+
+                <div class="user-profile">
+                    <div class="user-avatar">
+                        <span>AJ</span>
+                    </div>
+                    <div class="user-info">
+                        <div class="user-name">Alex Johnson</div>
+                        <div class="user-role">Student</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-layout">
+        
+        <aside class="sidebar" id="sidebar">
+            <nav class="sidebar-nav">
+                <ul class="sidebar-menu">
+                    <li class="sidebar-item">
+                        <a href="student-dashboard.html" class="sidebar-link">
+                            <i class="fas fa-th-large"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="student-dashboard.html" class="sidebar-link active">
+                            <i class="fas fa-book"></i>
+                            <span>My Courses</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-wrapper">
+                
+                <div class="breadcrumb-section">
+                    <button class="back-btn" id="backBtn">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Back to Course</span>
+                    </button>
+                </div>
+
+                <div class="quiz-result-container">
+                    <div class="quiz-result-card">
+                        <div class="result-header">
+                            <h2 class="result-title">Quiz Completed</h2>
+                            <p class="result-subtitle">Here is your result</p>
+                        </div>
+
+                        <div class="progress-circle-container">
+                            <svg class="progress-ring" width="280" height="280">
+                                <circle
+                                    class="progress-ring-bg"
+                                    stroke="#e5e7eb"
+                                    stroke-width="12"
+                                    fill="transparent"
+                                    r="120"
+                                    cx="140"
+                                    cy="140"
+                                />
+                                <circle
+                                    class="progress-ring-circle"
+                                    stroke="#5b4acf"
+                                    stroke-width="12"
+                                    fill="transparent"
+                                    r="120"
+                                    cx="140"
+                                    cy="140"
+                                    id="progressCircle"
+                                />
+                            </svg>
+                            
+                            <div class="progress-content">
+                                <div class="grade-percentage" id="gradePercentage">0%</div>
+                                <div class="grade-label">GRADE</div>
+                            </div>
+                        </div>
+
+                        <div class="score-details">
+                            <div class="score-label">RAW SCORE</div>
+                            <div class="score-value">
+                                <span class="score-earned" id="scoreEarned">0</span>
+                                <span class="score-total">/ 20</span>
+                            </div>
+                        </div>
+                            <button class="action-btn btn-primary" id="continueBtn">
+                                <a href="../courses/courses.htmlS"></a>
+                                <i class="fas fa-arrow-right"></i>
+                                <span>Continue Learning</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <footer class="footer">
+                    <div class="footer-content">
+                        
+                        <div class="footer-brand-section">
+                            <div class="footer-brand">
+                                <div class="logo-icon">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </div>
+                                <span class="logo">UniLearn</span>
+                            </div>
+                            <p class="footer-description">
+                                Empowering the next generation of learners with cutting-edge technology and world-class education.
+                            </p>
+                        </div>
+
+                        <div class="footer-section">
+                            <h4>Platform</h4>
+                            <ul class="footer-links">
+                                <li><a href="../../index.html#browse">Browse Courses</a></li>
+                                <li><a href="../../index.html#teachers">For Teachers</a></li>
+                                <li><a href="../../index.html#pricing">Pricing</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="footer-section">
+                            <h4>University</h4>
+                            <ul class="footer-links">
+                                <li><a href="../../index.html#about">About Us</a></li>
+                                <li><a href="../../index.html#careers">Careers</a></li>
+                                <li><a href="../../index.html#contact">Contact</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="footer-section">
+                            <h4>Legal</h4>
+                            <ul class="footer-links">
+                                <li><a href="../../index.html#terms">Terms</a></li>
+                                <li><a href="../../index.html#privacy">Privacy</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                    <div class="footer-bottom">
+                        <p>© 2025 UniLearn University. All rights reserved.</p>
+                    </div>
+                </footer>
+
+                <div class="help-box">
+                    <h4>Need Help?</h4>
+                    <p>Check our <a href="../../index.html#docs">documentation</a> or <a href="../../index.html#support">contact support</a>.</p>
+                </div>
+
+            </div>
+        </main>
+
+    </div>
+
+    <button class="mobile-sidebar-toggle" id="mobileSidebarToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
+
+    <script src="quiz-result.js"></script>
+</body>
+</html>

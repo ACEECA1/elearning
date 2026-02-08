@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard - UniLearn</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="teacher-dashboard.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="nav-container">
+            <a href="../../../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <span>UniLearn</span>
+            </a>
+
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search courses, teachers...">
+            </div>
+
+            <div class="nav-actions">
+                <button class="notification-btn" id="notificationBtn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">2</span>
+                </button>
+
+                <div class="user-profile">
+                    <div class="user-info-header">
+                        <div class="user-name-header">Prof. Sarah Smith</div>
+                        <div class="user-role-header">Teacher</div>
+                    </div>
+                    <div class="user-avatar">
+                        <span>SS</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-layout">
+        
+        <aside class="sidebar" id="sidebar">
+            <nav class="sidebar-nav">
+                <ul class="sidebar-menu">
+                    <li class="sidebar-item">
+                        <a href="teacher-dashboard.html" class="sidebar-link active">
+                            <i class="fas fa-th-large"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="teacher-dashboard.html" class="sidebar-link">
+                            <i class="fas fa-book"></i>
+                            <span>My Courses</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="../create-courses/craete-courses.html" class="sidebar-link">
+                            <i class="fas fa-plus-circle"></i>
+                            <span>Create Course</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-wrapper">
+                
+                <div class="dashboard-header">
+                    <div class="header-content">
+                        <h1 class="dashboard-title">Teacher Dashboard</h1>
+                        <p class="dashboard-subtitle">Manage your courses and track student progress.</p>
+                    </div>
+                    <button class="create-course-btn" id="createCourseBtn">
+                        <i class="fas fa-plus"></i>
+                        <a href="../create-courses/craete-courses.html"></a>
+                        <span>Create New Course</span>
+                    </button>
+                </div>
+
+                <section class="courses-section">
+                    <h2 class="section-title">My Courses</h2>
+
+                    <div class="courses-grid">
+                        
+                        <div class="course-card">
+                            <div class="course-image-container">
+                                <div class="course-image gradient-purple"></div>
+                                <button class="course-info-btn" data-course="1">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </div>
+                            <div class="course-card-body">
+                                <h3 class="course-card-title">Introduction to Computer Science</h3>
+                                <div class="course-card-meta">
+                                    <span class="course-status published">Published</span>
+                                    <span class="course-date">Jan 15, 2025</span>
+                                </div>
+                                <div class="course-card-actions">
+                                    <button class="action-icon-btn edit-btn" data-action="edit" data-course="1">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-icon-btn delete-btn" data-action="delete" data-course="1">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                    <button class="view-course-btn" data-action="view" data-course="1">View</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image-container">
+                                <div class="course-image gradient-blue"></div>
+                                <button class="course-info-btn" data-course="2">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </div>
+                            <div class="course-card-body">
+                                <h3 class="course-card-title">Advanced Web Development</h3>
+                                <div class="course-card-meta">
+                                    <span class="course-status draft">Draft</span>
+                                    <span class="course-date">Feb 1, 2025</span>
+                                </div>
+                                <div class="course-card-actions">
+                                    <button class="action-icon-btn edit-btn" data-action="edit" data-course="2">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-icon-btn delete-btn" data-action="delete" data-course="2">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                    <button class="view-course-btn" data-action="view" data-course="2">View</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image-container">
+                                <div class="course-image gradient-green"></div>
+                                <button class="course-info-btn" data-course="3">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </div>
+                            <div class="course-card-body">
+                                <h3 class="course-card-title">Data Structures & Algorithms</h3>
+                                <div class="course-card-meta">
+                                    <span class="course-status published">Published</span>
+                                    <span class="course-date">Dec 10, 2024</span>
+                                </div>
+                                <div class="course-card-actions">
+                                    <button class="action-icon-btn edit-btn" data-action="edit" data-course="3">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-icon-btn delete-btn" data-action="delete" data-course="3">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                    <button class="view-course-btn" data-action="view" data-course="3">View</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <footer class="footer">
+                    <div class="footer-content">
+                        
+                        <div class="footer-brand-section">
+                            <div class="footer-brand">
+                                <div class="logo-icon">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </div>
+                                <span class="logo">UniLearn</span>
+                            </div>
+                            <p class="footer-description">
+                                Empowering the next generation of learners with cutting-edge technology and world-class education.
+                            </p>
+                        </div>
+
+                        <div class="footer-section">
+                            <h4>Platform</h4>
+                            <ul class="footer-links">
+                                <li><a href="../../index.html#browse">Browse Courses</a></li>
+                                <li><a href="../../index.html#teachers">For Teachers</a></li>
+                                <li><a href="../../index.html#pricing">Pricing</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="footer-section">
+                            <h4>University</h4>
+                            <ul class="footer-links">
+                                <li><a href="../../index.html#about">About Us</a></li>
+                                <li><a href="../../index.html#careers">Careers</a></li>
+                                <li><a href="../../index.html#contact">Contact</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="footer-section">
+                            <h4>Legal</h4>
+                            <ul class="footer-links">
+                                <li><a href="../../index.html#terms">Terms</a></li>
+                                <li><a href="../../index.html#privacy">Privacy</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                    <div class="footer-bottom">
+                        <p>© 2025 UniLearn University. All rights reserved.</p>
+                    </div>
+                </footer>
+
+                <div class="help-box">
+                    <h4>Need Help?</h4>
+                    <p>Check our <a href="../../index.html#docs">documentation</a> or <a href="../../index.html#support">contact support</a>.</p>
+                </div>
+
+            </div>
+        </main>
+
+    </div>
+
+    <button class="mobile-sidebar-toggle" id="mobileSidebarToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Delete Course</h3>
+                <button class="modal-close" id="modalClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this course? This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn btn-cancel" id="cancelDelete">Cancel</button>
+                <button class="modal-btn btn-delete" id="confirmDelete">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="teacher-dashboard.js"></script>
+</body>
+</html>

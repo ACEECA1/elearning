@@ -20,7 +20,7 @@ import java.util.List;
 
 @WebServlet("/api/user/*")
 /*
-    ADMIN ONLY ENDPOINTS:
+
     
     GET /api/user
         ?id=1           -> Get specific user
@@ -29,6 +29,7 @@ import java.util.List;
         (no params)     -> Get all users
     GET /api/user/profile
         (Authenticated user only) Get own profile
+    ADMIN ONLY ENDPOINTS:
     POST /api/user/student
         Body: { "username": "...", "email": "...", "password": "...", "firstName": "...", "lastName": "...", "studentCardNumber": "...", "academicYear": "..." }
 
@@ -128,13 +129,6 @@ public class UserServlet extends HttpServlet {
             catch(Exception e){
                 resp.setStatus(500);
                 out.print("{\"error\": \"" + e.getMessage() + "\"}");
-                return;
-            }
-        }
-        else{
-            if (!isAdmin(req)) {
-                resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                out.print("{\"error\": \"Access Denied. Admins only.\"}");
                 return;
             }
         }

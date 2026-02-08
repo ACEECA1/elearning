@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - UniLearn</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="register.css">
+</head>
+<body>
+
+    <nav class="top-nav">
+        <div class="nav-content">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <span>UniLearn</span>
+            </a>
+
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search courses, teachers...">
+            </div>
+
+            <a href="../auth/login.html" class="login-link">Log In</a>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        
+        <aside class="sidebar-menu">
+            <div class="menu-dots">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </aside>
+
+        <div class="signup-container">
+            <div class="signup-card">
+                
+                <div class="form-header">
+                    <h1 class="form-title">Create Account</h1>
+                    <p class="form-subtitle">Join our learning community now</p>
+                </div>
+
+                <form id="signupForm" class="signup-form">
+                    
+                    <div class="form-row">
+                        <div class="form-group half-width">
+                            <label for="firstName" class="form-label">First Name</label>
+                            <input 
+                                type="text" 
+                                id="firstName" 
+                                class="form-input" 
+                                placeholder="John"
+                                required
+                            >
+                        </div>
+                        <div class="form-group half-width">
+                            <label for="lastName" class="form-label">Last Name</label>
+                            <input 
+                                type="text" 
+                                id="lastName" 
+                                class="form-input" 
+                                placeholder="Doe"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="username" class="form-label">Username</label>
+                        <div class="input-with-icon">
+                            <input 
+                                type="text" 
+                                id="username" 
+                                class="form-input" 
+                                placeholder="johndoe123"
+                                autocomplete="off"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email address</label>
+                        <div class="input-with-button">
+                            <input 
+                                type="email" 
+                                id="email" 
+                                class="form-input" 
+                                placeholder="youremail@example.edu"
+                                required
+                            >
+                            <button type="button" id="verifyEmailBtn" class="btn-verify-email">
+                                <i class="fas fa-paper-plane"></i>
+                                Verify Email
+                            </button>
+                        </div>
+                        <small class="field-hint" id="emailHint"></small>
+                    </div>
+
+                    <div class="form-group" id="verificationCodeGroup" style="display: none;">
+                        <label for="verificationCode" class="form-label">Verification Code</label>
+                        <input 
+                            type="text" 
+                            id="verificationCode" 
+                            class="form-input" 
+                            placeholder="Enter 6-digit code"
+                            maxlength="6"
+                        >
+                        <small class="field-hint success" id="codeHint"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            class="form-input" 
+                            placeholder="Create a strong password"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <input 
+                            type="password" 
+                            id="confirmPassword" 
+                            class="form-input" 
+                            placeholder="Confirm your password"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="role" class="form-label">Role</label>
+                        <select id="role" class="form-select" required>
+                            <option value="">Select your role</option>
+                            <option value="student">Student</option>
+                            <option value="teacher">Teacher</option>
+                        </select>
+                    </div>
+
+                    <div id="studentFields" class="role-specific-fields" style="display: none;">
+                        <div class="form-group">
+                            <label for="studentCardNumber" class="form-label">Student Card Number</label>
+                            <input 
+                                type="text" 
+                                id="studentCardNumber" 
+                                class="form-input" 
+                                placeholder="e.g. 202332145678"
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label for="academicYear" class="form-label">Academic Year</label>
+                            <select id="academicYear" class="form-select">
+                                <option value="">Select academic year</option>
+                                <option value="L1">L1</option>
+                                <option value="L2">L2</option>
+                                <option value="L3">L3</option>
+                                <option value="M1">M1</option>
+                                <option value="M2">M2</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="teacherFields" class="role-specific-fields" style="display: none;">
+                        <div class="form-group">
+                            <label for="domain" class="form-label">Domain/Department</label>
+                            <select id="domain" class="form-select">
+                                <option value="">Select your domain</option>
+                                <option value="Computer Science">Computer Science</option>
+                                <option value="Mathematics">Mathematics</option>
+                                <option value="Physics">Physics</option>
+                                <option value="Chemistry">Chemistry</option>
+                                <option value="Biology">Biology</option>
+                                <option value="Engineering">Engineering</option>
+                                <option value="Business">Business</option>
+                                <option value="Arts">Arts</option>
+                                <option value="Languages">Languages</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="grade" class="form-label">Grade/Rank</label>
+                            <select id="grade" class="form-select">
+                                <option value="">Select your grade</option>
+                                <option value="Assistant Professor">Assistant Professor</option>
+                                <option value="Associate Professor">Associate Professor</option>
+                                <option value="Professor">Professor</option>
+                                <option value="Lecturer">Lecturer</option>
+                                <option value="Teaching Assistant">Teaching Assistant</option>
+                                <option value="Adjunct Faculty">Adjunct Faculty</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="terms-agreement">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="agreeTerms" required>
+                            <span>I agree to the <a href="#" class="link-purple">Terms of Service</a> & <a href="#" class="link-purple">Privacy Policy</a></span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Create Account</button>
+
+                    <div class="signin-link">
+                        Already have an account? <a href="../auth/login.html" class="link-purple">Sign In</a>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            
+            <div class="footer-brand-section">
+                <div class="footer-brand">
+                    <div class="logo-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <span class="logo">UniLearn</span>
+                </div>
+                <p class="footer-description">
+                    Empowering the next generation of learners with cutting-edge technology and world-class education.
+                </p>
+            </div>
+
+            <div class="footer-section">
+                <h4>Platform</h4>
+                <ul class="footer-links">
+                    <li><a href="#browse">Browse Courses</a></li>
+                    <li><a href="#teachers">For Teachers</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>University</h4>
+                <ul class="footer-links">
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#careers">Careers</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul class="footer-links">
+                    <li><a href="#terms">Terms</a></li>
+                    <li><a href="#privacy">Privacy</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2025 UniLearn University. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script type="module" src="register.js"></script>
+</body>
+</html>

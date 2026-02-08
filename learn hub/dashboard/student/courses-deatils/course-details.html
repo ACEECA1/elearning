@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Details - UniLearn</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="course-details.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="nav-container">
+            <a href="../../../index.html" class="logo">
+                <div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>
+                <span>UniLearn</span>
+            </a>
+            <div class="nav-actions">
+                <button class="notification-btn"><i class="fas fa-bell"></i></button>
+                <div class="user-profile" id="userProfile" style="cursor: pointer;">
+                    <div class="user-avatar" id="userAvatar"><span>-</span></div>
+                    <div class="user-info">
+                        <div class="user-name" id="userName">Loading...</div>
+                        <div class="user-role" id="userRole">...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-layout">
+        
+        <aside class="sidebar" id="sidebar">
+            <nav class="sidebar-nav">
+                <ul class="sidebar-menu">
+                    <li class="sidebar-item">
+                        <a href="../student-dashboard/student-dashboard.html" class="sidebar-link">
+                            <i class="fas fa-th-large"></i><span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="../courses/courses.html" class="sidebar-link active">
+                            <i class="fas fa-book"></i><span>My Courses</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-wrapper">
+                
+                <div class="course-header">
+                    <div class="course-badge" id="courseCategory">Course</div>
+                    <div class="course-meta">
+                        <span class="last-updated" id="courseIdDisplay">ID: --</span>
+                    </div>
+                    <h1 class="course-title" id="courseTitle">Loading...</h1>
+                    <p class="course-description" id="courseDescription">Please wait while we load the course content.</p>
+                </div>
+
+                <div class="content-grid">
+                    
+                    <div class="course-content-section">
+                        <div class="section-header">
+                            <h2 class="section-title">Course Content</h2>
+                            <p class="section-meta" id="moduleCount">-- Modules</p>
+                        </div>
+
+                        <div class="modules-list" id="modulesList">
+                            <div style="text-align: center; padding: 2rem;">
+                                <i class="fas fa-spinner fa-spin"></i> Loading modules...
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="instructor-sidebar">
+                        <div class="instructor-card">
+                            <h3 class="instructor-card-title">Instructor Information</h3>
+                            <div class="instructor-profile">
+                                <img src="" alt="Instructor" class="instructor-avatar" id="instructorImage" style="display:none;">
+                                <div class="instructor-details">
+                                    <h4 class="instructor-name" id="instructorName">Loading...</h4>
+                                    <p class="instructor-title" id="instructorEmail">--</p>
+                                </div>
+                            </div>
+                            <div class="instructor-bio">
+                                <p>Contact your instructor for any questions regarding the course material.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <footer class="footer">
+                    <div class="footer-bottom">
+                        <p>© 2025 UniLearn University. All rights reserved.</p>
+                    </div>
+                </footer>
+
+            </div>
+        </main>
+
+    </div>
+
+    <script type="module" src="course-details.js"></script>
+</body>
+</html>

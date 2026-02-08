@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Courses - UniLearn</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="courses.css">
+
+</head>
+<body>
+
+    <header class="header">
+        <div class="nav-container">
+            <a href="../../../index.html" class="logo">
+                <div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>
+                <span>UniLearn</span>
+            </a>
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search courses...">
+            </div>
+            <div class="nav-actions">
+                <button class="notification-btn"><i class="fas fa-bell"></i></button>
+                <div class="user-profile" id="userProfile" style="cursor: pointer;">
+                    <div class="user-avatar" id="userAvatar"><span>U</span></div>
+                    <div class="user-info">
+                        <div class="user-name" id="userName">Loading...</div>
+                        <div class="user-role" id="userRole">Student</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-layout">
+        
+        <aside class="sidebar" id="sidebar">
+            <nav class="sidebar-nav">
+                <ul class="sidebar-menu">
+                    <li class="sidebar-item">
+                        <a href="../student-dashboard/student-dashboard.html" class="sidebar-link">
+                            <i class="fas fa-th-large"></i><span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link active">
+                            <i class="fas fa-book"></i><span>My Courses</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-wrapper">
+                
+                <div class="page-header">
+                    <h1 class="page-title">My Courses</h1>
+                    <p class="page-subtitle" id="welcomeMessage">Welcome back!</p>
+                </div>
+
+                <h2 class="section-title" style="margin: 2rem 0 1rem; color: var(--text-dark, #333);">Enrolled Courses</h2>
+                <div class="courses-grid" id="myCoursesGrid">
+                    </div>
+
+                <h2 class="section-title" style="margin: 3rem 0 1rem; color: var(--text-dark, #333); border-top: 1px solid #eee; padding-top: 2rem;">Available Courses</h2>
+                <div class="courses-grid" id="availableCoursesGrid">
+                    </div>
+
+                <footer class="footer">
+                    <div class="footer-bottom">
+                        <p>© 2025 UniLearn University. All rights reserved.</p>
+                    </div>
+                </footer>
+
+            </div>
+        </main>
+
+    </div>
+
+    <div id="enrollModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 class="modal-title">Enroll in Course</h3>
+            <p style="margin-bottom: 1rem; color: #666;">Enter the enrollment key provided by your teacher.</p>
+            
+            <input type="hidden" id="modalCourseId">
+            
+            <input type="text" id="modalEnrollmentKey" class="modal-input" placeholder="Enrollment Key (e.g. CS101-2025)">
+            <button id="confirmEnrollBtn" class="modal-btn">Confirm Enrollment</button>
+        </div>
+    </div>
+
+    <script type="module" src="courses.js"></script>
+</body>
+</html>

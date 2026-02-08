@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome back - UniLearn</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+    <nav class="top-nav">
+        <div class="nav-content">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <span>UniLearn</span>
+            </a>
+
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search courses, teachers...">
+            </div>
+
+            <div class="auth-buttons">
+                <a href="login.html" class="btn-log-in">Log In</a>
+                <a href="../auth/register.html" class="btn-get-started">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        
+        <div class="login-container">
+            <div class="login-card">
+                
+                <div class="form-icon">
+                    <i class="fas fa-book-open"></i>
+                </div>
+
+                <div class="form-header">
+                    <h1 class="form-title">Welcome back</h1>
+                    <p class="form-subtitle">Please sign in to your account</p>
+                </div>
+
+                <form id="loginForm" class="login-form">
+                    
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email address</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-envelope"></i>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                class="form-input" 
+                                placeholder="you@university.edu"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock"></i>
+                            <input 
+                                type="password" 
+                                id="password" 
+                                class="form-input" 
+                                placeholder="••••••••"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="rememberMe">
+                            <span>Remember me</span>
+                        </label>
+                        <a href="#" class="forgot-password">Forgot password?</a>
+                    </div>
+
+                    <button type="submit" class="btn-sign-in">Sign In</button>
+
+                    <div class="register-link">
+                        Don't have an account? <a href="../auth/register.html" class="link-purple">Register now</a>
+                    </div>
+
+                </form>
+
+                <div class="demo-credentials">
+                    <h4>Demo Credentials</h4>
+                    <p><strong>Student:</strong> student@uni.edu</p>
+                    <p><strong>Teacher:</strong> teacher@uni.edu</p>
+                    <p><strong>Admin:</strong> admin@uni.edu</p>
+                    <p class="demo-note">(Any password works)</p>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <script type="module" src="login.js"></script>
+</body>
+</html>

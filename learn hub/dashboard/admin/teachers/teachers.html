@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teachers - UniLearn Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="teachers.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="nav-container">
+            <a href="../../../index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <span>UniLearn</span>
+            </a>
+
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search courses, teachers...">
+            </div>
+
+            <div class="nav-actions">
+                <button class="notification-btn" id="notificationBtn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">2</span>
+                </button>
+
+                <div class="user-profile">
+                    <div class="user-info-header">
+                        <div class="user-name-header">Alex Johnson</div>
+                        <div class="user-role-header">Admin</div>
+                    </div>
+                    <div class="user-avatar">
+                        <span>AJ</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-layout">
+        
+        <aside class="admin-sidebar" id="adminSidebar">
+            <div class="admin-panel-label">ADMIN PANEL</div>
+            <nav class="admin-nav">
+                <ul class="admin-menu">
+                    <li class="admin-menu-item">
+                        <a href="../admin-dashboard/admin-dashboard.html" class="admin-link">
+                            <i class="fas fa-th-large"></i>
+                            <span>Overview</span>
+                        </a>
+                    </li>
+                    <li class="admin-menu-item">
+                        <a href="teachers.html" class="admin-link active">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                            <span>Teachers</span>
+                        </a>
+                    </li>
+                    <li class="admin-menu-item">
+                        <a href="../student/students.html" class="admin-link">
+                            <i class="fas fa-user-graduate"></i>
+                            <span>Students</span>
+                        </a>
+                    </li>
+                    <li class="admin-menu-item">
+                        <a href="../courses/admin-courses.html" class="admin-link">
+                            <i class="fas fa-book"></i>
+                            <span>Courses</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-wrapper">
+                
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Teachers</h1>
+                        <p class="page-subtitle">Manage your university platform</p>
+                    </div>
+                </div>
+
+                <div class="teachers-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Manage Teachers</h2>
+                        <button class="btn-add-teacher" id="addTeacherBtn">
+                            <a href="../../../auth/register.html"></a>
+                            <i class="fas fa-plus"></i>
+                            <span>Add Teacher</span>
+                        </button>
+                    </div>
+
+                    <div class="search-filter-bar">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Search teachers..." id="teacherSearch">
+                        </div>
+                        <button class="filter-btn" id="filterBtn">
+                            <i class="fas fa-filter"></i>
+                            <span>Filter</span>
+                        </button>
+                    </div>
+
+                    <div class="teachers-table-container">
+                        <table class="teachers-table">
+                            <thead>
+                                <tr>
+                                    <th>Teacher</th>
+                                    <th>Department</th>
+                                    <th>Courses</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="teacher-row">
+                                    <td>
+                                        <div class="teacher-info">
+                                            <div class="teacher-avatar">T1</div>
+                                            <div class="teacher-details">
+                                                <div class="teacher-name">Professor Name 1</div>
+                                                <div class="teacher-email">profname1@uni.edu</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Computer Science</td>
+                                    <td>3</td>
+                                    <td><span class="status-badge active">Active</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn edit-btn" title="Edit">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="action-btn delete-btn" title="Delete">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr class="teacher-row">
+                                    <td>
+                                        <div class="teacher-info">
+                                            <div class="teacher-avatar">T2</div>
+                                            <div class="teacher-details">
+                                                <div class="teacher-name">Professor Name 2</div>
+                                                <div class="teacher-email">profname2@uni.edu</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Computer Science</td>
+                                    <td>4</td>
+                                    <td><span class="status-badge active">Active</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn edit-btn" title="Edit">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="action-btn delete-btn" title="Delete">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr class="teacher-row">
+                                    <td>
+                                        <div class="teacher-info">
+                                            <div class="teacher-avatar">T3</div>
+                                            <div class="teacher-details">
+                                                <div class="teacher-name">Professor Name 3</div>
+                                                <div class="teacher-email">profname3@uni.edu</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Computer Science</td>
+                                    <td>5</td>
+                                    <td><span class="status-badge active">Active</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn edit-btn" title="Edit">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="action-btn delete-btn" title="Delete">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr class="teacher-row">
+                                    <td>
+                                        <div class="teacher-info">
+                                            <div class="teacher-avatar">T4</div>
+                                            <div class="teacher-details">
+                                                <div class="teacher-name">Professor Name 4</div>
+                                                <div class="teacher-email">profname4@uni.edu</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Computer Science</td>
+                                    <td>6</td>
+                                    <td><span class="status-badge active">Active</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn edit-btn" title="Edit">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="action-btn delete-btn" title="Delete">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr class="teacher-row">
+                                    <td>
+                                        <div class="teacher-info">
+                                            <div class="teacher-avatar">T5</div>
+                                            <div class="teacher-details">
+                                                <div class="teacher-name">Professor Name 5</div>
+                                                <div class="teacher-email">profname5@uni.edu</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Computer Science</td>
+                                    <td>7</td>
+                                    <td><span class="status-badge active">Active</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn edit-btn" title="Edit">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="action-btn delete-btn" title="Delete">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="pagination-bar">
+                        <div class="showing-info">Showing 1-5 of 156 teachers</div>
+                        <div class="pagination-controls">
+                            <button class="pagination-btn" id="prevBtn">Previous</button>
+                            <button class="pagination-btn primary" id="nextBtn">Next</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+    </div>
+
+    <button class="mobile-sidebar-toggle" id="mobileSidebarToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <script src="teachers.js"></script>
+</body>
+</html>
