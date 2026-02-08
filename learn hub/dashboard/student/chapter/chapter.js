@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // 1. Auth Check
     const userJson = localStorage.getItem('user');
     if (!userJson) {
-        window.location.href = '../auth/login.html';
+        window.location.href = '../../auth/login.html';
         return;
     }
     currentUser = JSON.parse(userJson); // Store globally
@@ -603,7 +603,7 @@ function setupLogoutListener() {
         if (confirm("Log out?")) {
             try { await api.auth.logout(); } catch(e){}
             localStorage.removeItem('user');
-            window.location.href = '../auth/login.html';
+            window.location.href = '../../auth/login.html';
         }
     });
 }

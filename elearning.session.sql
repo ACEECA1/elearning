@@ -1,1 +1,1 @@
-SELECT * FROM submission;
+DELETE FROM quiz where id = 3;

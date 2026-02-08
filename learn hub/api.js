@@ -30,6 +30,24 @@ const api = {
             throw error;
         }
     },
+    async uploadFile(file, type = 'course_content') {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/uploads?type=${type}`, {
+                method: 'POST',
+                credentials: 'include',
+                body: formData
+            });
+            const data = await response.json();
+            if (!response.ok || data.status === 'error') throw new Error(data.message || "Upload failed");
+            return data; // Returns { filePath: "..." }
+        } catch (error) {
+            console.error("Upload Error:", error);
+            throw error;
+        }
+    },
 
     auth: {
         login: (email, password) => {
@@ -66,7 +84,8 @@ const api = {
 
         // POST /api/course/enroll
         // Body: { "courseId": 123, "code": "code" }
-        enroll: (courseId, code = "") => api.request('/course/enroll', 'POST', { courseId, code })
+        enroll: (courseId, code = "") => api.request('/course/enroll', 'POST', { courseId, code }),
+        create: (courseData) => api.request('/course', 'POST', courseData)
     },
     module: {
         getByCourse: (courseId) => api.request(`/module?courseId=${courseId}`, 'GET')

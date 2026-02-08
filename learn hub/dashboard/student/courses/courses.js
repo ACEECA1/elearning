@@ -1,5 +1,5 @@
 import api from '../../../api.js';
-
+const IMAGE_BASE_URL = `http://192.168.100.3:8080/api/`;
 document.addEventListener("DOMContentLoaded", async () => {
     // 1. Auth Check
     const userJson = localStorage.getItem('user');
@@ -76,12 +76,10 @@ function renderCourses(container, courses, type) {
             // We use data attributes to pass ID to the click handler
             actionBtn = `<button class="course-btn btn-secondary enroll-trigger" data-id="${course.id}">Enroll Now</button>`;
         }
-
+        console.log("Course Thumbnail Path:", course.thumbnailPath);
         card.innerHTML = `
             <div class="course-image">
-                <div class="course-img-placeholder" style="background: ${getRandomColor()}; height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">
-                    ${(course.title || course.name || 'C').charAt(0)}
-                 </div>
+                <img src= "${IMAGE_BASE_URL + course.thumbnailPath}" alt="${course.title}" ">
                 <div class="course-badge">${type === 'my_course' ? 'Enrolled' : 'Open'}</div>
             </div>
             <div class="course-body">
@@ -178,7 +176,7 @@ function setupEventListeners() {
             if (confirm("Log out?")) {
                 try { await api.auth.logout(); } catch (e) { console.error(e); }
                 localStorage.removeItem('user');
-                window.location.href = '../auth/login.html';
+                window.location.href = '../../auth/login.html';
             }
         });
     }

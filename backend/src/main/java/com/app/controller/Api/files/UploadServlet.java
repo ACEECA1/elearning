@@ -80,6 +80,9 @@ public class UploadServlet extends HttpServlet {
             else if (cleanPath.startsWith("thumbnails/")) {
                 // Do nothing
             }
+            else if (cleanPath.startsWith("course_content/")) {
+                // Do nothing
+            }
             else {
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Folder not recognized");
                 return;

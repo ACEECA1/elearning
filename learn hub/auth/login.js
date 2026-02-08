@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     } else if (role === 'TEACHER') {
                         location.href = "../dashboard/teacher/teacher-dashboard/teacher-dashboard.html";
                     } else if (role === 'STUDENT') {
-                        location.href = "../dashboard/student/student-dashboard/student-dashboard.html";
+                        location.href = "../dashboard/student/courses/courses.html";
                     } else {
                         alert("Login successful, but user role is unknown.");
                     }
