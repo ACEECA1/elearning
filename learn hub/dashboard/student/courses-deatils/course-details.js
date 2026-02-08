@@ -1,6 +1,6 @@
 import api from '../../../api.js'; 
 
-const IMAGE_BASE_URL = `${window.location.protocol}//${window.location.hostname}:8080/api/`;
+const IMAGE_BASE_URL = `http://192.168.100.3:8080/api/`;
 
 const urlParams = new URLSearchParams(window.location.search);
 const courseId = urlParams.get('id');
@@ -154,20 +154,15 @@ async function toggleModule(moduleId, btn) {
 }
 
 async function loadChapters(moduleId, container) {
-    console.log(`Fetching chapters for module ${moduleId}...`);
     try {
         const chapters = await api.chapter.getByModule(moduleId);
-        console.log("Chapters Data:", chapters);
-
-        container.innerHTML = ''; // Clear spinner
+        container.innerHTML = ''; 
 
         if (!Array.isArray(chapters) || chapters.length === 0) {
             container.innerHTML = '<div style="padding:1rem; color:#666; font-style:italic;">No chapters found.</div>';
             return;
         }
 
-        // --- SAFE RENDERING START ---
-        // Instead of innerHTML string (which breaks with quotes), we build elements safely
         chapters.forEach((chap, idx) => {
             const row = document.createElement('div');
             row.className = 'lesson-item';
@@ -179,7 +174,7 @@ async function loadChapters(moduleId, container) {
             row.style.padding = '10px';
             row.style.borderBottom = '1px solid #eee';
 
-            // Left side: Icon + Title
+            // Left side
             const leftDiv = document.createElement('div');
             leftDiv.className = 'lesson-info';
             leftDiv.innerHTML = `<i class="fas fa-file-alt" style="margin-right:10px; color:#6b5dd8;"></i>`;
@@ -189,7 +184,7 @@ async function loadChapters(moduleId, container) {
             titleSpan.textContent = `Chapter ${idx + 1}: ${chap.title}`;
             leftDiv.appendChild(titleSpan);
 
-            // Right side: Button
+            // Right side
             const rightDiv = document.createElement('div');
             rightDiv.className = 'lesson-meta';
             
@@ -202,9 +197,9 @@ async function loadChapters(moduleId, container) {
             readBtn.style.borderRadius = '4px';
             readBtn.style.cursor = 'pointer';
 
-            // ATTACH DATA DIRECTLY (Safe from quote issues)
+            // --- REDIRECT TO CHAPTER PAGE ---
             readBtn.onclick = () => {
-                alert(`📖 ${chap.title}\n\n${chap.content || 'No content provided.'}`);
+                window.location.href = `../chapter/chapter.html?id=${chap.id}`;
             };
 
             rightDiv.appendChild(readBtn);
@@ -212,7 +207,6 @@ async function loadChapters(moduleId, container) {
             row.appendChild(rightDiv);
             container.appendChild(row);
         });
-        // --- SAFE RENDERING END ---
 
         container.setAttribute('data-loaded', 'true');
 

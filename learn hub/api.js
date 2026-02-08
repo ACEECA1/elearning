@@ -74,6 +74,61 @@ const api = {
     chapter: {
         getByModule: (moduleId) => api.request(`/chapter?moduleId=${moduleId}`, 'GET'),
         getDetails: (chapterId) => api.request(`/chapter?chapterId=${chapterId}`, 'GET')
+    },
+    material: {
+        // GET /api/material?chapterId=...
+        getByChapter: (chapterId) => api.request(`/material?chapterId=${chapterId}`, 'GET'),
+        getDetails: (materialId) => api.request(`/material?materialId=${materialId}`, 'GET')
+    },
+    forum: {
+        // Find existing forum for this chapter
+        getByChapter: (chapterId) => api.request(`/forum?chapterId=${chapterId}`, 'GET'),
+        // Create one if it doesn't exist
+        create: (chapterId, title) => api.request('/forum', 'POST', { chapterId, title })
+    },
+    comment: {
+        // Get comments for a forum
+        getByForum: (forumId) => api.request(`/comment?forumId=${forumId}`, 'GET'),
+        // Post a comment
+        add: (forumId, content, parentCommentId = 0) => {
+            const isReply = parentCommentId > 0;
+            return api.request('/comment', 'POST', { 
+                forumId, 
+                content, 
+                isReply, 
+                parentCommentId 
+            });
+        },
+        update: (commentId, content) => api.request('/comment', 'PUT', { commentId, content }),
+
+        delete: (commentId) => api.request('/comment', 'DELETE', { commentId })
+    },
+
+    // --- NEW: Quiz ---
+    quiz: {
+        getByChapter: (chapterId) => api.request(`/quiz?chapterId=${chapterId}`, 'GET'),
+        getQuestions: (quizId) => api.request(`/question?quizId=${quizId}`, 'GET'),
+        submit: (submissionData) => api.request('/submission', 'POST', submissionData)
+    },
+    answer: {
+        // GET /api/answer?questionId=...
+        getByQuestion: (questionId) => api.request(`/answer?questionId=${questionId}`, 'GET')
+    },
+    submission: {
+        // Submit File Assignment
+        submitFile: (quizId, filePath) => api.request('/submission', 'POST', {
+            quizId,
+            type: 'FILE',
+            filePath
+        }),
+        // Submit MCQ Answers
+        submitMCQ: (quizId, answersMap) => api.request('/submission', 'POST', {
+            quizId,
+            type: 'MCQ',
+            answers: answersMap
+        }),
+        // Check previous submission
+        get: (quizId, studentId) => api.request(`/submission?quizId=${quizId}&studentId=${studentId}`, 'GET')
     }
 };
 

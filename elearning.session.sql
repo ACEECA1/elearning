@@ -1,1 +1,1 @@
-SELECT * FROM chapter;
+SELECT * FROM submission;

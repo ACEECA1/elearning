@@ -3,39 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to the Chapter - UniLearn</title>
+    <title>Chapter View - UniLearn</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="chapter.css">
+    <link rel="stylesheet" href="discussion.css">
 </head>
 <body>
 
     <header class="header">
         <div class="nav-container">
             <a href="../../../index.html" class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-graduation-cap"></i>
-                </div>
+                <div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>
                 <span>UniLearn</span>
             </a>
-
-            <div class="search-bar">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search courses, teachers...">
-            </div>
-
             <div class="nav-actions">
-                <button class="notification-btn" id="notificationBtn">
-                    <i class="fas fa-bell"></i>
-                    <span class="notification-badge">2</span>
-                </button>
-
-                <div class="user-profile">
-                    <div class="user-avatar">
-                        <span>AJ</span>
-                    </div>
+                <div class="user-profile" id="userProfile" style="cursor:pointer;">
+                    <div class="user-avatar" id="userAvatar"><span>-</span></div>
                     <div class="user-info">
-                        <div class="user-name">Alex Johnson</div>
-                        <div class="user-role">Student</div>
+                        <div class="user-name" id="userName">Loading...</div>
+                        <div class="user-role" id="userRole">...</div>
                     </div>
                 </div>
             </div>
@@ -47,12 +33,8 @@
         <aside class="sidebar" id="sidebar">
             <nav class="sidebar-nav">
                 <ul class="sidebar-menu">
-                    <li class="sidebar-item">
-                        <a href="../student-dashboard/student-dashboard.html" class="sidebar-link active">
-                            <i class="fas fa-book"></i>
-                            <span>My Courses</span>
-                        </a>
-                    </li>
+                    <li class="sidebar-item"><a href="../student-dashboard/student-dashboard.html" class="sidebar-link"><i class="fas fa-th-large"></i><span>Dashboard</span></a></li>
+                    <li class="sidebar-item"><a href="../courses/courses.html" class="sidebar-link active"><i class="fas fa-book"></i><span>My Courses</span></a></li>
                 </ul>
             </nav>
         </aside>
@@ -61,108 +43,67 @@
             <div class="content-wrapper">
                 
                 <div class="chapter-header">
-                    <h1 class="chapter-title">Welcome to the Chapter</h1>
-                    <p class="chapter-subtitle">Module 1 • Chapter 1</p>
+                    <h1 class="chapter-title" id="chapterTitle">Loading...</h1>
+                    <p class="chapter-subtitle" id="chapterSubtitle">Please wait...</p>
                 </div>
 
-                <div class="video-container">
-                    <div class="video-player" id="videoPlayer">
-                        <div class="video-thumbnail">
-                            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&h=675&fit=crop&q=80" alt="Video Thumbnail">
-                            <div class="video-overlay"></div>
-                        </div>
-                        <button class="play-button" id="playButton">
-                            <i class="fas fa-play"></i>
+                <div class="video-container" id="videoContainer" style="display: none;">
+                    <div class="video-player">
+                        <div id="videoFrame"></div>
+                    </div>
+                </div>
+                <div id="chapterContent" style="display:none; background:#fff; padding:2rem; margin-top:2rem; border-radius:10px;"></div>
+
+                <div class="materials-section">
+                    <h3 class="materials-title">Course Materials</h3>
+                    <div id="materialsList"><p style="color:#888;">Loading materials...</p></div>
+                </div>
+
+                <div class="tabs-container">
+                    <div class="tabs-header">
+                        <button class="tab-btn active" data-tab="discussion">
+                            <i class="far fa-comments"></i> Discussion
+                        </button>
+                        <button class="tab-btn" data-tab="quiz">
+                            <i class="fas fa-clipboard-list"></i> Quiz
                         </button>
                     </div>
 
-                    <div class="video-controls" id="videoControls">
-                        <div class="progress-bar">
-                            <div class="progress-filled" id="progressFilled"></div>
+                    <div id="discussion" class="tab-content active">
+                        <div class="discussion-section">
+                            <div class="comment-input-wrapper">
+                                <div class="user-avatar-small" id="commentUserAvatar">Me</div>
+                                <div class="input-box">
+                                    <textarea id="commentInput" placeholder="Add to the discussion..."></textarea>
+                                    <button id="sendCommentBtn" class="send-comment-btn"><i class="fas fa-paper-plane"></i> Post</button>
+                                </div>
+                            </div>
+                            <div class="comments-list" id="commentsList">
+                                <div style="text-align:center; padding:2rem;"><i class="fas fa-spinner fa-spin"></i> Loading comments...</div>
+                            </div>
                         </div>
-                        <div class="controls-bottom">
-                            <div class="controls-left">
-                                <button class="control-btn" id="playPauseBtn">
-                                    <i class="fas fa-pause"></i>
-                                </button>
-                                <button class="control-btn" id="volumeBtn">
-                                    <i class="fas fa-volume-up"></i>
-                                </button>
-                                <span class="time-display" id="timeDisplay">0:00 / 15:30</span>
-                            </div>
-                            <div class="controls-right">
-                                <button class="control-btn" id="settingsBtn">
-                                    <i class="fas fa-cog"></i>
-                                </button>
-                                <button class="control-btn" id="fullscreenBtn">
-                                    <i class="fas fa-expand"></i>
-                                </button>
-                            </div>
+                    </div>
+
+                    <div id="quiz" class="tab-content">
+                        <div id="quizContainer">
+                            <p style="text-align:center; color:#666;">Checking for quizzes...</p>
                         </div>
                     </div>
                 </div>
+
                 <footer class="footer">
-                    <div class="footer-content">
-                        
-                        <div class="footer-brand-section">
-                            <div class="footer-brand">
-                                <div class="logo-icon">
-                                    <i class="fas fa-graduation-cap"></i>
-                                </div>
-                                <span class="logo">UniLearn</span>
-                            </div>
-                            <p class="footer-description">
-                                Empowering the next generation of learners with cutting-edge technology and world-class education.
-                            </p>
-                        </div>
-
-                        <div class="footer-section">
-                            <h4>Platform</h4>
-                            <ul class="footer-links">
-                                <li><a href="../../index.html#browse">Browse Courses</a></li>
-                                <li><a href="../../index.html#teachers">For Teachers</a></li>
-                                <li><a href="../../index.html#pricing">Pricing</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="footer-section">
-                            <h4>University</h4>
-                            <ul class="footer-links">
-                                <li><a href="../../index.html#about">About Us</a></li>
-                                <li><a href="../../index.html#careers">Careers</a></li>
-                                <li><a href="../../index.html#contact">Contact</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="footer-section">
-                            <h4>Legal</h4>
-                            <ul class="footer-links">
-                                <li><a href="../../index.html#terms">Terms</a></li>
-                                <li><a href="../../index.html#privacy">Privacy</a></li>
-                            </ul>
-                        </div>
-
-                    </div>
-
                     <div class="footer-bottom">
                         <p>© 2025 UniLearn University. All rights reserved.</p>
                     </div>
                 </footer>
-
-                <div class="help-box">
-                    <h4>Need Help?</h4>
-                    <p>Check our <a href="../../index.html#docs">documentation</a> or <a href="../../index.html#support">contact support</a>.</p>
-                </div>
 
             </div>
         </main>
 
     </div>
 
-    <button class="mobile-sidebar-toggle" id="mobileSidebarToggle">
-        <i class="fas fa-bars"></i>
-    </button>
+    <button class="mobile-sidebar-toggle" id="mobileSidebarToggle"><i class="fas fa-bars"></i></button>
 
-    <script src="chapter.js"></script>
+    <script type="module" src="chapter.js"></script>
 </body>
 </html>
