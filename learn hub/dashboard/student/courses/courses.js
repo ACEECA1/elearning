@@ -176,7 +176,7 @@ function setupEventListeners() {
             if (confirm("Log out?")) {
                 try { await api.auth.logout(); } catch (e) { console.error(e); }
                 localStorage.removeItem('user');
-                window.location.href = '../../auth/login.html';
+                window.location.href = '../../../auth/login.html';
             }
         });
     }

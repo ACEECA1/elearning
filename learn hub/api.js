@@ -81,6 +81,7 @@ const api = {
         getDetails: (courseId) => api.request(`/course/details?courseId=${courseId}`, 'GET'),
         // GET /api/course/available
         getAvailableCourses: () => api.request('/course/available', 'GET'),
+        getMyCoursesTeacher: () => api.request('/course/list', 'GET'),
 
         // POST /api/course/enroll
         // Body: { "courseId": 123, "code": "code" }

@@ -1,1 +1,1 @@
-DELETE FROM quiz where id = 3;
+SELECT * FROM module;

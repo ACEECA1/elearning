@@ -69,6 +69,21 @@
                             </div>
 
                             <div class="form-group">
+                                <label for="targetAudience" class="form-label">Target Audience</label>
+                                <input type="text" id="targetAudience" class="form-input" placeholder="e.g., Beginners, Computer Science Students, Advanced Developers">
+                            </div>
+                            <div class="form-group">
+                                <label for="enrollmentKey" class="form-label">Enrollment Key</label>
+                                <input 
+                                    type="text" 
+                                    id="enrollmentKey" 
+                                    class="form-input" 
+                                    placeholder="Set a secret key for students to join (e.g., CS101-2026)"
+                                    required
+                                >
+                                <small style="color: var(--text-gray); font-size: 0.8rem;">Students will need this exact code to enroll in your course.</small>
+                            </div>
+                            <div class="form-group">
                                 <label for="courseInfo" class="form-label">Description</label>
                                 <textarea id="courseInfo" class="form-textarea" rows="5" placeholder="Enter course description..."></textarea>
                             </div>

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Details - UniLearn</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="course-details.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="nav-container">
+            <a href="../../../index.html" class="logo">
+                <div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>
+                <span>UniLearn</span>
+            </a>
+            <div class="nav-actions">
+                <div class="user-profile" id="userProfile" style="cursor: pointer;">
+                    <div class="user-info-header">
+                        <div class="user-name-header" id="userName">Loading...</div>
+                        <div class="user-role-header" id="userRole">Teacher</div>
+                    </div>
+                    <div class="user-avatar" id="userAvatar"><span>-</span></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-layout">
+        
+        <aside class="sidebar" id="sidebar">
+            <nav class="sidebar-nav">
+                <ul class="sidebar-menu">
+                    <li class="sidebar-item">
+                        <a href="../teacher-dashboard/teacher-dashboard.html" class="sidebar-link">
+                            <i class="fas fa-th-large"></i><span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link active">
+                            <i class="fas fa-book"></i><span>Course Content</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="../create-courses/craete-courses.html" class="sidebar-link">
+                            <i class="fas fa-plus-circle"></i><span>Create Course</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-wrapper">
+                
+                <!-- Breadcrumb -->
+                <div class="breadcrumb-section">
+                    <button class="back-btn" onclick="window.location.href='../teacher-dashboard/teacher-dashboard.html'">
+                        <i class="fas fa-arrow-left"></i><span>Back to Dashboard</span>
+                    </button>
+                </div>
+
+                <!-- Course Header -->
+                <div class="course-header">
+                    <div class="course-header-content">
+                        <h1 class="course-title" id="courseTitle">Loading...</h1>
+                        <p class="course-description" id="courseDescription"></p>
+                        <div class="course-meta">
+                            <span class="meta-badge">
+                                <i class="fas fa-users"></i>
+                                <span id="enrollmentCount">0</span> Students
+                            </span>
+                            <span class="meta-badge">
+                                <i class="fas fa-key"></i>
+                                Key: <strong id="enrollmentKey">-</strong>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="course-actions">
+                        <button class="btn-edit-course" id="editCourseBtn">
+                            <i class="fas fa-edit"></i> Edit Course
+                        </button>
+                        <button class="btn-add-module" id="addModuleBtn">
+                            <i class="fas fa-plus"></i> Add Module
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Modules List -->
+                <section class="modules-section">
+                    <h2 class="section-title">Course Modules</h2>
+                    
+                    <div class="modules-list" id="modulesList">
+                        <div class="loading-state">
+                            <i class="fas fa-spinner fa-spin fa-2x"></i>
+                            <p>Loading modules...</p>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+
+    </div>
+
+    <!-- Add Module Modal -->
+    <div class="modal-overlay" id="addModuleModal" style="display: none;">
+        <div class="modal-content modal-form">
+            <div class="modal-header">
+                <h3><i class="fas fa-plus-circle"></i> Add New Module</h3>
+                <button class="modal-close" onclick="closeAddModuleModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="addModuleForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="addModuleTitle" class="form-label">Module Title *</label>
+                        <input 
+                            type="text" 
+                            id="addModuleTitle" 
+                            class="form-input" 
+                            placeholder="e.g., Introduction to Programming"
+                            required
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="addModuleDescription" class="form-label">Description</label>
+                        <textarea 
+                            id="addModuleDescription" 
+                            class="form-textarea" 
+                            rows="4"
+                            placeholder="Describe what this module covers..."
+                        ></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="addModuleThumbnail" class="form-label">
+                            <i class="fas fa-image"></i> Module Thumbnail
+                        </label>
+                        <input 
+                            type="file" 
+                            id="addModuleThumbnail" 
+                            class="form-input" 
+                            accept="image/*"
+                        >
+                        <small style="color: var(--text-gray);">Recommended: 400x250px, PNG or JPG</small>
+                        
+                        <!-- Preview Container -->
+                        <div id="addModuleImagePreview" style="display: none; margin-top: 1rem;">
+                            <img id="addModulePreviewImg" src="" alt="Preview" style="max-width: 100%; max-height: 200px; border-radius: 8px; box-shadow: var(--shadow-md);">
+                            <button type="button" class="remove-preview-btn" onclick="removeAddModulePreview()">
+                                <i class="fas fa-times"></i> Remove
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="addModuleOrder" class="form-label">Order Index</label>
+                        <input 
+                            type="number" 
+                            id="addModuleOrder" 
+                            class="form-input" 
+                            placeholder="0"
+                            min="0"
+                            value="0"
+                        >
+                        <small style="color: var(--text-gray);">Lower numbers appear first</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="modal-btn btn-cancel" onclick="closeAddModuleModal()">Cancel</button>
+                    <button type="submit" class="modal-btn btn-save">
+                        <i class="fas fa-plus"></i> Create Module
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Chapter Modal -->
+    <div class="modal-overlay" id="addChapterModal" style="display: none;">
+        <div class="modal-content modal-form">
+            <div class="modal-header">
+                <h3><i class="fas fa-plus-circle"></i> Add New Chapter</h3>
+                <button class="modal-close" onclick="closeAddChapterModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="addChapterForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-folder"></i> Module: <strong id="addChapterModuleName">-</strong>
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="addChapterTitle" class="form-label">Chapter Title *</label>
+                        <input 
+                            type="text" 
+                            id="addChapterTitle" 
+                            class="form-input" 
+                            placeholder="e.g., Getting Started with Variables"
+                            required
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="addChapterDescription" class="form-label">Description</label>
+                        <textarea 
+                            id="addChapterDescription" 
+                            class="form-textarea" 
+                            rows="3"
+                            placeholder="Brief description of this chapter..."
+                        ></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="addChapterOrder" class="form-label">Order Index</label>
+                        <input 
+                            type="number" 
+                            id="addChapterOrder" 
+                            class="form-input" 
+                            placeholder="0"
+                            min="0"
+                            value="0"
+                        >
+                        <small style="color: var(--text-gray);">Lower numbers appear first</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="modal-btn btn-cancel" onclick="closeAddChapterModal()">Cancel</button>
+                    <button type="submit" class="modal-btn btn-save">
+                        <i class="fas fa-plus"></i> Create Chapter
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Course Modal -->
+    <div class="modal-overlay" id="editCourseModal" style="display: none;">
+        <div class="modal-content modal-form">
+            <div class="modal-header">
+                <h3><i class="fas fa-edit"></i> Edit Course</h3>
+                <button class="modal-close" onclick="closeEditCourseModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="editCourseForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="editCourseTitle" class="form-label">Course Title *</label>
+                        <input 
+                            type="text" 
+                            id="editCourseTitle" 
+                            class="form-input" 
+                            placeholder="Course title"
+                            required
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editCourseDescription" class="form-label">Description</label>
+                        <textarea 
+                            id="editCourseDescription" 
+                            class="form-textarea" 
+                            rows="4"
+                            placeholder="Course description"
+                        ></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editTargetAudience" class="form-label">Target Audience</label>
+                        <input 
+                            type="text" 
+                            id="editTargetAudience" 
+                            class="form-input" 
+                            placeholder="e.g., Beginners, Advanced"
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editEnrollmentKey" class="form-label">Enrollment Key *</label>
+                        <input 
+                            type="text" 
+                            id="editEnrollmentKey" 
+                            class="form-input" 
+                            placeholder="Enrollment key"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editCourseThumbnail" class="form-label">
+                            <i class="fas fa-image"></i> Change Thumbnail (Optional)
+                        </label>
+                        <input 
+                            type="file" 
+                            id="editCourseThumbnail" 
+                            class="form-input" 
+                            accept="image/*"
+                        >
+                        <small style="color: var(--text-gray);">Leave empty to keep current thumbnail</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="modal-btn btn-cancel" onclick="closeEditCourseModal()">Cancel</button>
+                    <button type="submit" class="modal-btn btn-save">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Module Modal -->
+    <div class="modal-overlay" id="editModuleModal" style="display: none;">
+        <div class="modal-content modal-form">
+            <div class="modal-header">
+                <h3><i class="fas fa-edit"></i> Edit Module</h3>
+                <button class="modal-close" onclick="closeEditModuleModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="editModuleForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="editModuleTitle" class="form-label">Module Title *</label>
+                        <input 
+                            type="text" 
+                            id="editModuleTitle" 
+                            class="form-input" 
+                            placeholder="Module title"
+                            required
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editModuleDescription" class="form-label">Description</label>
+                        <textarea 
+                            id="editModuleDescription" 
+                            class="form-textarea" 
+                            rows="3"
+                            placeholder="Module description"
+                        ></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editModuleThumbnail" class="form-label">
+                            <i class="fas fa-image"></i> Change Thumbnail (Optional)
+                        </label>
+                        
+                        <!-- Current Thumbnail Preview -->
+                        <div id="editModuleCurrentImage" style="margin-bottom: 1rem; display: none;">
+                            <p style="font-size: 0.85rem; color: var(--text-gray); margin-bottom: 0.5rem;">Current thumbnail:</p>
+                            <img id="editModuleCurrentImg" src="" alt="Current thumbnail" style="max-width: 200px; max-height: 120px; border-radius: 8px; box-shadow: var(--shadow-sm);">
+                        </div>
+                        
+                        <input 
+                            type="file" 
+                            id="editModuleThumbnail" 
+                            class="form-input" 
+                            accept="image/*"
+                        >
+                        <small style="color: var(--text-gray);">Leave empty to keep current thumbnail</small>
+                        
+                        <!-- New Image Preview -->
+                        <div id="editModuleImagePreview" style="display: none; margin-top: 1rem;">
+                            <p style="font-size: 0.85rem; color: var(--success-green); margin-bottom: 0.5rem;">New thumbnail:</p>
+                            <img id="editModulePreviewImg" src="" alt="Preview" style="max-width: 100%; max-height: 200px; border-radius: 8px; box-shadow: var(--shadow-md);">
+                            <button type="button" class="remove-preview-btn" onclick="removeEditModulePreview()">
+                                <i class="fas fa-times"></i> Remove
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editModuleOrder" class="form-label">Order Index</label>
+                        <input 
+                            type="number" 
+                            id="editModuleOrder" 
+                            class="form-input" 
+                            placeholder="0"
+                            min="0"
+                        >
+                        <small style="color: var(--text-gray);">Lower numbers appear first</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="modal-btn btn-cancel" onclick="closeEditModuleModal()">Cancel</button>
+                    <button type="submit" class="modal-btn btn-save">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Module Modal -->
+    <div class="modal-overlay" id="deleteModuleModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-exclamation-triangle" style="color: #ef4444;"></i> Delete Module</h3>
+                <button class="modal-close" onclick="closeDeleteModuleModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 1rem; margin-bottom: 1rem;">
+                    Are you sure you want to delete <strong id="deleteModuleName">this module</strong>?
+                </p>
+                <div style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 1rem; border-radius: 8px;">
+                    <p style="color: #991b1b; font-weight: 600; margin-bottom: 0.5rem;">
+                        <i class="fas fa-exclamation-circle"></i> Warning: This action cannot be undone!
+                    </p>
+                    <p style="color: #dc2626; font-size: 0.9rem;">
+                        All chapters and materials within this module will be permanently deleted.
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn btn-cancel" onclick="closeDeleteModuleModal()">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button class="modal-btn btn-delete" id="confirmDeleteModule">
+                    <i class="fas fa-trash-alt"></i> Delete Module
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Chapter Modal -->
+    <div class="modal-overlay" id="deleteChapterModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-exclamation-triangle" style="color: #ef4444;"></i> Delete Chapter</h3>
+                <button class="modal-close" onclick="closeDeleteChapterModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 1rem; margin-bottom: 1rem;">
+                    Are you sure you want to delete <strong id="deleteChapterName">this chapter</strong>?
+                </p>
+                <div style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 1rem; border-radius: 8px;">
+                    <p style="color: #991b1b; font-weight: 600; margin-bottom: 0.5rem;">
+                        <i class="fas fa-exclamation-circle"></i> Warning: This action cannot be undone!
+                    </p>
+                    <p style="color: #dc2626; font-size: 0.9rem;">
+                        All materials (videos, PDFs, quizzes) within this chapter will be permanently deleted.
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn btn-cancel" onclick="closeDeleteChapterModal()">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button class="modal-btn btn-delete" id="confirmDeleteChapter">
+                    <i class="fas fa-trash-alt"></i> Delete Chapter
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="course-details.js"></script>
+</body>
+</html>
