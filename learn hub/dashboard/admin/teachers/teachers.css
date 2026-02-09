@@ -1,6 +1,3 @@
-/* ===========================
-   CSS RESET & GLOBAL STYLES
-=========================== */
 * {
     margin: 0;
     padding: 0;
@@ -8,34 +5,31 @@
 }
 
 :root {
-    /* Color Palette */
     --primary-purple: #5b4acf;
     --dark-purple: #4a3ba8;
     --light-purple: #6b5dd8;
     --accent-purple: #c4b5fd;
     
-    /* Text Colors */
+    --students-blue: #3b82f6;
+    --courses-purple: #8b5cf6;
+    --teachers-green: #10b981;
+    
     --text-dark: #1a1a1a;
     --text-gray: #6b7280;
     --text-light: #9ca3af;
     
-    /* Background Colors */
     --bg-light: #f9fafb;
     --bg-white: #ffffff;
     --border-color: #e5e7eb;
     
-    /* Status Colors */
-    --active-green: #10b981;
+    --danger-red: #ef4444;
     
-    /* Shadows */
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
     
-    /* Transitions */
     --transition-fast: 0.2s ease;
     
-    /* Sidebar Width */
     --admin-sidebar-width: 200px;
 }
 
@@ -46,9 +40,6 @@ body {
     background-color: var(--bg-light);
 }
 
-/* ===========================
-   HEADER
-=========================== */
 .header {
     background: var(--bg-white);
     padding: 1rem 2rem;
@@ -170,9 +161,6 @@ body {
     color: var(--primary-purple);
 }
 
-/* ===========================
-   LAYOUT
-=========================== */
 .main-layout {
     display: flex;
 }
@@ -187,6 +175,7 @@ body {
     top: 73px;
     height: calc(100vh - 73px);
     z-index: 100;
+    transition: var(--transition-fast);
 }
 
 .admin-panel-label {
@@ -209,11 +198,17 @@ body {
     padding: 0.75rem 1.5rem;
     color: var(--text-gray);
     text-decoration: none;
+    transition: var(--transition-fast);
+}
+
+.admin-link:hover {
+    background: rgba(91, 74, 207, 0.05);
+    color: var(--primary-purple);
 }
 
 .admin-link.active {
-    background: rgba(91, 74, 207, 0.1);
-    color: var(--primary-purple);
+    background: var(--primary-purple);
+    color: white;
 }
 
 .admin-link i {
@@ -231,9 +226,6 @@ body {
     margin: 0 auto;
 }
 
-/* ===========================
-   PAGE HEADER
-=========================== */
 .page-header {
     margin-bottom: 2rem;
 }
@@ -249,22 +241,20 @@ body {
     font-size: 0.95rem;
 }
 
-/* ===========================
-   TEACHERS SECTION
-=========================== */
 .teachers-section {
     background: var(--bg-white);
     border-radius: 12px;
     padding: 2rem;
     box-shadow: var(--shadow-sm);
     border: 1px solid var(--border-color);
+    margin-bottom: 2rem;
 }
 
 .section-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
 }
 
 .section-title {
@@ -283,11 +273,15 @@ body {
     border-radius: 8px;
     font-weight: 600;
     cursor: pointer;
+    transition: var(--transition-fast);
 }
 
-/* ===========================
-   SEARCH AND FILTER BAR
-=========================== */
+.btn-add-teacher:hover {
+    background: var(--dark-purple);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
 .search-filter-bar {
     display: flex;
     gap: 1rem;
@@ -301,7 +295,7 @@ body {
 
 .search-box input {
     width: 100%;
-    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    padding: 0.65rem 1rem 0.65rem 2.5rem;
     border: 1px solid var(--border-color);
     border-radius: 8px;
     outline: none;
@@ -319,21 +313,20 @@ body {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
-    background: white;
+    padding: 0.65rem 1.25rem;
+    background: var(--bg-light);
     border: 1px solid var(--border-color);
     border-radius: 8px;
     cursor: pointer;
-    color: var(--text-dark);
-    font-weight: 500;
+    transition: var(--transition-fast);
 }
 
-/* ===========================
-   TEACHERS TABLE
-=========================== */
+.filter-btn:hover {
+    background: var(--border-color);
+}
+
 .teachers-table-container {
     overflow-x: auto;
-    margin-bottom: 1.5rem;
 }
 
 .teachers-table {
@@ -341,53 +334,52 @@ body {
     border-collapse: collapse;
 }
 
-.teachers-table thead {
-    background: var(--bg-light);
-}
-
-.teachers-table th {
+.teachers-table thead th {
     text-align: left;
     padding: 1rem;
+    background: var(--bg-light);
+    color: var(--text-gray);
     font-weight: 600;
     font-size: 0.85rem;
-    color: var(--text-gray);
-}
-
-.teachers-table td {
-    padding: 1rem;
-    border-bottom: 1px solid var(--border-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .teacher-row {
+    border-bottom: 1px solid var(--border-color);
     transition: var(--transition-fast);
 }
 
 .teacher-row:hover {
-    background: var(--bg-light);
+    background: rgba(91, 74, 207, 0.02);
+}
+
+.teacher-row td {
+    padding: 1rem;
 }
 
 .teacher-info {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 1rem;
 }
 
 .teacher-avatar {
     width: 40px;
     height: 40px;
-    background: var(--accent-purple);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 600;
-    color: var(--primary-purple);
+    color: white;
     flex-shrink: 0;
 }
 
 .teacher-name {
     font-weight: 600;
-    margin-bottom: 0.15rem;
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
 }
 
 .teacher-email {
@@ -396,15 +388,21 @@ body {
 }
 
 .status-badge {
+    display: inline-block;
     padding: 0.35rem 0.75rem;
-    border-radius: 6px;
-    font-size: 0.8rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
     font-weight: 600;
 }
 
 .status-badge.active {
     background: rgba(16, 185, 129, 0.1);
-    color: var(--active-green);
+    color: var(--teachers-green);
+}
+
+.status-badge.inactive {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger-red);
 }
 
 .action-buttons {
@@ -413,69 +411,244 @@ body {
 }
 
 .action-btn {
-    width: 32px;
-    height: 32px;
-    background: white;
+    padding: 0.5rem;
+    background: none;
     border: 1px solid var(--border-color);
     border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     cursor: pointer;
+    transition: var(--transition-fast);
     color: var(--text-gray);
+}
+
+.action-btn:hover {
+    background: var(--bg-light);
 }
 
 .edit-btn:hover {
-    background: rgba(59, 130, 246, 0.1);
-    border-color: #3b82f6;
-    color: #3b82f6;
-}
-
-.delete-btn:hover {
-    background: rgba(239, 68, 68, 0.1);
-    border-color: #ef4444;
-    color: #ef4444;
-}
-
-/* ===========================
-   PAGINATION
-=========================== */
-.pagination-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 1rem;
-    border-top: 1px solid var(--border-color);
-}
-
-.showing-info {
-    font-size: 0.9rem;
-    color: var(--text-gray);
-}
-
-.pagination-controls {
-    display: flex;
-    gap: 0.5rem;
-}
-
-.pagination-btn {
-    padding: 0.65rem 1.25rem;
-    background: white;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 500;
-}
-
-.pagination-btn.primary {
-    background: var(--primary-purple);
-    color: white;
+    color: var(--primary-purple);
     border-color: var(--primary-purple);
 }
 
-/* ===========================
-   MOBILE
-=========================== */
+.delete-btn:hover {
+    color: var(--danger-red);
+    border-color: var(--danger-red);
+}
+
+.loading-state, .empty-state, .error-state {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-gray);
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: 1rem;
+}
+
+.modal-content {
+    background: var(--bg-white);
+    border-radius: 12px;
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+}
+
+.modal-large {
+    max-width: 700px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-header h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-gray);
+    padding: 0.25rem;
+    transition: var(--transition-fast);
+}
+
+.modal-close:hover {
+    color: var(--text-dark);
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    padding: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.form-input, .form-textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-family: inherit;
+    outline: none;
+    transition: var(--transition-fast);
+}
+
+.form-input:focus, .form-textarea:focus {
+    border-color: var(--primary-purple);
+    box-shadow: 0 0 0 3px rgba(91, 74, 207, 0.1);
+}
+
+.form-textarea {
+    resize: vertical;
+}
+
+.modal-btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-cancel {
+    background: var(--bg-light);
+    color: var(--text-dark);
+}
+
+.btn-cancel:hover {
+    background: var(--border-color);
+}
+
+.btn-save {
+    background: var(--primary-purple);
+    color: white;
+}
+
+.btn-save:hover {
+    background: var(--dark-purple);
+}
+
+.btn-delete {
+    background: var(--danger-red);
+    color: white;
+}
+
+.btn-delete:hover {
+    background: #dc2626;
+}
+
+.footer {
+    background: var(--bg-white);
+    border-top: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 2.5rem 2rem 1.5rem;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 2rem;
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.footer-description {
+    color: var(--text-gray);
+    font-size: 0.9rem;
+}
+
+.footer-section h4 {
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.footer-links {
+    list-style: none;
+}
+
+.footer-links li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-links a {
+    color: var(--text-gray);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: var(--transition-fast);
+}
+
+.footer-links a:hover {
+    color: var(--primary-purple);
+}
+
+.footer-bottom {
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+}
+
+.footer-bottom p {
+    color: var(--text-gray);
+    font-size: 0.85rem;
+}
+
 .mobile-sidebar-toggle {
     display: none;
 }
@@ -508,6 +681,7 @@ body {
         justify-content: center;
         box-shadow: var(--shadow-lg);
         z-index: 999;
+        cursor: pointer;
     }
 }
 
@@ -520,14 +694,21 @@ body {
         display: none;
     }
     
-    .section-header {
-        flex-direction: column;
-        gap: 1rem;
-        align-items: stretch;
+    .form-row {
+        grid-template-columns: 1fr;
     }
     
-    .btn-add-teacher {
-        width: 100%;
-        justify-content: center;
+    .footer-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .teachers-table {
+        font-size: 0.85rem;
+    }
+    
+    .teacher-avatar {
+        width: 32px;
+        height: 32px;
+        font-size: 0.85rem;
     }
 }

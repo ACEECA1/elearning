@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teachers - UniLearn Admin</title>
+    <title>Students - UniLearn Admin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="teachers.css">
+    <link rel="stylesheet" href="students.css">
 </head>
 <body>
 
@@ -20,7 +20,7 @@
 
             <div class="search-bar">
                 <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search teachers..." id="headerSearch">
+                <input type="text" placeholder="Search students..." id="headerSearch">
             </div>
 
             <div class="nav-actions">
@@ -55,13 +55,13 @@
                         </a>
                     </li>
                     <li class="admin-menu-item">
-                        <a href="teachers.html" class="admin-link active">
+                        <a href="../teachers/teachers.html" class="admin-link">
                             <i class="fas fa-chalkboard-teacher"></i>
                             <span>Teachers</span>
                         </a>
                     </li>
                     <li class="admin-menu-item">
-                        <a href="../students/students.html" class="admin-link">
+                        <a href="students.html" class="admin-link active">
                             <i class="fas fa-user-graduate"></i>
                             <span>Students</span>
                         </a>
@@ -81,31 +81,31 @@
                 
                 <div class="page-header">
                     <div>
-                        <h1 class="page-title">Teachers</h1>
-                        <p class="page-subtitle">Manage teaching staff</p>
+                        <h1 class="page-title">Students</h1>
+                        <p class="page-subtitle">Manage student accounts</p>
                     </div>
                 </div>
 
-                <div class="teachers-section">
+                <div class="students-section">
                     <div class="section-header">
-                        <h2 class="section-title">Manage Teachers</h2>
-                        <button class="btn-add-teacher" id="addTeacherBtn">
+                        <h2 class="section-title">Manage Students</h2>
+                        <button class="btn-add-student" id="addStudentBtn">
                             <i class="fas fa-plus"></i>
-                            <span>Add Teacher</span>
+                            <span>Add Student</span>
                         </button>
                     </div>
 
                     <div class="search-filter-bar">
                         <div class="search-box">
                             <i class="fas fa-search"></i>
-                            <input type="text" placeholder="Search teachers..." id="teacherSearch">
+                            <input type="text" placeholder="Search students..." id="studentSearch">
                         </div>
                     </div>
 
-                    <div class="teachers-table-container" id="teachersTableContainer">
+                    <div class="students-table-container" id="studentsTableContainer">
                         <div class="loading-state">
                             <i class="fas fa-spinner fa-spin fa-2x"></i>
-                            <p>Loading teachers...</p>
+                            <p>Loading students...</p>
                         </div>
                     </div>
                 </div>
@@ -124,14 +124,12 @@
                                 Empowering the next generation of learners with cutting-edge technology and world-class education.
                             </p>
                         </div>
-                        
                         <div class="footer-section">
                             <h4>Quick Links</h4>
                             <ul class="footer-links">
                                 <li><a href="../../../index.html#about">About Us</a></li>
                             </ul>
                         </div>
-
                         <div class="footer-section">
                             <h4>Legal</h4>
                             <ul class="footer-links">
@@ -156,107 +154,105 @@
         <i class="fas fa-bars"></i>
     </button>
 
-    <div class="modal-overlay" id="addTeacherModal" style="display: none;">
+    <div class="modal-overlay" id="addStudentModal" style="display: none;">
         <div class="modal-content modal-large">
             <div class="modal-header">
-                <h3><i class="fas fa-user-plus"></i> Add New Teacher</h3>
-                <button class="modal-close" onclick="closeAddTeacherModal()">
+                <h3><i class="fas fa-user-plus"></i> Add New Student</h3>
+                <button class="modal-close" onclick="closeAddStudentModal()">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <form id="addTeacherForm">
+            <form id="addStudentForm">
                 <div class="modal-body">
                     <div class="form-row">
                         <div class="form-group half-width">
-                            <label for="teacherFirstName" class="form-label">First Name *</label>
-                            <input type="text" id="teacherFirstName" class="form-input" required>
+                            <label for="studentFirstName" class="form-label">First Name *</label>
+                            <input type="text" id="studentFirstName" class="form-input" required>
                         </div>
                         <div class="form-group half-width">
-                            <label for="teacherLastName" class="form-label">Last Name *</label>
-                            <input type="text" id="teacherLastName" class="form-input" required>
+                            <label for="studentLastName" class="form-label">Last Name *</label>
+                            <input type="text" id="studentLastName" class="form-input" required>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="teacherUsername" class="form-label">Username *</label>
-                        <input type="text" id="teacherUsername" class="form-input" required>
+                        <label for="studentUsername" class="form-label">Username *</label>
+                        <input type="text" id="studentUsername" class="form-input" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="teacherEmail" class="form-label">Email *</label>
-                        <input type="email" id="teacherEmail" class="form-input" required>
+                        <label for="studentEmail" class="form-label">Email *</label>
+                        <input type="email" id="studentEmail" class="form-input" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="teacherPassword" class="form-label">Password *</label>
-                        <input type="password" id="teacherPassword" class="form-input" required minlength="6">
+                        <label for="studentPassword" class="form-label">Password *</label>
+                        <input type="password" id="studentPassword" class="form-input" required minlength="6">
                     </div>
 
-                    <div class="form-row">
-                        <div class="form-group half-width">
-                            <label for="teacherDomain" class="form-label">Domain/Department</label>
-                            <input type="text" id="teacherDomain" class="form-input" placeholder="e.g., Computer Science">
-                        </div>
-                        <div class="form-group half-width">
-                            <label for="teacherGrade" class="form-label">Grade/Title</label>
-                            <input type="text" id="teacherGrade" class="form-input" placeholder="e.g., Professor, Assistant Professor">
-                        </div>
+                    <div class="form-group">
+                        <label for="studentCardNumber" class="form-label">Student Card Number *</label>
+                        <input type="text" id="studentCardNumber" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="studentAcademicYear" class="form-label">Academic Year *</label>
+                        <input type="text" id="studentAcademicYear" class="form-input" placeholder="e.g., License 1, Master 2" required>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="modal-btn btn-cancel" onclick="closeAddTeacherModal()">Cancel</button>
+                    <button type="button" class="modal-btn btn-cancel" onclick="closeAddStudentModal()">Cancel</button>
                     <button type="submit" class="modal-btn btn-save">
-                        <i class="fas fa-save"></i> Add Teacher
+                        <i class="fas fa-save"></i> Add Student
                     </button>
                 </div>
             </form>
         </div>
     </div>
 
-    <div class="modal-overlay" id="editTeacherModal" style="display: none;">
+    <div class="modal-overlay" id="editStudentModal" style="display: none;">
         <div class="modal-content modal-large">
             <div class="modal-header">
-                <h3><i class="fas fa-edit"></i> Edit Teacher</h3>
-                <button class="modal-close" onclick="closeEditTeacherModal()">
+                <h3><i class="fas fa-edit"></i> Edit Student</h3>
+                <button class="modal-close" onclick="closeEditStudentModal()">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <form id="editTeacherForm">
+            <form id="editStudentForm">
                 <div class="modal-body">
                     <div class="form-row">
                         <div class="form-group half-width">
-                            <label for="editTeacherFirstName" class="form-label">First Name *</label>
-                            <input type="text" id="editTeacherFirstName" class="form-input" required>
+                            <label for="editStudentFirstName" class="form-label">First Name *</label>
+                            <input type="text" id="editStudentFirstName" class="form-input" required>
                         </div>
                         <div class="form-group half-width">
-                            <label for="editTeacherLastName" class="form-label">Last Name *</label>
-                            <input type="text" id="editTeacherLastName" class="form-input" required>
+                            <label for="editStudentLastName" class="form-label">Last Name *</label>
+                            <input type="text" id="editStudentLastName" class="form-input" required>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="editTeacherUsername" class="form-label">Username *</label>
-                        <input type="text" id="editTeacherUsername" class="form-input" required>
+                        <label for="editStudentUsername" class="form-label">Username *</label>
+                        <input type="text" id="editStudentUsername" class="form-input" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="editTeacherEmail" class="form-label">Email *</label>
-                        <input type="email" id="editTeacherEmail" class="form-input" required>
+                        <label for="editStudentEmail" class="form-label">Email *</label>
+                        <input type="email" id="editStudentEmail" class="form-input" required>
                     </div>
 
-                    <div class="form-row">
-                        <div class="form-group half-width">
-                            <label for="editTeacherDomain" class="form-label">Domain/Department</label>
-                            <input type="text" id="editTeacherDomain" class="form-input" placeholder="e.g., Computer Science">
-                        </div>
-                        <div class="form-group half-width">
-                            <label for="editTeacherGrade" class="form-label">Grade/Title</label>
-                            <input type="text" id="editTeacherGrade" class="form-input" placeholder="e.g., Professor, Assistant Professor">
-                        </div>
+                    <div class="form-group">
+                        <label for="editStudentCardNumber" class="form-label">Student Card Number *</label>
+                        <input type="text" id="editStudentCardNumber" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editStudentAcademicYear" class="form-label">Academic Year *</label>
+                        <input type="text" id="editStudentAcademicYear" class="form-input" placeholder="e.g., License 1, Master 2" required>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="modal-btn btn-cancel" onclick="closeEditTeacherModal()">Cancel</button>
+                    <button type="button" class="modal-btn btn-cancel" onclick="closeEditStudentModal()">Cancel</button>
                     <button type="submit" class="modal-btn btn-save">
                         <i class="fas fa-save"></i> Save Changes
                     </button>
@@ -265,16 +261,16 @@
         </div>
     </div>
 
-    <div class="modal-overlay" id="deleteTeacherModal" style="display: none;">
+    <div class="modal-overlay" id="deleteStudentModal" style="display: none;">
         <div class="modal-content">
             <div class="modal-header">
                 <h3><i class="fas fa-exclamation-triangle" style="color: #ef4444;"></i> Confirm Delete</h3>
-                <button class="modal-close" onclick="closeDeleteTeacherModal()">
+                <button class="modal-close" onclick="closeDeleteStudentModal()">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="modal-body">
-                <p>Are you sure you want to delete teacher "<strong id="deleteTeacherName"></strong>"?</p>
+                <p>Are you sure you want to delete student "<strong id="deleteStudentName"></strong>"?</p>
                 <div style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 1rem; border-radius: 8px; margin-top: 1rem;">
                     <p style="color: #991b1b; font-weight: 600;">
                         <i class="fas fa-exclamation-circle"></i> This action cannot be undone!
@@ -282,7 +278,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="modal-btn btn-cancel" onclick="closeDeleteTeacherModal()">Cancel</button>
+                <button class="modal-btn btn-cancel" onclick="closeDeleteStudentModal()">Cancel</button>
                 <button class="modal-btn btn-delete" id="confirmDeleteBtn">
                     <i class="fas fa-trash-alt"></i> Delete
                 </button>
@@ -290,6 +286,6 @@
         </div>
     </div>
 
-    <script type="module" src="teachers.js"></script>
+    <script type="module" src="students.js"></script>
 </body>
 </html>
