@@ -7,7 +7,6 @@ let currentUser = null;
 let questionCount = 0;
 
 document.addEventListener("DOMContentLoaded", async () => {
-    // 1. Auth Check
     const userJson = localStorage.getItem('user');
     if (!userJson) {
         window.location.href = '../../../auth/login.html';
@@ -16,25 +15,21 @@ document.addEventListener("DOMContentLoaded", async () => {
     currentUser = JSON.parse(userJson);
     updateUserProfile(currentUser);
 
-    // 2. Check Chapter ID
     if (!chapterId) {
         alert("No chapter ID specified.");
         window.history.back();
         return;
     }
 
-    // 3. Setup Listeners
     setupQuizTypeToggle();
     setupAddQuestion();
     setupFormSubmit();
     setupLogoutListener();
     
-    // 4. Back Button
     document.getElementById('backBtn').addEventListener('click', () => {
         window.history.back();
     });
     
-    // 5. Cancel Button
     document.getElementById('cancelBtn').addEventListener('click', () => {
         if (confirm("Discard changes?")) {
             window.history.back();
@@ -68,7 +63,6 @@ function setupAddQuestion() {
         addQuestionCard();
     });
     
-    // Add first question by default
     addQuestionCard();
 }
 
@@ -123,7 +117,6 @@ function addQuestionCard() {
         <div class="form-group">
             <label class="form-label">Answer Options</label>
             <div class="answers-container" id="answers-${questionCount}">
-                <!-- Answers will be added here -->
             </div>
             <button type="button" class="btn-add-answer" onclick="addAnswer(${questionCount})">
                 <i class="fas fa-plus"></i> Add Answer Option
@@ -133,7 +126,6 @@ function addQuestionCard() {
     
     container.appendChild(card);
     
-    // Add initial 4 answer options
     for (let i = 0; i < 4; i++) {
         addAnswer(questionCount);
     }
@@ -188,22 +180,19 @@ window.addAnswer = function(questionId) {
     container.appendChild(answerDiv);
 };
 
-// Helper function to format datetime for backend (dd/MM/yyyy HH:mm:ss)
 function formatDateTimeForBackend(datetimeLocalValue) {
     if (!datetimeLocalValue) return null;
     
-    // Parse the datetime-local value (format: YYYY-MM-DDTHH:mm)
     const date = new Date(datetimeLocalValue);
     
     if (isNaN(date.getTime())) return null;
     
-    // Format as dd/MM/yyyy HH:mm:ss
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
     const hours = String(date.getHours()).padStart(2, '0');
     const minutes = String(date.getMinutes()).padStart(2, '0');
-    const seconds = '00'; // Default to 00 seconds
+    const seconds = '00';
     
     return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
 }
@@ -220,20 +209,18 @@ function setupFormSubmit() {
         try {
             const quizType = document.querySelector('input[name="quizType"]:checked').value;
             
-            // Get date values
             const availableFromValue = document.getElementById('availableFrom').value;
             const availableToValue = document.getElementById('availableTo').value;
-            
-            // 1. Create Quiz
+            const totalPoints = parseInt(document.getElementById('quizTotalPoints').value) || 20;
+            console.log("totalPoints:", totalPoints);
             const quizData = {
                 chapterId: parseInt(chapterId),
                 title: document.getElementById('quizTitle').value.trim(),
                 description: document.getElementById('quizDescription').value.trim(),
+                totalPoints: totalPoints,
                 availableFrom: formatDateTimeForBackend(availableFromValue),
                 availableTo: formatDateTimeForBackend(availableToValue)
             };
-            
-            console.log('Quiz Data:', quizData); // Debug log
             
             const quizResult = await api.quiz.create(quizData);
             const quizId = quizResult.quizId || quizResult.id;
@@ -242,11 +229,10 @@ function setupFormSubmit() {
                 throw new Error("Failed to retrieve quiz ID from server");
             }
             
-            // 2. Handle MCQ or File Upload
             if (quizType === 'MCQ') {
                 await createMCQQuestions(quizId);
             } else {
-                await createFileAssignment(quizId);
+                await createFileAssignment(quizId, totalPoints);
             }
             
             alert("Quiz created successfully!");
@@ -265,21 +251,18 @@ async function createMCQQuestions(quizId) {
     const questionCards = document.querySelectorAll('.question-card');
     
     for (const card of questionCards) {
-        // 1. Get Question Data
         const questionText = card.querySelector('.question-text-input').value.trim();
         const questionScore = parseInt(card.querySelector('.question-score-input').value);
         const imageInput = card.querySelector('.question-image-input');
         
         if (!questionText) continue;
         
-        // 2. Upload Image if exists
         let materialPath = '';
         if (imageInput.files && imageInput.files.length > 0) {
             const uploadResult = await api.uploadFile(imageInput.files[0], 'question_image');
             materialPath = uploadResult.filePath;
         }
         
-        // 3. Create Question
         const questionData = {
             quizId: quizId,
             text: questionText,
@@ -294,7 +277,6 @@ async function createMCQQuestions(quizId) {
             throw new Error("Failed to retrieve question ID from server");
         }
         
-        // 4. Create Answers
         const answersContainer = card.querySelector('.answers-container');
         const answerItems = answersContainer.querySelectorAll('.answer-item');
         
@@ -315,28 +297,25 @@ async function createMCQQuestions(quizId) {
     }
 }
 
-async function createFileAssignment(quizId) {
+async function createFileAssignment(quizId, totalPoints) {
     const fileInput = document.getElementById('assignmentFile');
     
-    // If teacher uploads a PDF with instructions
     if (fileInput.files && fileInput.files.length > 0) {
         const uploadResult = await api.uploadFile(fileInput.files[0], 'assignment');
         
-        // Create a single "question" that points to the PDF
         const questionData = {
             quizId: quizId,
             text: "Please download the assignment file, complete it, and upload your solution.",
-            score: 20,
+            score: totalPoints,
             materialPath: uploadResult.filePath
         };
         
         await api.question.create(questionData);
     } else {
-        // No PDF provided - just create a generic upload question
         const questionData = {
             quizId: quizId,
             text: "Upload your completed assignment file.",
-            score: 20,
+            score: totalPoints,
             materialPath: ''
         };
         

@@ -29,7 +29,7 @@
 
     <div class="main-layout">
         
-        <aside class="sidebar" id="sidebar">
+        <aside class="sidebar">
             <nav class="sidebar-nav">
                 <ul class="sidebar-menu">
                     <li class="sidebar-item">
@@ -60,18 +60,18 @@
                 <div class="chapter-header-card">
                     <div class="chapter-info">
                         <h1 class="chapter-title" id="chapterTitle">Loading...</h1>
-                        <p class="chapter-description" id="chapterDescription"></p>
+                        <p class="chapter-description" id="chapterDescription">Loading description...</p>
                     </div>
                     <button class="btn-edit-chapter" id="editChapterInfoBtn">
                         <i class="fas fa-edit"></i> Edit Info
                     </button>
                 </div>
 
-                <!-- Content Tabs -->
+                <!-- Tabs -->
                 <div class="tabs-container">
                     <div class="tabs">
                         <button class="tab-btn active" data-tab="materials">
-                            <i class="fas fa-file-alt"></i> Materials
+                            <i class="fas fa-folder"></i> Materials
                         </button>
                         <button class="tab-btn" data-tab="quizzes">
                             <i class="fas fa-question-circle"></i> Quizzes
@@ -85,7 +85,7 @@
                 <!-- Materials Tab -->
                 <div class="tab-content active" id="materials-tab">
                     <div class="section-header">
-                        <h2>Chapter Materials</h2>
+                        <h2>Course Materials</h2>
                         <div class="add-material-buttons">
                             <button class="btn-add" id="addVideoBtn">
                                 <i class="fas fa-video"></i> Add Video
@@ -96,42 +96,33 @@
                         </div>
                     </div>
                     <div class="materials-grid" id="materialsGrid">
-                        <div class="loading-state">
-                            <i class="fas fa-spinner fa-spin fa-2x"></i>
-                            <p>Loading materials...</p>
-                        </div>
+                        <!-- Materials will be loaded here -->
                     </div>
                 </div>
 
                 <!-- Quizzes Tab -->
                 <div class="tab-content" id="quizzes-tab">
                     <div class="section-header">
-                        <h2>Chapter Quizzes</h2>
+                        <h2>Quizzes & Assignments</h2>
                         <button class="btn-add" id="addQuizBtn">
                             <i class="fas fa-plus"></i> Create Quiz
                         </button>
                     </div>
                     <div class="quizzes-list" id="quizzesList">
-                        <div class="loading-state">
-                            <i class="fas fa-spinner fa-spin fa-2x"></i>
-                            <p>Loading quizzes...</p>
-                        </div>
+                        <!-- Quizzes will be loaded here -->
                     </div>
                 </div>
 
                 <!-- Forums Tab -->
                 <div class="tab-content" id="forums-tab">
                     <div class="section-header">
-                        <h2>Chapter Forums</h2>
+                        <h2>Discussion Forums</h2>
                         <button class="btn-add" id="addForumBtn">
                             <i class="fas fa-plus"></i> Create Forum
                         </button>
                     </div>
                     <div class="forums-list" id="forumsList">
-                        <div class="loading-state">
-                            <i class="fas fa-spinner fa-spin fa-2x"></i>
-                            <p>Loading forums...</p>
-                        </div>
+                        <!-- Forums will be loaded here -->
                     </div>
                 </div>
 
@@ -153,31 +144,15 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="editChapterTitleInput" class="form-label">Chapter Title *</label>
-                        <input 
-                            type="text" 
-                            id="editChapterTitleInput" 
-                            class="form-input" 
-                            required
-                        >
+                        <input type="text" id="editChapterTitleInput" class="form-input" required>
                     </div>
-                    
                     <div class="form-group">
                         <label for="editChapterDescriptionInput" class="form-label">Description</label>
-                        <textarea 
-                            id="editChapterDescriptionInput" 
-                            class="form-textarea" 
-                            rows="3"
-                        ></textarea>
+                        <textarea id="editChapterDescriptionInput" class="form-textarea" rows="4"></textarea>
                     </div>
-                    
                     <div class="form-group">
                         <label for="editChapterOrder" class="form-label">Order Index</label>
-                        <input 
-                            type="number" 
-                            id="editChapterOrder" 
-                            class="form-input" 
-                            min="0"
-                        >
+                        <input type="number" id="editChapterOrder" class="form-input" min="0">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -194,7 +169,7 @@
     <div class="modal-overlay" id="addVideoModal" style="display: none;">
         <div class="modal-content modal-form">
             <div class="modal-header">
-                <h3><i class="fas fa-video"></i> Add Video Material</h3>
+                <h3><i class="fas fa-video"></i> Add Video</h3>
                 <button class="modal-close" onclick="closeAddVideoModal()">
                     <i class="fas fa-times"></i>
                 </button>
@@ -203,25 +178,11 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="videoTitle" class="form-label">Video Title *</label>
-                        <input 
-                            type="text" 
-                            id="videoTitle" 
-                            class="form-input" 
-                            placeholder="e.g., Introduction Lecture"
-                            required
-                        >
+                        <input type="text" id="videoTitle" class="form-input" required>
                     </div>
-                    
                     <div class="form-group">
-                        <label for="videoFile" class="form-label">Upload Video *</label>
-                        <input 
-                            type="file" 
-                            id="videoFile" 
-                            class="form-input" 
-                            accept="video/*"
-                            required
-                        >
-                        <small style="color: var(--text-gray);">Accepted formats: MP4, WebM, AVI</small>
+                        <label for="videoFile" class="form-label">Video File *</label>
+                        <input type="file" id="videoFile" class="form-input" accept="video/*" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -238,7 +199,7 @@
     <div class="modal-overlay" id="addPdfModal" style="display: none;">
         <div class="modal-content modal-form">
             <div class="modal-header">
-                <h3><i class="fas fa-file-pdf"></i> Add PDF Material</h3>
+                <h3><i class="fas fa-file-pdf"></i> Add PDF</h3>
                 <button class="modal-close" onclick="closeAddPdfModal()">
                     <i class="fas fa-times"></i>
                 </button>
@@ -247,25 +208,11 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="pdfTitle" class="form-label">PDF Title *</label>
-                        <input 
-                            type="text" 
-                            id="pdfTitle" 
-                            class="form-input" 
-                            placeholder="e.g., Lecture Notes"
-                            required
-                        >
+                        <input type="text" id="pdfTitle" class="form-input" required>
                     </div>
-                    
                     <div class="form-group">
-                        <label for="pdfFile" class="form-label">Upload PDF *</label>
-                        <input 
-                            type="file" 
-                            id="pdfFile" 
-                            class="form-input" 
-                            accept=".pdf"
-                            required
-                        >
-                        <small style="color: var(--text-gray);">Accepted format: PDF only</small>
+                        <label for="pdfFile" class="form-label">PDF File *</label>
+                        <input type="file" id="pdfFile" class="form-input" accept=".pdf" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -291,13 +238,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="forumTitle" class="form-label">Forum Title *</label>
-                        <input 
-                            type="text" 
-                            id="forumTitle" 
-                            class="form-input" 
-                            placeholder="e.g., Chapter Discussion"
-                            required
-                        >
+                        <input type="text" id="forumTitle" class="form-input" placeholder="e.g., General Discussion" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -320,7 +261,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>Are you sure you want to delete <strong id="deleteItemName">this item</strong>?</p>
+                <p>Are you sure you want to delete "<strong id="deleteItemName"></strong>"?</p>
                 <div style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 1rem; border-radius: 8px; margin-top: 1rem;">
                     <p style="color: #991b1b; font-weight: 600;">
                         <i class="fas fa-exclamation-circle"></i> This action cannot be undone!
@@ -335,6 +276,84 @@
             </div>
         </div>
     </div>
+
+    <!-- Edit Quiz Modal -->
+    <div class="modal-overlay" id="editQuizModal" style="display: none;">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3><i class="fas fa-edit"></i> Edit Quiz</h3>
+                <button class="modal-close" onclick="closeEditQuizModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="editQuizForm">
+                <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
+                    <section class="form-section">
+                        <h4 style="font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-purple);">Quiz Information</h4>
+                        
+                        <div class="form-group">
+                            <label for="editQuizTitle" class="form-label">Quiz Title *</label>
+                            <input 
+                                type="text" 
+                                id="editQuizTitle" 
+                                class="form-input" 
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="editQuizDescription" class="form-label">Description</label>
+                            <textarea 
+                                id="editQuizDescription" 
+                                class="form-textarea" 
+                                rows="3"
+                            ></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="editQuizTotalPoints" class="form-label">Total Points *</label>
+                            <input 
+                                type="number" 
+                                id="editQuizTotalPoints" 
+                                class="form-input" 
+                                placeholder="e.g., 20"
+                                min="1"
+                                required
+                            >
+                            <small style="color: var(--text-gray);">Total points for this quiz</small>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group half-width">
+                                <label for="editAvailableFrom" class="form-label">Available From</label>
+                                <input 
+                                    type="datetime-local" 
+                                    id="editAvailableFrom" 
+                                    class="form-input"
+                                >
+                            </div>
+                            <div class="form-group half-width">
+                                <label for="editAvailableTo" class="form-label">Available To</label>
+                                <input 
+                                    type="datetime-local" 
+                                    id="editAvailableTo" 
+                                    class="form-input"
+                                >
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="modal-btn btn-cancel" onclick="closeEditQuizModal()">Cancel</button>
+                    <button type="submit" class="modal-btn btn-save">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Forum Discussion Modal -->
     <div class="modal-overlay" id="forumDiscussionModal" style="display: none;">
         <div class="modal-content modal-large">
             <div class="modal-header">
@@ -373,63 +392,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Edit Comment Modal -->
-    <div class="modal-overlay" id="editCommentModal" style="display: none;">
-        <div class="modal-content modal-form">
-            <div class="modal-header">
-                <h3><i class="fas fa-edit"></i> Edit Comment</h3>
-                <button class="modal-close" onclick="closeEditCommentModal()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <form id="editCommentForm">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="editCommentContent" class="form-label">Comment Content *</label>
-                        <textarea 
-                            id="editCommentContent" 
-                            class="form-textarea" 
-                            rows="4"
-                            required
-                        ></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="modal-btn btn-cancel" onclick="closeEditCommentModal()">Cancel</button>
-                    <button type="submit" class="modal-btn btn-save">
-                        <i class="fas fa-save"></i> Save Changes
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Delete Comment Modal -->
-    <div class="modal-overlay" id="deleteCommentModal" style="display: none;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3><i class="fas fa-exclamation-triangle" style="color: #ef4444;"></i> Delete Comment</h3>
-                <button class="modal-close" onclick="closeDeleteCommentModal()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure you want to delete this comment?</p>
-                <div style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 1rem; border-radius: 8px; margin-top: 1rem;">
-                    <p style="color: #991b1b; font-weight: 600;">
-                        <i class="fas fa-exclamation-circle"></i> This action cannot be undone!
-                    </p>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="modal-btn btn-cancel" onclick="closeDeleteCommentModal()">Cancel</button>
-                <button class="modal-btn btn-delete" id="confirmDeleteCommentBtn">
-                    <i class="fas fa-trash-alt"></i> Delete
-                </button>
             </div>
         </div>
     </div>

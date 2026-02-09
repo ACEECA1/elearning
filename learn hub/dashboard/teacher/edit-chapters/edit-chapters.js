@@ -12,6 +12,8 @@ let commentToEdit = null;
 let commentToDelete = null;
 let currentUser = null;
 let userCache = {};
+let currentQuizId = null;
+let currentQuiz = null;
 
 document.addEventListener("DOMContentLoaded", async () => {
     // 1. Auth Check
@@ -79,6 +81,50 @@ async function fetchUsersForComments(comments) {
 function getRandomColor(id) {
     const colors = ['#5b4acf', '#10b981', '#f59e0b', '#ef4444', '#3b82f6'];
     return colors[id % colors.length] || colors[0];
+}
+
+// --- DATE FORMATTING HELPERS ---
+function parseBackendDate(dateString) {
+    if (!dateString) return '';
+    
+    try {
+        // Backend format: "dd/MM/yyyy HH:mm:ss"
+        const parts = dateString.split(' ');
+        if (parts.length !== 2) return '';
+        
+        const dateParts = parts[0].split('/');
+        const timeParts = parts[1].split(':');
+        
+        if (dateParts.length !== 3 || timeParts.length !== 3) return '';
+        
+        const day = dateParts[0];
+        const month = dateParts[1];
+        const year = dateParts[2];
+        const hours = timeParts[0];
+        const minutes = timeParts[1];
+        
+        // Format for datetime-local: "YYYY-MM-DDTHH:mm"
+        return `${year}-${month}-${day}T${hours}:${minutes}`;
+    } catch (e) {
+        console.error('Error parsing date:', e);
+        return '';
+    }
+}
+
+function formatDateTimeForBackend(datetimeLocalValue) {
+    if (!datetimeLocalValue) return null;
+    
+    const date = new Date(datetimeLocalValue);
+    if (isNaN(date.getTime())) return null;
+    
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = '00';
+    
+    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
 }
 
 async function loadChapterDetails() {
@@ -203,10 +249,9 @@ function createQuizCard(quiz) {
                 </div>
             </div>
             <div class="quiz-actions">
-                <button class="material-action-btn edit-btn" 
+                <button class="material-action-btn edit-btn edit-quiz-btn" 
                         data-id="${quiz.id}" 
-                        title="Edit Quiz"
-                        onclick="window.location.href='../edit-quiz/edit-quiz.html?quizId=${quiz.id}'">
+                        title="Edit Quiz">
                     <i class="fas fa-edit"></i>
                 </button>
                 <button class="material-action-btn delete-btn" 
@@ -222,6 +267,33 @@ function createQuizCard(quiz) {
     `;
     
     return card;
+}
+
+async function openEditQuizModal(quizId) {
+    try {
+        currentQuizId = quizId;
+        
+        currentQuiz = await api.quiz.getDetails(quizId);
+        
+        document.getElementById('editQuizTitle').value = currentQuiz.title || '';
+        document.getElementById('editQuizDescription').value = currentQuiz.description || '';
+        document.getElementById('editQuizTotalPoints').value = currentQuiz.totalPoints || 20;
+        document.getElementById('editAvailableFrom').value = parseBackendDate(currentQuiz.availableFrom);
+        document.getElementById('editAvailableTo').value = parseBackendDate(currentQuiz.availableTo);
+        
+        document.getElementById('editQuizModal').style.display = 'flex';
+        
+    } catch (error) {
+        console.error('Error loading quiz:', error);
+        alert('Failed to load quiz details: ' + error.message);
+    }
+}
+
+function closeEditQuizModal() {
+    document.getElementById('editQuizModal').style.display = 'none';
+    document.getElementById('editQuizForm').reset();
+    currentQuizId = null;
+    currentQuiz = null;
 }
 
 async function loadForums() {
@@ -583,13 +655,20 @@ function setupEventListeners() {
         document.getElementById('addForumModal').style.display = 'flex';
     };
     
-    // Event Delegation for View Forum Button
+    // Event Delegation
     document.addEventListener('click', async (e) => {
         const viewBtn = e.target.closest('.view-btn');
         if (viewBtn) {
             const forumId = viewBtn.dataset.id;
             const forumTitle = viewBtn.dataset.title;
             await openForumDiscussion(forumId, forumTitle);
+        }
+        
+        // Edit Quiz Button
+        const editQuizBtn = e.target.closest('.edit-quiz-btn');
+        if (editQuizBtn) {
+            const quizId = editQuizBtn.dataset.id;
+            await openEditQuizModal(parseInt(quizId));
         }
         
         // Delete Button (materials, quizzes, forums)
@@ -834,6 +913,42 @@ function setupFormListeners() {
             submitBtn.innerHTML = originalHTML;
         }
     });
+    
+    document.getElementById('editQuizForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const submitBtn = e.target.querySelector('.btn-save');
+        const originalHTML = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+        
+        try {
+            const availableFromValue = document.getElementById('editAvailableFrom').value;
+            const availableToValue = document.getElementById('editAvailableTo').value;
+            
+            const quizData = {
+                quizId: currentQuizId,
+                title: document.getElementById('editQuizTitle').value.trim(),
+                description: document.getElementById('editQuizDescription').value.trim(),
+                totalPoints: parseInt(document.getElementById('editQuizTotalPoints').value) || 20,
+                availableFrom: formatDateTimeForBackend(availableFromValue),
+                availableTo: formatDateTimeForBackend(availableToValue)
+            };
+            
+            await api.quiz.update(quizData);
+            
+            alert("Quiz updated successfully!");
+            closeEditQuizModal();
+            await loadQuizzes();
+            
+        } catch (error) {
+            console.error("Error updating quiz:", error);
+            alert("Failed to update quiz: " + error.message);
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalHTML;
+        }
+    });
 }
 
 // Modal Functions
@@ -897,6 +1012,7 @@ window.closeDeleteModal = closeDeleteModal;
 window.closeForumDiscussionModal = closeForumDiscussionModal;
 window.closeEditCommentModal = closeEditCommentModal;
 window.closeDeleteCommentModal = closeDeleteCommentModal;
+window.closeEditQuizModal = closeEditQuizModal;
 
 function updateUserProfile(user) {
     document.getElementById('userName').textContent = `${user.firstName} ${user.lastName}`;

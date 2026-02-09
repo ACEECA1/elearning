@@ -49,20 +49,17 @@
         <main class="main-content">
             <div class="content-wrapper">
                 
-                <!-- Breadcrumb -->
                 <div class="breadcrumb-section">
                     <button class="back-btn" id="backBtn">
                         <i class="fas fa-arrow-left"></i><span>Back</span>
                     </button>
                 </div>
 
-                <!-- Quiz Form -->
                 <div class="form-container">
                     <h1 class="form-title">Create New Quiz</h1>
 
                     <form id="createQuizForm">
                         
-                        <!-- Quiz Information Section -->
                         <section class="form-section">
                             <h2 class="section-title">Quiz Information</h2>
                             
@@ -87,6 +84,20 @@
                                 ></textarea>
                             </div>
 
+                            <div class="form-group">
+                                <label for="quizTotalPoints" class="form-label">Total Points *</label>
+                                <input 
+                                    type="number" 
+                                    id="quizTotalPoints" 
+                                    class="form-input" 
+                                    placeholder="e.g., 20"
+                                    min="1"
+                                    value="20"
+                                    required
+                                >
+                                <small style="color: var(--text-gray);">Total points for this quiz</small>
+                            </div>
+
                             <div class="form-row">
                                 <div class="form-group half-width">
                                     <label for="availableFrom" class="form-label">Available From</label>
@@ -107,7 +118,6 @@
                             </div>
                         </section>
 
-                        <!-- Quiz Type Selection -->
                         <section class="form-section">
                             <h2 class="section-title">Quiz Type</h2>
                             
@@ -136,7 +146,6 @@
                             </div>
                         </section>
 
-                        <!-- MCQ Section -->
                         <section class="form-section" id="mcqSection">
                             <div class="section-header-with-button">
                                 <h2 class="section-title">Questions</h2>
@@ -145,12 +154,9 @@
                                 </button>
                             </div>
 
-                            <div id="questionsContainer">
-                                <!-- Questions will be added here dynamically -->
-                            </div>
+                            <div id="questionsContainer"></div>
                         </section>
 
-                        <!-- File Upload Section -->
                         <section class="form-section" id="fileSection" style="display: none;">
                             <h2 class="section-title">Assignment File (Optional)</h2>
                             <p class="section-description">Upload a PDF with instructions or questions that students need to answer</p>
@@ -169,7 +175,6 @@
                             </div>
                         </section>
 
-                        <!-- Form Actions -->
                         <div class="form-actions">
                             <button type="button" class="btn-cancel" id="cancelBtn">Cancel</button>
                             <button type="submit" class="btn-create">
