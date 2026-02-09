@@ -179,7 +179,9 @@ public class QuizServlet extends HttpServlet {
             if ("CREATE".equals(action)) {
                 Quiz quiz = gson.fromJson(body, Quiz.class);
                 quizService.createQuiz(quiz, userId, role);
+                System.out.println("Created quiz with ID: " + quiz.getId());
                 responseJson.addProperty("message", "Quiz created successfully");
+                responseJson.addProperty("quizId", quiz.getId());
 
             } else if ("UPDATE".equals(action)) {
                 Quiz quiz = gson.fromJson(body, Quiz.class);

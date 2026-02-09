@@ -86,25 +86,37 @@ const api = {
         // POST /api/course/enroll
         // Body: { "courseId": 123, "code": "code" }
         enroll: (courseId, code = "") => api.request('/course/enroll', 'POST', { courseId, code }),
-        create: (courseData) => api.request('/course', 'POST', courseData)
+        create: (courseData) => api.request('/course', 'POST', courseData),
+        delete: (courseId) => api.request('/course', 'DELETE', { courseId })
     },
     module: {
-        getByCourse: (courseId) => api.request(`/module?courseId=${courseId}`, 'GET')
+        getByCourse: (courseId) => api.request(`/module?courseId=${courseId}`, 'GET'),
+        create: (moduleData) => api.request('/module', 'POST', moduleData),
+        update: (moduleData) => api.request('/module', 'PUT', moduleData),
+        delete: (moduleId) => api.request('/module', 'DELETE', { moduleId })
     },
     chapter: {
         getByModule: (moduleId) => api.request(`/chapter?moduleId=${moduleId}`, 'GET'),
-        getDetails: (chapterId) => api.request(`/chapter?chapterId=${chapterId}`, 'GET')
+        getDetails: (chapterId) => api.request(`/chapter?chapterId=${chapterId}`, 'GET'),
+        create: (chapterData) => api.request('/chapter', 'POST', chapterData),
+        update: (chapterData) => api.request('/chapter', 'PUT', chapterData),
+        delete: (chapterId) => api.request('/chapter', 'DELETE', { chapterId })
     },
     material: {
         // GET /api/material?chapterId=...
         getByChapter: (chapterId) => api.request(`/material?chapterId=${chapterId}`, 'GET'),
-        getDetails: (materialId) => api.request(`/material?materialId=${materialId}`, 'GET')
+        getDetails: (materialId) => api.request(`/material?materialId=${materialId}`, 'GET'),
+        create: (materialData) => api.request('/material', 'POST', materialData),
+        update: (materialData) => api.request('/material', 'PUT', materialData),
+        delete: (materialId) => api.request('/material', 'DELETE', { materialId })
     },
     forum: {
         // Find existing forum for this chapter
         getByChapter: (chapterId) => api.request(`/forum?chapterId=${chapterId}`, 'GET'),
         // Create one if it doesn't exist
-        create: (chapterId, title) => api.request('/forum', 'POST', { chapterId, title })
+        create: (forumData) => api.request('/forum', 'POST', forumData),
+        update: (forumData) => api.request('/forum', 'PUT', forumData),
+        delete: (forumId) => api.request('/forum', 'DELETE', { forumId })
     },
     comment: {
         // Get comments for a forum
@@ -120,19 +132,31 @@ const api = {
             });
         },
         update: (commentId, content) => api.request('/comment', 'PUT', { commentId, content }),
-
         delete: (commentId) => api.request('/comment', 'DELETE', { commentId })
     },
 
-    // --- NEW: Quiz ---
+    // --- Quiz System ---
     quiz: {
         getByChapter: (chapterId) => api.request(`/quiz?chapterId=${chapterId}`, 'GET'),
-        getQuestions: (quizId) => api.request(`/question?quizId=${quizId}`, 'GET'),
-        submit: (submissionData) => api.request('/submission', 'POST', submissionData)
+        getDetails: (quizId) => api.request(`/quiz?quizId=${quizId}`, 'GET'),
+        create: (quizData) => api.request('/quiz', 'POST', quizData),
+        update: (quizData) => api.request('/quiz', 'PUT', quizData),
+        delete: (quizId) => api.request('/quiz', 'DELETE', { quizId }),
+        getQuestions: (quizId) => api.request(`/question?quizId=${quizId}`, 'GET')
+    },
+    question: {
+        getByQuiz: (quizId) => api.request(`/question?quizId=${quizId}`, 'GET'),
+        getDetails: (questionId) => api.request(`/question?questionId=${questionId}`, 'GET'),
+        create: (questionData) => api.request('/question', 'POST', questionData),
+        update: (questionData) => api.request('/question', 'PUT', questionData),
+        delete: (questionId) => api.request('/question', 'DELETE', { questionId })
     },
     answer: {
         // GET /api/answer?questionId=...
-        getByQuestion: (questionId) => api.request(`/answer?questionId=${questionId}`, 'GET')
+        getByQuestion: (questionId) => api.request(`/answer?questionId=${questionId}`, 'GET'),
+        create: (answerData) => api.request('/answer', 'POST', answerData),
+        update: (answerData) => api.request('/answer', 'PUT', answerData),
+        delete: (answerId) => api.request('/answer', 'DELETE', { answerId })
     },
     submission: {
         // Submit File Assignment
@@ -148,7 +172,14 @@ const api = {
             answers: answersMap
         }),
         // Check previous submission
-        get: (quizId, studentId) => api.request(`/submission?quizId=${quizId}&studentId=${studentId}`, 'GET')
+        get: (quizId, studentId) => api.request(`/submission?quizId=${quizId}&studentId=${studentId}`, 'GET'),
+        // Grade submission
+        grade: (studentId, quizId, grade, feedback) => api.request('/submission', 'PUT', {
+            studentId,
+            quizId,
+            grade,
+            feedback
+        })
     }
 };
 

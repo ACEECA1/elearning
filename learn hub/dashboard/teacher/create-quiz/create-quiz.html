@@ -3,84 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Editor - UniLearn</title>
+    <title>Create Quiz - UniLearn</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="create-quiz.css">
 </head>
 <body>
 
-    <div class="top-toolbar">
-        <div class="toolbar-left">
-            <button class="toolbar-icon-btn" title="Refresh">
-                <i class="fas fa-redo"></i>
-            </button>
-            <button class="toolbar-icon-btn" title="Layout">
-                <i class="fas fa-th-large"></i>
-            </button>
-            <button class="toolbar-icon-btn" title="Frame">
-                <i class="far fa-square"></i>
-            </button>
-        </div>
-        
-        <div class="toolbar-center">
-            <div class="view-toggle">
-                <button class="view-btn active">
-                    <i class="far fa-eye"></i>
-                    <span>Preview</span>
-                </button>
-                <button class="view-btn">
-                    <i class="fas fa-code"></i>
-                    <span>Code</span>
-                </button>
-            </div>
-        </div>
-        
-        <div class="toolbar-right">
-            <button class="toolbar-icon-btn" title="User">
-                <i class="far fa-user-circle"></i>
-            </button>
-            <button class="toolbar-icon-btn" title="Export">
-                <i class="fas fa-download"></i>
-            </button>
-            <button class="toolbar-icon-btn" title="Settings">
-                <i class="fas fa-cog"></i>
-            </button>
-            <button class="toolbar-icon-btn" title="Play">
-                <i class="far fa-play-circle"></i>
-            </button>
-            <button class="btn-publish">Publish</button>
-            <button class="btn-share">Share</button>
-        </div>
-    </div>
-
     <header class="header">
         <div class="nav-container">
-            <a href="../../index.html" class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-graduation-cap"></i>
-                </div>
+            <a href="../../../index.html" class="logo">
+                <div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>
                 <span>UniLearn</span>
             </a>
-
-            <div class="search-bar">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search courses, teachers...">
-            </div>
-
             <div class="nav-actions">
-                <button class="notification-btn" id="notificationBtn">
-                    <i class="fas fa-bell"></i>
-                    <span class="notification-badge">2</span>
-                </button>
-
-                <div class="user-profile">
+                <div class="user-profile" id="userProfile" style="cursor: pointer;">
                     <div class="user-info-header">
-                        <div class="user-name-header">Prof. Sarah Smith</div>
-                        <div class="user-role-header">Teacher</div>
+                        <div class="user-name-header" id="userName">Loading...</div>
+                        <div class="user-role-header" id="userRole">Teacher</div>
                     </div>
-                    <div class="user-avatar">
-                        <span>SS</span>
-                    </div>
+                    <div class="user-avatar" id="userAvatar"><span>-</span></div>
                 </div>
             </div>
         </div>
@@ -88,25 +29,17 @@
 
     <div class="main-layout">
         
-        <aside class="sidebar" id="sidebar">
+        <aside class="sidebar">
             <nav class="sidebar-nav">
                 <ul class="sidebar-menu">
                     <li class="sidebar-item">
-                        <a href="teacher-dashboard.html" class="sidebar-link">
-                            <i class="fas fa-th-large"></i>
-                            <span>Dashboard</span>
+                        <a href="../teacher-dashboard/teacher-dashboard.html" class="sidebar-link">
+                            <i class="fas fa-th-large"></i><span>Dashboard</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a href="teacher-dashboard.html" class="sidebar-link">
-                            <i class="fas fa-book"></i>
-                            <span>My Courses</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="create-course.html" class="sidebar-link active">
-                            <i class="fas fa-plus-circle"></i>
-                            <span>Create Course</span>
+                        <a href="#" class="sidebar-link active">
+                            <i class="fas fa-plus-circle"></i><span>Create Quiz</span>
                         </a>
                     </li>
                 </ul>
@@ -116,111 +49,142 @@
         <main class="main-content">
             <div class="content-wrapper">
                 
-                <button class="demo-trigger-btn" id="openModalBtn">
-                    <i class="fas fa-question-circle"></i>
-                    <span>Create Quiz</span>
-                </button>
+                <!-- Breadcrumb -->
+                <div class="breadcrumb-section">
+                    <button class="back-btn" id="backBtn">
+                        <i class="fas fa-arrow-left"></i><span>Back</span>
+                    </button>
+                </div>
+
+                <!-- Quiz Form -->
+                <div class="form-container">
+                    <h1 class="form-title">Create New Quiz</h1>
+
+                    <form id="createQuizForm">
+                        
+                        <!-- Quiz Information Section -->
+                        <section class="form-section">
+                            <h2 class="section-title">Quiz Information</h2>
+                            
+                            <div class="form-group">
+                                <label for="quizTitle" class="form-label">Quiz Title *</label>
+                                <input 
+                                    type="text" 
+                                    id="quizTitle" 
+                                    class="form-input" 
+                                    placeholder="e.g., Chapter 1 Assessment"
+                                    required
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="quizDescription" class="form-label">Description</label>
+                                <textarea 
+                                    id="quizDescription" 
+                                    class="form-textarea" 
+                                    rows="3"
+                                    placeholder="Describe what this quiz covers..."
+                                ></textarea>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group half-width">
+                                    <label for="availableFrom" class="form-label">Available From</label>
+                                    <input 
+                                        type="datetime-local" 
+                                        id="availableFrom" 
+                                        class="form-input"
+                                    >
+                                </div>
+                                <div class="form-group half-width">
+                                    <label for="availableTo" class="form-label">Available To</label>
+                                    <input 
+                                        type="datetime-local" 
+                                        id="availableTo" 
+                                        class="form-input"
+                                    >
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Quiz Type Selection -->
+                        <section class="form-section">
+                            <h2 class="section-title">Quiz Type</h2>
+                            
+                            <div class="quiz-type-selection">
+                                <div class="quiz-type-card" id="mcqTypeCard">
+                                    <input type="radio" name="quizType" id="mcqType" value="MCQ" checked>
+                                    <label for="mcqType">
+                                        <div class="type-icon">
+                                            <i class="fas fa-list-check"></i>
+                                        </div>
+                                        <h3>Multiple Choice Questions</h3>
+                                        <p>Create questions with multiple answer options</p>
+                                    </label>
+                                </div>
+
+                                <div class="quiz-type-card" id="fileTypeCard">
+                                    <input type="radio" name="quizType" id="fileType" value="FILE">
+                                    <label for="fileType">
+                                        <div class="type-icon">
+                                            <i class="fas fa-file-upload"></i>
+                                        </div>
+                                        <h3>File Upload Assignment</h3>
+                                        <p>Students upload their answers as a file</p>
+                                    </label>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- MCQ Section -->
+                        <section class="form-section" id="mcqSection">
+                            <div class="section-header-with-button">
+                                <h2 class="section-title">Questions</h2>
+                                <button type="button" class="btn-add-question" id="addQuestionBtn">
+                                    <i class="fas fa-plus"></i> Add Question
+                                </button>
+                            </div>
+
+                            <div id="questionsContainer">
+                                <!-- Questions will be added here dynamically -->
+                            </div>
+                        </section>
+
+                        <!-- File Upload Section -->
+                        <section class="form-section" id="fileSection" style="display: none;">
+                            <h2 class="section-title">Assignment File (Optional)</h2>
+                            <p class="section-description">Upload a PDF with instructions or questions that students need to answer</p>
+                            
+                            <div class="form-group">
+                                <label for="assignmentFile" class="form-label">
+                                    <i class="fas fa-file-pdf"></i> Upload Assignment PDF
+                                </label>
+                                <input 
+                                    type="file" 
+                                    id="assignmentFile" 
+                                    class="form-input" 
+                                    accept=".pdf"
+                                >
+                                <small style="color: var(--text-gray);">Students will see this PDF and upload their response</small>
+                            </div>
+                        </section>
+
+                        <!-- Form Actions -->
+                        <div class="form-actions">
+                            <button type="button" class="btn-cancel" id="cancelBtn">Cancel</button>
+                            <button type="submit" class="btn-create">
+                                <i class="fas fa-check"></i> Create Quiz
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
 
             </div>
         </main>
 
     </div>
 
-    <div class="modal-overlay" id="quizModal">
-        <div class="modal-container quiz-modal">
-            <div class="modal-header">
-                <div class="modal-title-section">
-                    <div class="modal-icon quiz-icon">
-                        <i class="fas fa-question-circle"></i>
-                    </div>
-                    <h2 class="modal-title">Quiz Editor</h2>
-                </div>
-                <button class="modal-close" id="closeModalBtn">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-
-            <form id="quizEditorForm" class="modal-form">
-                
-                <div class="form-group">
-                    <label for="quizTitle" class="form-label">Quiz Title</label>
-                    <input 
-                        type="text" 
-                        id="quizTitle" 
-                        class="form-input" 
-                        placeholder="e.g. Chapter Assessment"
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Quiz Type</label>
-                    <div class="quiz-type-options">
-                        <div class="quiz-type-card selected" data-type="mcq">
-                            <div class="quiz-type-icon">A</div>
-                            <div class="quiz-type-content">
-                                <h4 class="quiz-type-title">Interactive QCM</h4>
-                                <p class="quiz-type-description">Create multiple choice questions</p>
-                            </div>
-                        </div>
-                        <div class="quiz-type-card" data-type="pdf">
-                            <div class="quiz-type-icon pdf-type">
-                                <i class="fas fa-file-pdf"></i>
-                            </div>
-                            <div class="quiz-type-content">
-                                <h4 class="quiz-type-title">Upload PDF Quiz</h4>
-                                <p class="quiz-type-description">Upload an assignment file</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="questions-section" id="questionsSection">
-                    <div class="question-item" data-question="1">
-                        <div class="question-header">
-                            <span class="question-label">QUESTION 1</span>
-                            <button type="button" class="delete-question-btn" onclick="deleteQuestion(1)">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </div>
-                        <input 
-                            type="text" 
-                            class="question-input" 
-                            placeholder="Enter question text..."
-                        >
-                        <div class="options-list">
-                            <input 
-                                type="text" 
-                                class="option-input correct" 
-                                placeholder="Option 1 (Correct)"
-                                readonly
-                                value="Option 1 (Correct)"
-                            >
-                            <input 
-                                type="text" 
-                                class="option-input" 
-                                placeholder="Option 2"
-                            >
-                        </div>
-                    </div>
-                </div>
-
-                <button type="button" class="add-question-btn" id="addQuestionBtn">
-                    <i class="fas fa-plus"></i>
-                    <span>Add Question</span>
-                </button>
-
-                <div class="modal-actions">
-                    <button type="submit" class="btn-save-quiz">Save Quiz</button>
-                </div>
-
-            </form>
-        </div>
-    </div>
-
-    <button class="mobile-sidebar-toggle" id="mobileSidebarToggle">
-        <i class="fas fa-bars"></i>
-    </button>
-
-    <script src="create-quiz.js"></script>
+    <script type="module" src="create-quiz.js"></script>
 </body>
 </html>

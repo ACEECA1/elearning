@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Chapter Content - UniLearn</title>
+    <title>Edit Chapter - UniLearn</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="edit-chapters.css">
 </head>
@@ -11,32 +11,17 @@
 
     <header class="header">
         <div class="nav-container">
-            <a href="../../index.html" class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-graduation-cap"></i>
-                </div>
+            <a href="../../../index.html" class="logo">
+                <div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>
                 <span>UniLearn</span>
             </a>
-
-            <div class="search-bar">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search courses, teachers...">
-            </div>
-
             <div class="nav-actions">
-                <button class="notification-btn" id="notificationBtn">
-                    <i class="fas fa-bell"></i>
-                    <span class="notification-badge">2</span>
-                </button>
-
-                <div class="user-profile">
+                <div class="user-profile" id="userProfile" style="cursor: pointer;">
                     <div class="user-info-header">
-                        <div class="user-name-header">Prof. Sarah Smith</div>
-                        <div class="user-role-header">Teacher</div>
+                        <div class="user-name-header" id="userName">Loading...</div>
+                        <div class="user-role-header" id="userRole">Teacher</div>
                     </div>
-                    <div class="user-avatar">
-                        <span>SS</span>
-                    </div>
+                    <div class="user-avatar" id="userAvatar"><span>-</span></div>
                 </div>
             </div>
         </div>
@@ -48,21 +33,13 @@
             <nav class="sidebar-nav">
                 <ul class="sidebar-menu">
                     <li class="sidebar-item">
-                        <a href="teacher-dashboard.html" class="sidebar-link">
-                            <i class="fas fa-th-large"></i>
-                            <span>Dashboard</span>
+                        <a href="../teacher-dashboard/teacher-dashboard.html" class="sidebar-link">
+                            <i class="fas fa-th-large"></i><span>Dashboard</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a href="teacher-dashboard.html" class="sidebar-link">
-                            <i class="fas fa-book"></i>
-                            <span>My Courses</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="create-course.html" class="sidebar-link active">
-                            <i class="fas fa-plus-circle"></i>
-                            <span>Create Course</span>
+                        <a href="#" class="sidebar-link active">
+                            <i class="fas fa-edit"></i><span>Edit Chapter</span>
                         </a>
                     </li>
                 </ul>
@@ -72,142 +49,90 @@
         <main class="main-content">
             <div class="content-wrapper">
                 
-                <div class="page-header-section">
+                <!-- Breadcrumb -->
+                <div class="breadcrumb-section">
                     <button class="back-btn" id="backBtn">
-                        <i class="fas fa-arrow-left"></i>
-                        <span>Back</span>
+                        <i class="fas fa-arrow-left"></i><span>Back</span>
                     </button>
-                    <h1 class="page-title">Edit Chapter Content</h1>
                 </div>
 
-                <div class="content-grid">
-                    
-                    <div class="chapter-details-card">
-                        <h2 class="card-title">Chapter Details</h2>
-
-                        <form id="chapterForm" class="chapter-form">
-                            <div class="form-group">
-                                <label for="chapterTitle" class="form-label">TITLE</label>
-                                <input 
-                                    type="text" 
-                                    id="chapterTitle" 
-                                    class="form-input" 
-                                    value="Introduction to React"
-                                >
-                            </div>
-
-                            <div class="form-group">
-                                <label for="chapterDescription" class="form-label">DESCRIPTION</label>
-                                <textarea 
-                                    id="chapterDescription" 
-                                    class="form-textarea" 
-                                    rows="5"
-                                    placeholder="Enter chapter description..."
-                                ></textarea>
-                            </div>
-
-                            <button type="submit" class="btn-update">Update Info</button>
-                        </form>
+                <!-- Chapter Header -->
+                <div class="chapter-header-card">
+                    <div class="chapter-info">
+                        <h1 class="chapter-title" id="chapterTitle">Loading...</h1>
+                        <p class="chapter-description" id="chapterDescription"></p>
                     </div>
+                    <button class="btn-edit-chapter" id="editChapterInfoBtn">
+                        <i class="fas fa-edit"></i> Edit Info
+                    </button>
+                </div>
 
-                    <div class="supports-materials-card">
-                        <div class="card-header">
-                            <h2 class="card-title">Supports & Materials</h2>
-                            <button class="btn-add-support" id="addSupportBtn">
-                                <a href="../upload-support/upload-support.html"></a>
-                                <i class="fas fa-plus"></i>
-                                <span>Add Support</span>
+                <!-- Content Tabs -->
+                <div class="tabs-container">
+                    <div class="tabs">
+                        <button class="tab-btn active" data-tab="materials">
+                            <i class="fas fa-file-alt"></i> Materials
+                        </button>
+                        <button class="tab-btn" data-tab="quizzes">
+                            <i class="fas fa-question-circle"></i> Quizzes
+                        </button>
+                        <button class="tab-btn" data-tab="forums">
+                            <i class="fas fa-comments"></i> Forums
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Materials Tab -->
+                <div class="tab-content active" id="materials-tab">
+                    <div class="section-header">
+                        <h2>Chapter Materials</h2>
+                        <div class="add-material-buttons">
+                            <button class="btn-add" id="addVideoBtn">
+                                <i class="fas fa-video"></i> Add Video
+                            </button>
+                            <button class="btn-add" id="addPdfBtn">
+                                <i class="fas fa-file-pdf"></i> Add PDF
                             </button>
                         </div>
-
-                        <div class="support-items-list">
-                            
-                            <div class="support-item">
-                                <div class="support-icon video-icon">
-                                    <i class="fas fa-play"></i>
-                                </div>
-                                <div class="support-content">
-                                    <h3 class="support-title">Introduction Video</h3>
-                                    <p class="support-type">VIDEO</p>
-                                </div>
-                            </div>
-
-                            <div class="support-item">
-                                <div class="support-icon pdf-icon">
-                                    <i class="fas fa-file-pdf"></i>
-                                </div>
-                                <div class="support-content">
-                                    <h3 class="support-title">Course Syllabus</h3>
-                                    <p class="support-type">PDF</p>
-                                </div>
-                            </div>
-
-                            <div class="support-item">
-                                <div class="support-icon quiz-icon">
-                                    <i class="fas fa-question-circle"></i>
-                                </div>
-                                <div class="support-content">
-                                    <h3 class="support-title">Chapter Quiz</h3>
-                                    <p class="support-type">QUIZ</p>
-                                </div>
-                            </div>
-
+                    </div>
+                    <div class="materials-grid" id="materialsGrid">
+                        <div class="loading-state">
+                            <i class="fas fa-spinner fa-spin fa-2x"></i>
+                            <p>Loading materials...</p>
                         </div>
                     </div>
-
                 </div>
 
-                <footer class="footer">
-                    <div class="footer-content">
-                        
-                        <div class="footer-brand-section">
-                            <div class="footer-brand">
-                                <div class="logo-icon">
-                                    <i class="fas fa-graduation-cap"></i>
-                                </div>
-                                <span class="logo">UniLearn</span>
-                            </div>
-                            <p class="footer-description">
-                                Empowering the next generation of learners with cutting-edge technology and world-class education.
-                            </p>
-                        </div>
-
-                        <div class="footer-section">
-                            <h4>Platform</h4>
-                            <ul class="footer-links">
-                                <li><a href="../../index.html#browse">Browse Courses</a></li>
-                                <li><a href="../../index.html#teachers">For Teachers</a></li>
-                                <li><a href="../../index.html#pricing">Pricing</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="footer-section">
-                            <h4>University</h4>
-                            <ul class="footer-links">
-                                <li><a href="../../index.html#about">About Us</a></li>
-                                <li><a href="../../index.html#careers">Careers</a></li>
-                                <li><a href="../../index.html#contact">Contact</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="footer-section">
-                            <h4>Legal</h4>
-                            <ul class="footer-links">
-                                <li><a href="../../index.html#terms">Terms</a></li>
-                                <li><a href="../../index.html#privacy">Privacy</a></li>
-                            </ul>
-                        </div>
-
+                <!-- Quizzes Tab -->
+                <div class="tab-content" id="quizzes-tab">
+                    <div class="section-header">
+                        <h2>Chapter Quizzes</h2>
+                        <button class="btn-add" id="addQuizBtn">
+                            <i class="fas fa-plus"></i> Create Quiz
+                        </button>
                     </div>
-
-                    <div class="footer-bottom">
-                        <p>© 2025 UniLearn University. All rights reserved.</p>
+                    <div class="quizzes-list" id="quizzesList">
+                        <div class="loading-state">
+                            <i class="fas fa-spinner fa-spin fa-2x"></i>
+                            <p>Loading quizzes...</p>
+                        </div>
                     </div>
-                </footer>
+                </div>
 
-                <div class="help-box">
-                    <h4>Need Help?</h4>
-                    <p>Check our <a href="../../index.html#docs">documentation</a> or <a href="../../index.html#support">contact support</a>.</p>
+                <!-- Forums Tab -->
+                <div class="tab-content" id="forums-tab">
+                    <div class="section-header">
+                        <h2>Chapter Forums</h2>
+                        <button class="btn-add" id="addForumBtn">
+                            <i class="fas fa-plus"></i> Create Forum
+                        </button>
+                    </div>
+                    <div class="forums-list" id="forumsList">
+                        <div class="loading-state">
+                            <i class="fas fa-spinner fa-spin fa-2x"></i>
+                            <p>Loading forums...</p>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -215,10 +140,300 @@
 
     </div>
 
-    <button class="mobile-sidebar-toggle" id="mobileSidebarToggle">
-        <i class="fas fa-bars"></i>
-    </button>
+    <!-- Edit Chapter Info Modal -->
+    <div class="modal-overlay" id="editChapterModal" style="display: none;">
+        <div class="modal-content modal-form">
+            <div class="modal-header">
+                <h3><i class="fas fa-edit"></i> Edit Chapter Information</h3>
+                <button class="modal-close" onclick="closeEditChapterModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="editChapterForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="editChapterTitleInput" class="form-label">Chapter Title *</label>
+                        <input 
+                            type="text" 
+                            id="editChapterTitleInput" 
+                            class="form-input" 
+                            required
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editChapterDescriptionInput" class="form-label">Description</label>
+                        <textarea 
+                            id="editChapterDescriptionInput" 
+                            class="form-textarea" 
+                            rows="3"
+                        ></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editChapterOrder" class="form-label">Order Index</label>
+                        <input 
+                            type="number" 
+                            id="editChapterOrder" 
+                            class="form-input" 
+                            min="0"
+                        >
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="modal-btn btn-cancel" onclick="closeEditChapterModal()">Cancel</button>
+                    <button type="submit" class="modal-btn btn-save">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-    <script src="edit-chapters.js"></script>
+    <!-- Add Video Modal -->
+    <div class="modal-overlay" id="addVideoModal" style="display: none;">
+        <div class="modal-content modal-form">
+            <div class="modal-header">
+                <h3><i class="fas fa-video"></i> Add Video Material</h3>
+                <button class="modal-close" onclick="closeAddVideoModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="addVideoForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="videoTitle" class="form-label">Video Title *</label>
+                        <input 
+                            type="text" 
+                            id="videoTitle" 
+                            class="form-input" 
+                            placeholder="e.g., Introduction Lecture"
+                            required
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="videoFile" class="form-label">Upload Video *</label>
+                        <input 
+                            type="file" 
+                            id="videoFile" 
+                            class="form-input" 
+                            accept="video/*"
+                            required
+                        >
+                        <small style="color: var(--text-gray);">Accepted formats: MP4, WebM, AVI</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="modal-btn btn-cancel" onclick="closeAddVideoModal()">Cancel</button>
+                    <button type="submit" class="modal-btn btn-save">
+                        <i class="fas fa-upload"></i> Upload Video
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add PDF Modal -->
+    <div class="modal-overlay" id="addPdfModal" style="display: none;">
+        <div class="modal-content modal-form">
+            <div class="modal-header">
+                <h3><i class="fas fa-file-pdf"></i> Add PDF Material</h3>
+                <button class="modal-close" onclick="closeAddPdfModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="addPdfForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="pdfTitle" class="form-label">PDF Title *</label>
+                        <input 
+                            type="text" 
+                            id="pdfTitle" 
+                            class="form-input" 
+                            placeholder="e.g., Lecture Notes"
+                            required
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="pdfFile" class="form-label">Upload PDF *</label>
+                        <input 
+                            type="file" 
+                            id="pdfFile" 
+                            class="form-input" 
+                            accept=".pdf"
+                            required
+                        >
+                        <small style="color: var(--text-gray);">Accepted format: PDF only</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="modal-btn btn-cancel" onclick="closeAddPdfModal()">Cancel</button>
+                    <button type="submit" class="modal-btn btn-save">
+                        <i class="fas fa-upload"></i> Upload PDF
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Forum Modal -->
+    <div class="modal-overlay" id="addForumModal" style="display: none;">
+        <div class="modal-content modal-form">
+            <div class="modal-header">
+                <h3><i class="fas fa-comments"></i> Create Forum</h3>
+                <button class="modal-close" onclick="closeAddForumModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="addForumForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="forumTitle" class="form-label">Forum Title *</label>
+                        <input 
+                            type="text" 
+                            id="forumTitle" 
+                            class="form-input" 
+                            placeholder="e.g., Chapter Discussion"
+                            required
+                        >
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="modal-btn btn-cancel" onclick="closeAddForumModal()">Cancel</button>
+                    <button type="submit" class="modal-btn btn-save">
+                        <i class="fas fa-plus"></i> Create Forum
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay" id="deleteModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-exclamation-triangle" style="color: #ef4444;"></i> Confirm Delete</h3>
+                <button class="modal-close" onclick="closeDeleteModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete <strong id="deleteItemName">this item</strong>?</p>
+                <div style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+                    <p style="color: #991b1b; font-weight: 600;">
+                        <i class="fas fa-exclamation-circle"></i> This action cannot be undone!
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn btn-cancel" onclick="closeDeleteModal()">Cancel</button>
+                <button class="modal-btn btn-delete" id="confirmDeleteBtn">
+                    <i class="fas fa-trash-alt"></i> Delete
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-overlay" id="forumDiscussionModal" style="display: none;">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3><i class="fas fa-comments"></i> <span id="forumDiscussionTitle">Forum Discussion</span></h3>
+                <button class="modal-close" onclick="closeForumDiscussionModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body forum-discussion-body">
+                <!-- Add Comment Section -->
+                <div class="add-comment-section">
+                    <h4><i class="fas fa-comment"></i> Add a Comment</h4>
+                    <form id="forumCommentForm">
+                        <textarea 
+                            id="forumCommentContent" 
+                            class="comment-textarea" 
+                            rows="4"
+                            placeholder="Share your thoughts..."
+                            required
+                        ></textarea>
+                        <div style="display: flex; justify-content: flex-end; margin-top: 1rem;">
+                            <button type="submit" class="btn-post-comment">
+                                <i class="fas fa-paper-plane"></i> Post Comment
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Comments List -->
+                <div class="comments-section">
+                    <h4>Discussion (<span id="forumCommentCount">0</span>)</h4>
+                    <div class="comments-list" id="forumCommentsList">
+                        <div class="loading-state">
+                            <i class="fas fa-spinner fa-spin fa-2x"></i>
+                            <p>Loading comments...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Comment Modal -->
+    <div class="modal-overlay" id="editCommentModal" style="display: none;">
+        <div class="modal-content modal-form">
+            <div class="modal-header">
+                <h3><i class="fas fa-edit"></i> Edit Comment</h3>
+                <button class="modal-close" onclick="closeEditCommentModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="editCommentForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="editCommentContent" class="form-label">Comment Content *</label>
+                        <textarea 
+                            id="editCommentContent" 
+                            class="form-textarea" 
+                            rows="4"
+                            required
+                        ></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="modal-btn btn-cancel" onclick="closeEditCommentModal()">Cancel</button>
+                    <button type="submit" class="modal-btn btn-save">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Comment Modal -->
+    <div class="modal-overlay" id="deleteCommentModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-exclamation-triangle" style="color: #ef4444;"></i> Delete Comment</h3>
+                <button class="modal-close" onclick="closeDeleteCommentModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this comment?</p>
+                <div style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+                    <p style="color: #991b1b; font-weight: 600;">
+                        <i class="fas fa-exclamation-circle"></i> This action cannot be undone!
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn btn-cancel" onclick="closeDeleteCommentModal()">Cancel</button>
+                <button class="modal-btn btn-delete" id="confirmDeleteCommentBtn">
+                    <i class="fas fa-trash-alt"></i> Delete
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="edit-chapters.js"></script>
 </body>
 </html>

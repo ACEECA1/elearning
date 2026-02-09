@@ -1,87 +1,361 @@
-// Fonction globale pour la suppression (car appelée via onclick dans le HTML)
-function deleteQuestion(id) {
-    var question = $('.question-item[data-question="' + id + '"]');
-    question.remove();
+import api from '../../../api.js';
+
+const urlParams = new URLSearchParams(window.location.search);
+const chapterId = urlParams.get('chapterId');
+
+let currentUser = null;
+let questionCount = 0;
+
+document.addEventListener("DOMContentLoaded", async () => {
+    // 1. Auth Check
+    const userJson = localStorage.getItem('user');
+    if (!userJson) {
+        window.location.href = '../../../auth/login.html';
+        return;
+    }
+    currentUser = JSON.parse(userJson);
+    updateUserProfile(currentUser);
+
+    // 2. Check Chapter ID
+    if (!chapterId) {
+        alert("No chapter ID specified.");
+        window.history.back();
+        return;
+    }
+
+    // 3. Setup Listeners
+    setupQuizTypeToggle();
+    setupAddQuestion();
+    setupFormSubmit();
+    setupLogoutListener();
+    
+    // 4. Back Button
+    document.getElementById('backBtn').addEventListener('click', () => {
+        window.history.back();
+    });
+    
+    // 5. Cancel Button
+    document.getElementById('cancelBtn').addEventListener('click', () => {
+        if (confirm("Discard changes?")) {
+            window.history.back();
+        }
+    });
+});
+
+function setupQuizTypeToggle() {
+    const mcqRadio = document.getElementById('mcqType');
+    const fileRadio = document.getElementById('fileType');
+    const mcqSection = document.getElementById('mcqSection');
+    const fileSection = document.getElementById('fileSection');
+    
+    mcqRadio.addEventListener('change', () => {
+        if (mcqRadio.checked) {
+            mcqSection.style.display = 'block';
+            fileSection.style.display = 'none';
+        }
+    });
+    
+    fileRadio.addEventListener('change', () => {
+        if (fileRadio.checked) {
+            mcqSection.style.display = 'none';
+            fileSection.style.display = 'block';
+        }
+    });
 }
 
-$(document).ready(function() {
-
-    // --- Gestion du Menu Mobile ---
-    var sidebar = $('#sidebar');
-    $('#mobileSidebarToggle').click(function() {
-        if (sidebar.is(':visible')) {
-            sidebar.hide();
-        } else {
-            sidebar.show();
-        }
+function setupAddQuestion() {
+    document.getElementById('addQuestionBtn').addEventListener('click', () => {
+        addQuestionCard();
     });
+    
+    // Add first question by default
+    addQuestionCard();
+}
 
-    // --- Gestion de la modale ---
-    $('#openModalBtn').click(function() {
-        $('#quizModal').fadeIn();
+function addQuestionCard() {
+    questionCount++;
+    const container = document.getElementById('questionsContainer');
+    
+    const card = document.createElement('div');
+    card.className = 'question-card';
+    card.dataset.questionId = questionCount;
+    
+    card.innerHTML = `
+        <div class="question-header">
+            <span class="question-number">Question ${questionCount}</span>
+            <button type="button" class="btn-remove-question" onclick="removeQuestion(${questionCount})">
+                <i class="fas fa-trash"></i> Remove
+            </button>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Question Text *</label>
+            <textarea 
+                class="form-textarea question-text-input" 
+                rows="3"
+                placeholder="Enter your question here..."
+                required
+            ></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Question Score *</label>
+            <input 
+                type="number" 
+                class="form-input question-score-input" 
+                placeholder="e.g., 5"
+                min="1"
+                value="5"
+                required
+            >
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Question Image (Optional)</label>
+            <input 
+                type="file" 
+                class="form-input question-image-input" 
+                accept="image/*"
+            >
+            <small style="color: var(--text-gray);">Upload an image if needed for this question</small>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Answer Options</label>
+            <div class="answers-container" id="answers-${questionCount}">
+                <!-- Answers will be added here -->
+            </div>
+            <button type="button" class="btn-add-answer" onclick="addAnswer(${questionCount})">
+                <i class="fas fa-plus"></i> Add Answer Option
+            </button>
+        </div>
+    `;
+    
+    container.appendChild(card);
+    
+    // Add initial 4 answer options
+    for (let i = 0; i < 4; i++) {
+        addAnswer(questionCount);
+    }
+}
+
+window.removeQuestion = function(questionId) {
+    if (questionCount === 1) {
+        alert("You must have at least one question.");
+        return;
+    }
+    
+    const card = document.querySelector(`[data-question-id="${questionId}"]`);
+    if (card) {
+        card.remove();
+        questionCount--;
+        renumberQuestions();
+    }
+};
+
+function renumberQuestions() {
+    const cards = document.querySelectorAll('.question-card');
+    cards.forEach((card, index) => {
+        card.querySelector('.question-number').textContent = `Question ${index + 1}`;
     });
+}
 
-    $('#closeModalBtn').click(function() {
-        $('#quizModal').fadeOut();
-    });
+window.addAnswer = function(questionId) {
+    const container = document.getElementById(`answers-${questionId}`);
+    const answerCount = container.children.length + 1;
+    
+    const answerDiv = document.createElement('div');
+    answerDiv.className = 'answer-item';
+    
+    answerDiv.innerHTML = `
+        <input 
+            type="text" 
+            class="form-input answer-text-input" 
+            placeholder="Answer option ${answerCount}"
+            required
+        >
+        <input 
+            type="checkbox" 
+            class="answer-correct-checkbox"
+            title="Mark as correct"
+        >
+        <label>Correct</label>
+        <button type="button" class="btn-remove-answer" onclick="this.parentElement.remove()">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+    
+    container.appendChild(answerDiv);
+};
 
-    // --- Sélection du type de quiz ---
-    $('.quiz-type-card').click(function() {
-        $('.quiz-type-card').removeClass('selected');
-        $(this).addClass('selected');
-    });
+// Helper function to format datetime for backend (dd/MM/yyyy HH:mm:ss)
+function formatDateTimeForBackend(datetimeLocalValue) {
+    if (!datetimeLocalValue) return null;
+    
+    // Parse the datetime-local value (format: YYYY-MM-DDTHH:mm)
+    const date = new Date(datetimeLocalValue);
+    
+    if (isNaN(date.getTime())) return null;
+    
+    // Format as dd/MM/yyyy HH:mm:ss
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = '00'; // Default to 00 seconds
+    
+    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+}
 
-    // --- Ajout de question ---
-    var compteurQuestions = 1;
-
-    $('#addQuestionBtn').click(function() {
-        compteurQuestions = compteurQuestions + 1;
-
-        var html = '';
-        html += '<div class="question-item" data-question="' + compteurQuestions + '">';
-        html += '   <div class="question-header">';
-        html += '       <span class="question-label">QUESTION ' + compteurQuestions + '</span>';
-        html += '       <button type="button" class="delete-question-btn" onclick="deleteQuestion(' + compteurQuestions + ')">';
-        html += '           <i class="fas fa-trash-alt"></i>';
-        html += '       </button>';
-        html += '   </div>';
-        html += '   <input type="text" class="question-input" placeholder="Enter question text...">';
-        html += '   <div class="options-list">';
-        html += '       <input type="text" class="option-input" placeholder="Option 1">';
-        html += '       <input type="text" class="option-input" placeholder="Option 2">';
-        html += '   </div>';
-        html += '</div>';
-
-        $('#questionsSection').append(html);
-    });
-
-    // --- Sauvegarde du quiz ---
-    $('#quizEditorForm').submit(function(e) {
+function setupFormSubmit() {
+    document.getElementById('createQuizForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        var titre = $('#quizTitle').val();
+        const submitBtn = document.querySelector('.btn-create');
+        const originalHTML = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating...';
         
-        if (titre == "") {
-            alert("Veuillez donner un titre au quiz.");
-        } else {
-            alert("Quiz '" + titre + "' enregistré avec succès !");
-            $('#quizModal').fadeOut();
-            // Réinitialiser le formulaire si besoin
-            $('#quizTitle').val("");
+        try {
+            const quizType = document.querySelector('input[name="quizType"]:checked').value;
+            
+            // Get date values
+            const availableFromValue = document.getElementById('availableFrom').value;
+            const availableToValue = document.getElementById('availableTo').value;
+            
+            // 1. Create Quiz
+            const quizData = {
+                chapterId: parseInt(chapterId),
+                title: document.getElementById('quizTitle').value.trim(),
+                description: document.getElementById('quizDescription').value.trim(),
+                availableFrom: formatDateTimeForBackend(availableFromValue),
+                availableTo: formatDateTimeForBackend(availableToValue)
+            };
+            
+            console.log('Quiz Data:', quizData); // Debug log
+            
+            const quizResult = await api.quiz.create(quizData);
+            const quizId = quizResult.quizId || quizResult.id;
+            
+            if (!quizId) {
+                throw new Error("Failed to retrieve quiz ID from server");
+            }
+            
+            // 2. Handle MCQ or File Upload
+            if (quizType === 'MCQ') {
+                await createMCQQuestions(quizId);
+            } else {
+                await createFileAssignment(quizId);
+            }
+            
+            alert("Quiz created successfully!");
+            window.history.back();
+            
+        } catch (error) {
+            console.error("Quiz Creation Error:", error);
+            alert("Failed to create quiz: " + error.message);
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalHTML;
         }
     });
+}
 
-    // --- Boutons de la barre d'outils ---
-    $('.toolbar-icon-btn').click(function() {
-        // Juste pour l'effet visuel
-        $(this).animate({ opacity: 0.5 }, 100, function() {
-            $(this).animate({ opacity: 1 }, 100);
-        });
+async function createMCQQuestions(quizId) {
+    const questionCards = document.querySelectorAll('.question-card');
+    
+    for (const card of questionCards) {
+        // 1. Get Question Data
+        const questionText = card.querySelector('.question-text-input').value.trim();
+        const questionScore = parseInt(card.querySelector('.question-score-input').value);
+        const imageInput = card.querySelector('.question-image-input');
+        
+        if (!questionText) continue;
+        
+        // 2. Upload Image if exists
+        let materialPath = '';
+        if (imageInput.files && imageInput.files.length > 0) {
+            const uploadResult = await api.uploadFile(imageInput.files[0], 'question_image');
+            materialPath = uploadResult.filePath;
+        }
+        
+        // 3. Create Question
+        const questionData = {
+            quizId: quizId,
+            text: questionText,
+            score: questionScore,
+            materialPath: materialPath
+        };
+        
+        const questionResult = await api.question.create(questionData);
+        const questionId = questionResult.questionId || questionResult.id;
+        
+        if (!questionId) {
+            throw new Error("Failed to retrieve question ID from server");
+        }
+        
+        // 4. Create Answers
+        const answersContainer = card.querySelector('.answers-container');
+        const answerItems = answersContainer.querySelectorAll('.answer-item');
+        
+        for (const answerItem of answerItems) {
+            const answerText = answerItem.querySelector('.answer-text-input').value.trim();
+            const isCorrect = answerItem.querySelector('.answer-correct-checkbox').checked;
+            
+            if (!answerText) continue;
+            
+            const answerData = {
+                questionId: questionId,
+                text: answerText,
+                isCorrect: isCorrect
+            };
+            
+            await api.answer.create(answerData);
+        }
+    }
+}
+
+async function createFileAssignment(quizId) {
+    const fileInput = document.getElementById('assignmentFile');
+    
+    // If teacher uploads a PDF with instructions
+    if (fileInput.files && fileInput.files.length > 0) {
+        const uploadResult = await api.uploadFile(fileInput.files[0], 'assignment');
+        
+        // Create a single "question" that points to the PDF
+        const questionData = {
+            quizId: quizId,
+            text: "Please download the assignment file, complete it, and upload your solution.",
+            score: 20,
+            materialPath: uploadResult.filePath
+        };
+        
+        await api.question.create(questionData);
+    } else {
+        // No PDF provided - just create a generic upload question
+        const questionData = {
+            quizId: quizId,
+            text: "Upload your completed assignment file.",
+            score: 20,
+            materialPath: ''
+        };
+        
+        await api.question.create(questionData);
+    }
+}
+
+function setupLogoutListener() {
+    document.getElementById('userProfile').addEventListener('click', async () => {
+        if (confirm("Log out?")) {
+            try { await api.auth.logout(); } catch(e) {}
+            localStorage.removeItem('user');
+            window.location.href = '../../../auth/login.html';
+        }
     });
+}
 
-    $('.btn-publish').click(function() {
-        alert("Quiz publié !");
-    });
-
-    console.log("Éditeur de quiz chargé");
-});
+function updateUserProfile(user) {
+    document.getElementById('userName').textContent = `${user.firstName} ${user.lastName}`;
+    document.getElementById('userRole').textContent = user.role;
+    document.getElementById('userAvatar').innerHTML = `<span>${(user.firstName || 'U').charAt(0)}${(user.lastName || 'S').charAt(0)}</span>`;
+}

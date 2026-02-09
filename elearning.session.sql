@@ -1,1 +1,1 @@
-SELECT * FROM module;
+SELECT * FROM quiz;

@@ -167,8 +167,9 @@ public class QuestionServlet extends HttpServlet {
             if ("CREATE".equals(action)) {
                 Question question = gson.fromJson(body, Question.class);
                 questionService.createQuestion(question, userId, role);
+                System.out.println("Created question with ID: " + question.getId());
                 responseJson.addProperty("message", "Question created successfully");
-
+                responseJson.addProperty("questionId", question.getId());
             } else if ("UPDATE".equals(action)) {
                 Question question = gson.fromJson(body, Question.class);
                 if (!body.has("questionId") && !body.has("id")) throw new Exception("questionId is required");

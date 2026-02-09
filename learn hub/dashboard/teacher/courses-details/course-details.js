@@ -7,7 +7,7 @@ let moduleToDelete = null;
 let chapterToDelete = null;
 let moduleToEdit = null;
 let currentModuleData = null;
-let moduleToAddChapter = null; // Store module ID for adding chapter
+let moduleToAddChapter = null;
 
 document.addEventListener("DOMContentLoaded", async () => {
     // 1. Auth Check
@@ -280,7 +280,7 @@ function setupEventListeners() {
         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Deleting...';
         
         try {
-            await api.request(`/module?moduleId=${moduleToDelete}`, 'DELETE');
+            await api.module.delete(moduleToDelete);
             alert("Module deleted successfully");
             closeDeleteModuleModal();
             await loadModules();
@@ -301,7 +301,7 @@ function setupEventListeners() {
         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Deleting...';
         
         try {
-            await api.request(`/chapter?chapterId=${chapterToDelete}`, 'DELETE');
+            await api.chapter.delete(chapterToDelete);
             alert("Chapter deleted successfully");
             closeDeleteChapterModal();
             await loadModules();
@@ -491,7 +491,7 @@ function setupFormListeners() {
                 orderIndex: parseInt(document.getElementById('addChapterOrder').value) || 0
             };
             
-            await api.request('/chapter', 'POST', chapterData);
+            await api.chapter.create(chapterData);
             
             alert("Chapter created successfully!");
             closeAddChapterModal();
@@ -532,7 +532,7 @@ function setupFormListeners() {
                 orderIndex: parseInt(document.getElementById('addModuleOrder').value) || 0
             };
             
-            await api.request('/module', 'POST', moduleData);
+            await api.module.create(moduleData);
             
             alert("Module created successfully!");
             closeAddModuleModal();
@@ -573,7 +573,7 @@ function setupFormListeners() {
                 thumbnailPath: thumbnailPath
             };
             
-            await api.request('/course', 'PUT', courseData);
+            await api.course.update(courseData);
             
             alert("Course updated successfully!");
             closeEditCourseModal();
@@ -617,7 +617,7 @@ function setupFormListeners() {
                 orderIndex: parseInt(document.getElementById('editModuleOrder').value) || 0
             };
             
-            await api.request('/module', 'PUT', moduleData);
+            await api.module.update(moduleData);
             
             alert("Module updated successfully!");
             closeEditModuleModal();

@@ -192,7 +192,9 @@ public class AnswerServlet extends HttpServlet {
             if ("CREATE".equals(action)) {
                 Answer answer = gson.fromJson(body, Answer.class);
                 answerService.createAnswer(answer, userId, role);
+                System.out.println("Created answer with ID: " + answer.getId());
                 responseJson.addProperty("message", "Answer created successfully");
+                responseJson.addProperty("answerId", answer.getId());
 
             } else if ("UPDATE".equals(action)) {
                 Answer answer = gson.fromJson(body, Answer.class);
