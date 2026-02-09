@@ -21,7 +21,11 @@
                 <input type="text" id="searchInput" placeholder="Search courses...">
             </div>
             <div class="nav-actions">
-                <button class="notification-btn"><i class="fas fa-bell"></i></button>
+                <button class="notification-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge" style="display: none;">0</span>
+                </button>
+
                 <div class="user-profile" id="userProfile" style="cursor: pointer;">
                     <div class="user-avatar" id="userAvatar"><span>U</span></div>
                     <div class="user-info">
@@ -114,7 +118,7 @@
             <button id="confirmEnrollBtn" class="modal-btn">Confirm Enrollment</button>
         </div>
     </div>
-
+    <script type="module" src="../../../notifications.js"></script>
     <script type="module" src="courses.js"></script>
 </body>
 </html>

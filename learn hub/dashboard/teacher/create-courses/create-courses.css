@@ -620,3 +620,10 @@ body {
         grid-template-columns: 1fr;
     }
 }
+.notification-btn {
+    position: relative;
+    background: none;
+    left: 40%;
+    font-size: 1.25rem;
+    color: var(--text-dark);
+}
