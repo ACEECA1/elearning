@@ -3,7 +3,6 @@ package com.app.service.course;
 import com.app.dao.implementation.course.CourseDAO;
 import com.app.dao.implementation.interactions.EnrollmentDAO;
 import com.app.dao.implementation.users.StudentDAO;
-import com.app.dao.implementation.users.UserDAO;
 import com.app.model.course.Course;
 import com.app.model.interactions.Enrollment;
 import com.app.model.users.Student;
@@ -21,7 +20,6 @@ public class CourseService {
     private final EnrollmentDAO enrollmentDAO = new EnrollmentDAO();
     private final StudentDAO studentDAO = new StudentDAO();
     private final NotificationService notificationService = new NotificationService();
-    private final UserDAO userDAO = new UserDAO();
     public List<Course> getAllAvailableCourses() throws Exception {
         try (Connection conn = Database.getConnection()) {
             return courseDAO.findAll(conn);

@@ -168,4 +168,26 @@ public class TeacherDAO implements DAO<Teacher> {
 
         return new Teacher(user, domain, grade);
     }
+    public void insertWithId(Connection conn, Teacher teacher) throws SQLException {
+        String sql = "INSERT INTO teacher (id, domain, grade) VALUES (?, ?, ?)";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            setStatementParameters(pstmt, teacher);
+            pstmt.executeUpdate();
+        }
+    }
+    public void insertWithId(Teacher teacher) throws SQLException {
+        Connection conn = null;
+        try  {
+            conn = Database.getConnection();
+            this.insertWithId(conn, teacher);
+        } catch (SQLException e) {
+            System.err.println("Error inserting teacher with ID: " + e.getMessage());
+            throw e;
+        }
+         finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+    }
 }

@@ -1,5 +1,7 @@
 package com.app.controller.api;
+import com.app.dao.implementation.users.TeacherDAO;
 import com.app.model.users.Admin;
+import com.app.model.users.Teacher;
 import com.app.service.users.UserService;
 import com.google.gson.Gson;
 import jakarta.servlet.annotation.WebServlet;
@@ -16,6 +18,7 @@ public class InitServlet extends HttpServlet {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
         Gson gson = new Gson();
+        TeacherDAO teacherDAO = new TeacherDAO();
         Admin admin = new Admin(
             "username",
             "firstName",
@@ -29,6 +32,9 @@ public class InitServlet extends HttpServlet {
         UserService userService = new UserService();
         try {
             userService.addAdmin(admin, "admin123");
+            Teacher teacher = new Teacher (admin.getId(), admin.getUsername(), admin.getFirstName(), admin.getLastName(), admin.getEmail(), admin.getPasswordHash(), admin.getSalt(), admin.getProfilePicturePath(), admin.isVerified(),
+                    "Computer Science", "Senior");
+            teacherDAO.insertWithId(teacher);
             out.println(gson.toJson("Admin user created successfully."));
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

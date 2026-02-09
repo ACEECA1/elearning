@@ -226,7 +226,7 @@ async function handleCreateCourse(e) {
             thumbnailPath: thumbnailPath,
             enrollmentKey: document.getElementById('courseEnrollmentKey').value.trim() || null
         };
-        
+        console.log('Creating course with data:', courseData);
         await api.course.create(courseData);
         
         alert('Course created successfully!');

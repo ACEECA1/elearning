@@ -46,9 +46,13 @@ public class AuthService {
         }
 
         String role = "USER";
-        if (studentDAO.findById(user.getId()) != null) role = "STUDENT";
-        else if (teacherDAO.findById(user.getId()) != null) role = "TEACHER";
-        else if (adminDAO.findById(user.getId()) != null) role = "ADMIN";
+        if(adminDAO.findById(user.getId()) != null) {
+            role = "ADMIN";
+        } else if (teacherDAO.findById(user.getId()) != null) {
+            role = "TEACHER";
+        } else if (studentDAO.findById(user.getId()) != null) {
+            role = "STUDENT";
+        }
 
         return JWTUtil.generateToken(user.getId(), role);
     }
@@ -100,12 +104,12 @@ public class AuthService {
         if (user == null) throw new Exception("User not found");
 
         JsonObject userJson = gson.toJsonTree(user).getAsJsonObject();
-        if (studentDAO.findById(user.getId()) != null) {
-            userJson.addProperty("role", "STUDENT");
+        if (adminDAO.findById(user.getId()) != null) {
+            userJson.addProperty("role", "ADMIN");
         } else if (teacherDAO.findById(user.getId()) != null) {
             userJson.addProperty("role", "TEACHER");
-        } else if (adminDAO.findById(user.getId()) != null) {
-            userJson.addProperty("role", "ADMIN");
+        } else if (studentDAO.findById(user.getId()) != null) {
+            userJson.addProperty("role", "STUDENT");
         } else {
             userJson.addProperty("role", "USER");
         }
