@@ -201,4 +201,17 @@ public class CourseDAO implements DAO<Course>{
 
         return new Course(id, teacherId, title, targetAudience, description, enrollmentKey, thumbnailPath);
     }
+    public int countCourses(Connection conn) throws SQLException {
+        String sql = "SELECT COUNT(*) AS total FROM course";
+        try (PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error counting courses: " + e.getMessage());
+            throw e;
+        }
+        return 0;
+    }
 } 

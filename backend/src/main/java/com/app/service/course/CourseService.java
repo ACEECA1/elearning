@@ -179,4 +179,9 @@ public class CourseService {
             return courseDAO.searchCourses(conn, query);
         }
     }
+    public int getCourseCount() throws Exception {
+        try (Connection conn = Database.getConnection()) {
+            return courseDAO.countCourses(conn);
+        }
+    }
 }

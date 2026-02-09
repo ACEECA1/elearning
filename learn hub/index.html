@@ -6,6 +6,7 @@
     <title>UniLearn - Learning Technology For The Future</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="a.css">
 </head>
 <body>
 
@@ -50,21 +51,26 @@
 
     <section class="stats-section">
         <div class="stats-container">
-            <div class="stat-card" data-count="250">
-                <div class="stat-number">0+</div>
+            <div class="stat-card" id="coursesCard">
+                <div class="stat-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="stat-number" data-target="0">0</div>
                 <div class="stat-label">Active Courses</div>
             </div>
-            <div class="stat-card" data-count="12">
-                <div class="stat-number">0k+</div>
+            <div class="stat-card" id="studentsCard">
+                <div class="stat-icon">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <div class="stat-number" data-target="0">0</div>
                 <div class="stat-label">Students</div>
             </div>
-            <div class="stat-card" data-count="150">
-                <div class="stat-number">0+</div>
+            <div class="stat-card" id="teachersCard">
+                <div class="stat-icon">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+                <div class="stat-number" data-target="0">0</div>
                 <div class="stat-label">Expert Teachers</div>
-            </div>
-            <div class="stat-card" data-count="98">
-                <div class="stat-number">0%</div>
-                <div class="stat-label">Satisfaction Rate</div>
             </div>
         </div>
     </section>
@@ -104,6 +110,6 @@
             <p>© 2025 UniLearn University. All rights reserved.</p>
         </div>
     </footer>
-    <script src="index.js"></script>
+    <script type="module" src="index.js"></script>
 </body>
 </html>

@@ -98,7 +98,8 @@ const api = {
         create: (courseData) => api.request('/course', 'POST', courseData),
         update: (courseData) => api.request('/course', 'PUT', courseData),
         delete: (courseId) => api.request('/course', 'DELETE', { courseId }),
-        search: (query) => api.request(`/search?q=${encodeURIComponent(query)}`, 'GET')
+        search: (query) => api.request(`/search?q=${encodeURIComponent(query)}`, 'GET'),
+        count: () => api.request('/course/count', 'GET')
     },
     
     module: {

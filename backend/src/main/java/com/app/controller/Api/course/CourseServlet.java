@@ -115,7 +115,10 @@ public class CourseServlet extends HttpServlet {
             } else if ("/available".equals(pathInfo)) {
                 List<Course> courses = courseService.getAllAvailableCourses();
                 out.print(gson.toJson(courses));
-            // 5. /api/course/students?courseId=123 (Teacher viewing participants)
+            }
+            else if ("/count".equals(pathInfo)) {
+                int count = courseService.getCourseCount();
+                out.print("{\"courseCount\": " + count + "}");
             } else if ("/students".equals(pathInfo)) {
                 if (!"TEACHER".equalsIgnoreCase(role)) {
                     throw new Exception("Access Denied: Only teachers can view students.");
