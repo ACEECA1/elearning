@@ -92,6 +92,7 @@ const api = {
         getDetails: (courseId) => api.request(`/course/details?courseId=${courseId}`, 'GET'),
         getAvailableCourses: () => api.request('/course/available', 'GET'),
         getMyCoursesTeacher: () => api.request('/course/list', 'GET'),
+        getAllCourses: () => api.request('/course/list', 'GET'),
         enroll: (courseId, code = "") => api.request('/course/enroll', 'POST', { courseId, code }),
         create: (courseData) => api.request('/course', 'POST', courseData),
         update: (courseData) => api.request('/course', 'PUT', courseData),

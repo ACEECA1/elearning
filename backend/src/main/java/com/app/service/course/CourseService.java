@@ -3,6 +3,7 @@ package com.app.service.course;
 import com.app.dao.implementation.course.CourseDAO;
 import com.app.dao.implementation.interactions.EnrollmentDAO;
 import com.app.dao.implementation.users.StudentDAO;
+import com.app.dao.implementation.users.UserDAO;
 import com.app.model.course.Course;
 import com.app.model.interactions.Enrollment;
 import com.app.model.users.Student;
@@ -20,7 +21,7 @@ public class CourseService {
     private final EnrollmentDAO enrollmentDAO = new EnrollmentDAO();
     private final StudentDAO studentDAO = new StudentDAO();
     private final NotificationService notificationService = new NotificationService();
-
+    private final UserDAO userDAO = new UserDAO();
     public List<Course> getAllAvailableCourses() throws Exception {
         try (Connection conn = Database.getConnection()) {
             return courseDAO.findAll(conn);
@@ -92,12 +93,12 @@ public class CourseService {
         }
     }
 
-    public void updateCourse(Course courseUpdates, int teacherId) throws Exception {
+    public void updateCourse(Course courseUpdates, int teacherId , String userRole) throws Exception {
         try (Connection conn = Database.getConnection()) {
             Course existing = courseDAO.findById(conn, courseUpdates.getId());
             if (existing == null) throw new Exception("Course not found");
             
-            if (existing.getTeacherId() != teacherId) {
+            if (existing.getTeacherId() != teacherId && !"ADMIN".equalsIgnoreCase(userRole)) {
                 throw new Exception("Unauthorized: You do not own this course");
             }
 
@@ -111,12 +112,12 @@ public class CourseService {
         }
     }
 
-    public void deleteCourse(int courseId, int teacherId) throws Exception {
+    public void deleteCourse(int courseId, int teacherId, String userRole) throws Exception {
         try (Connection conn = Database.getConnection()) {
             Course existing = courseDAO.findById(conn, courseId);
             if (existing == null) throw new Exception("Course not found");
 
-            if (existing.getTeacherId() != teacherId) {
+            if (existing.getTeacherId() != teacherId && !"ADMIN".equalsIgnoreCase(userRole)) {
                 throw new Exception("Unauthorized: You do not own this course");
             }
             courseDAO.delete(conn, courseId);

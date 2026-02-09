@@ -36,7 +36,7 @@ async function loadDashboardStats() {
     try {
         const studentsResponse = await api.user.getStudentsCount();
         const teachersResponse = await api.user.getTeachersCount();
-        const coursesResponse = await api.course.getMyCoursesTeacher();
+        const coursesResponse = await api.course.getAvailableCourses();
         console.log('Dashboard Stats:', { studentsResponse, teachersResponse, coursesResponse });
         const studentsCount = studentsResponse.studentCount ;
         const teachersCount = teachersResponse.teacherCount ;

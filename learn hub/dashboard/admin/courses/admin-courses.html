@@ -20,22 +20,22 @@
 
             <div class="search-bar">
                 <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search courses, teachers...">
+                <input type="text" placeholder="Search courses, teachers..." id="headerSearch">
             </div>
 
             <div class="nav-actions">
                 <button class="notification-btn" id="notificationBtn">
                     <i class="fas fa-bell"></i>
-                    <span class="notification-badge">2</span>
+                    <span class="notification-badge" id="notificationCount">0</span>
                 </button>
 
-                <div class="user-profile">
+                <div class="user-profile" id="userProfile" style="cursor: pointer;">
                     <div class="user-info-header">
-                        <div class="user-name-header">Alex Johnson</div>
-                        <div class="user-role-header">Admin</div>
+                        <div class="user-name-header" id="userName">Loading...</div>
+                        <div class="user-role-header" id="userRole">Admin</div>
                     </div>
-                    <div class="user-avatar">
-                        <span>AJ</span>
+                    <div class="user-avatar" id="userAvatar">
+                        <span>-</span>
                     </div>
                 </div>
             </div>
@@ -61,13 +61,13 @@
                         </a>
                     </li>
                     <li class="admin-menu-item">
-                        <a href="../student/students.html" class="admin-link">
+                        <a href="../students/students.html" class="admin-link">
                             <i class="fas fa-user-graduate"></i>
                             <span>Students</span>
                         </a>
                     </li>
                     <li class="admin-menu-item">
-                        <a href="../courses/admin-courses.html" class="admin-link active">
+                        <a href="admin-courses.html" class="admin-link active">
                             <i class="fas fa-book"></i>
                             <span>Courses</span>
                         </a>
@@ -82,15 +82,14 @@
                 <div class="page-header">
                     <div>
                         <h1 class="page-title">Courses</h1>
-                        <p class="page-subtitle">Manage your university platform</p>
+                        <p class="page-subtitle">Manage all platform courses</p>
                     </div>
                 </div>
 
                 <div class="courses-section">
                     <div class="section-header">
                         <h2 class="section-title">Manage Courses</h2>
-                        <button class="btn-create-course" id="createCourseBtn" >
-                            <a href="../../student/courses-deatils/course-details.html"></a>
+                        <button class="btn-create-course" id="createCourseBtn">
                             <i class="fas fa-plus"></i>
                             <span>Create Course</span>
                         </button>
@@ -101,126 +100,13 @@
                             <i class="fas fa-search"></i>
                             <input type="text" placeholder="Search courses..." id="courseSearch">
                         </div>
-                        <button class="filter-btn" id="filterBtn">
-                            <i class="fas fa-filter"></i>
-                            <span>Filter</span>
-                        </button>
                     </div>
 
-                    <div class="courses-table-container">
-                        <table class="courses-table">
-                            <thead>
-                                <tr>
-                                    <th>Course Title</th>
-                                    <th>Instructor</th>
-                                    <th>Students</th>
-                                    <th>Date</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="course-row">
-                                    <td>
-                                        <div class="course-info">
-                                            <img src="https://images.unsplash.com/photo--633356122544-f59324c0ba70?w=100&h=60&fit=crop" alt="Course" class="course-thumbnail">
-                                            <div class="course-details">
-                                                <div class="course-name">Advanced React Patterns & Best Practices</div>
-                                                <div class="course-category">Web Development</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>Prof. Sarah Smith</td>
-                                    <td>1,234</td>
-                                    <td>05/02/2026</td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <button class="action-btn edit-btn" title="Edit">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="action-btn delete-btn" title="Delete">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <tr class="course-row">
-                                    <td>
-                                        <div class="course-info" >
-                                            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=100&h=60&fit=crop" alt="Course" class="course-thumbnail">
-                                            <div class="course-details">
-                                                <div class="course-name">Advanced React Patterns 2</div>
-                                                <div class="course-category">Web Development</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>Prof. Sarah Smith</td>
-                                    <td>1,234</td>
-                                    <td>05/02/2026</td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <button class="action-btn edit-btn" title="Edit">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="action-btn delete-btn" title="Delete">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <tr class="course-row">
-                                    <td>
-                                        <div class="course-info">
-                                            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=100&h=60&fit=crop" alt="Course" class="course-thumbnail">
-                                            <div class="course-details">
-                                                <div class="course-name">Advanced React Patterns 3</div>
-                                                <div class="course-category">Web Development</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>Prof. Sarah Smith</td>
-                                    <td>1,234</td>
-                                    <td>05/02/2026</td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <button class="action-btn edit-btn" title="Edit">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="action-btn delete-btn" title="Delete">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <tr class="course-row">
-                                    <td>
-                                        <div class="course-info">
-                                            <img src="https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=100&h=60&fit=crop" alt="Course" class="course-thumbnail">
-                                            <div class="course-details">
-                                                <div class="course-name">Advanced React Patterns 4</div>
-                                                <div class="course-category">Web Development</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>Prof. Sarah Smith</td>
-                                    <td>1,244</td>
-                                    <td>05/02/2026</td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <button class="action-btn edit-btn" title="Edit">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="action-btn delete-btn" title="Delete">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                            </tbody>
-                        </table>
+                    <div class="courses-table-container" id="coursesTableContainer">
+                        <div class="loading-state">
+                            <i class="fas fa-spinner fa-spin fa-2x"></i>
+                            <p>Loading courses...</p>
+                        </div>
                     </div>
                 </div>
 
@@ -238,7 +124,9 @@
                                 Empowering the next generation of learners with cutting-edge technology and world-class education.
                             </p>
                         </div>
+                        
                         <div class="footer-section">
+                            <h4>Quick Links</h4>
                             <ul class="footer-links">
                                 <li><a href="../../../index.html#about">About Us</a></li>
                             </ul>
@@ -268,6 +156,123 @@
         <i class="fas fa-bars"></i>
     </button>
 
-    <script src="admin-courses.js"></script>
+    <div class="modal-overlay" id="createCourseModal" style="display: none;">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3><i class="fas fa-plus"></i> Create New Course</h3>
+                <button class="modal-close" onclick="closeCreateCourseModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="createCourseForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="courseTitle" class="form-label">Course Title *</label>
+                        <input type="text" id="courseTitle" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="courseDescription" class="form-label">Description *</label>
+                        <textarea id="courseDescription" class="form-textarea" rows="4" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="courseTargetAudience" class="form-label">Target Audience</label>
+                        <input type="text" id="courseTargetAudience" class="form-input" placeholder="e.g., Undergraduate Students, Professionals">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="courseThumbnail" class="form-label">Thumbnail</label>
+                        <input type="file" id="courseThumbnail" class="form-input" accept="image/*">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="courseEnrollmentKey" class="form-label">Enrollment Key (Optional)</label>
+                        <input type="text" id="courseEnrollmentKey" class="form-input" placeholder="Leave empty for public course">
+                        <small style="color: var(--text-gray);">Students will need this key to enroll</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="modal-btn btn-cancel" onclick="closeCreateCourseModal()">Cancel</button>
+                    <button type="submit" class="modal-btn btn-save">
+                        <i class="fas fa-save"></i> Create Course
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="editCourseModal" style="display: none;">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3><i class="fas fa-edit"></i> Edit Course</h3>
+                <button class="modal-close" onclick="closeEditCourseModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="editCourseForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="editCourseTitle" class="form-label">Course Title *</label>
+                        <input type="text" id="editCourseTitle" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editCourseDescription" class="form-label">Description *</label>
+                        <textarea id="editCourseDescription" class="form-textarea" rows="4" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editCourseTargetAudience" class="form-label">Target Audience</label>
+                        <input type="text" id="editCourseTargetAudience" class="form-input" placeholder="e.g., Undergraduate Students, Professionals">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editCourseThumbnail" class="form-label">Thumbnail (Leave empty to keep current)</label>
+                        <input type="file" id="editCourseThumbnail" class="form-input" accept="image/*">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editCourseEnrollmentKey" class="form-label">Enrollment Key (Optional)</label>
+                        <input type="text" id="editCourseEnrollmentKey" class="form-input" placeholder="Leave empty for public course">
+                        <small style="color: var(--text-gray);">Students will need this key to enroll</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="modal-btn btn-cancel" onclick="closeEditCourseModal()">Cancel</button>
+                    <button type="submit" class="modal-btn btn-save">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="deleteCourseModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-exclamation-triangle" style="color: #ef4444;"></i> Confirm Delete</h3>
+                <button class="modal-close" onclick="closeDeleteCourseModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete "<strong id="deleteCourseName"></strong>"?</p>
+                <div style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+                    <p style="color: #991b1b; font-weight: 600;">
+                        <i class="fas fa-exclamation-circle"></i> This action cannot be undone!
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn btn-cancel" onclick="closeDeleteCourseModal()">Cancel</button>
+                <button class="modal-btn btn-delete" id="confirmDeleteBtn">
+                    <i class="fas fa-trash-alt"></i> Delete
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="admin-courses.js"></script>
 </body>
 </html>

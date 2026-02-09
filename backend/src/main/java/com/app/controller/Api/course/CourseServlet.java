@@ -96,10 +96,12 @@ public class CourseServlet extends HttpServlet {
 
             // 2. /api/course/list (Teacher's created courses)
             } else if ("/list".equals(pathInfo)) {
-                if (!"TEACHER".equalsIgnoreCase(role) && !"ADMIN".equalsIgnoreCase(role)) {
-                    throw new Exception("Access Denied: Only teachers can view their created courses.");
+                List<Course> courses = null;
+                if ("ADMIN".equalsIgnoreCase(role)) {
+                    courses = courseService.getAllAvailableCourses(); // Get ALL courses for admin
+                } else if ("TEACHER".equalsIgnoreCase(role)) {
+                    courses = courseService.getCoursesByTeacher(userId);
                 }
-                List<Course> courses = courseService.getCoursesByTeacher(userId);
                 out.print(gson.toJson(courses));
             // 3. /api/course/my-courses (Student's enrolled courses)
             } else if ("/my-courses".equals(pathInfo)) {
@@ -235,7 +237,7 @@ public class CourseServlet extends HttpServlet {
             boolean isTeacher = "TEACHER".equalsIgnoreCase(role);
             boolean isAdmin = "ADMIN".equalsIgnoreCase(role);
             if (!isTeacher && !isAdmin) {
-                throw new Exception("Only teachers can update courses.");
+                throw new Exception("Only teachers or admins can update courses.");
             }
 
             JsonObject body = parseBody(req);
@@ -246,7 +248,7 @@ public class CourseServlet extends HttpServlet {
                 courseUpdates.setId(body.get("courseId").getAsInt());
             }
 
-            courseService.updateCourse(courseUpdates, userIdObj);
+            courseService.updateCourse(courseUpdates, userIdObj , role);
 
             responseJson.addProperty("status", "success");
             responseJson.addProperty("message", "Course updated successfully.");
@@ -277,7 +279,7 @@ public class CourseServlet extends HttpServlet {
             boolean isTeacher = "TEACHER".equalsIgnoreCase(role);
             boolean isAdmin = "ADMIN".equalsIgnoreCase(role);
             if (!isTeacher && !isAdmin) {
-                throw new Exception("Only teachers can delete courses.");
+                throw new Exception("Only teachers or admins can delete courses.");
             }
 
             // Parse body to get { "courseId": 1 }
@@ -287,7 +289,7 @@ public class CourseServlet extends HttpServlet {
             }
             
             int courseId = body.get("courseId").getAsInt();
-            courseService.deleteCourse(courseId, userIdObj);
+            courseService.deleteCourse(courseId, userIdObj, role);
 
             responseJson.addProperty("status", "success");
             responseJson.addProperty("message", "Course deleted successfully.");
