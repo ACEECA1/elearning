@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // 1. Auth Check
     const userJson = localStorage.getItem('user');
     if (!userJson) {
-        window.location.href = '../auth/login.html';
+        window.location.href = '../../../auth/login.html';
         return;
     }
     const user = JSON.parse(userJson);
@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Ensure only Teachers/Admins can access
     if (user.role !== 'TEACHER' && user.role !== 'ADMIN') {
         alert("Access Denied: Teachers only.");
-        window.location.href = '../../index.html';
+        window.location.href = '../../../index.html';
         return;
     }
 
@@ -57,7 +57,7 @@ function setupEventListeners() {
     
     cancelBtn.addEventListener('click', () => {
         if (confirm("Discard changes?")) {
-            window.location.href = '../teacher-dashboard/teacher-dashboard.html';
+            window.location.href = '../../../teacher-dashboard/teacher-dashboard.html';
         }
     });
 
