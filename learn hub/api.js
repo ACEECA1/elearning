@@ -97,7 +97,8 @@ const api = {
         enroll: (courseId, code = "") => api.request('/course/enroll', 'POST', { courseId, code }),
         create: (courseData) => api.request('/course', 'POST', courseData),
         update: (courseData) => api.request('/course', 'PUT', courseData),
-        delete: (courseId) => api.request('/course', 'DELETE', { courseId })
+        delete: (courseId) => api.request('/course', 'DELETE', { courseId }),
+        search: (query) => api.request(`/search?q=${encodeURIComponent(query)}`, 'GET')
     },
     
     module: {

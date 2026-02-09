@@ -321,3 +321,61 @@
         height: 180px;
     }
 }
+.search-results-section {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.search-query-text {
+    color: var(--primary-purple);
+    font-style: italic;
+}
+
+.btn-clear-search {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.25rem;
+    background: var(--bg-light);
+    color: var(--text-gray);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.btn-clear-search:hover {
+    background: var(--border-color);
+    color: var(--text-dark);
+}
+
+.loading {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-gray);
+}
+
+.loading i {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.error-msg, .empty-msg {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--text-gray);
+}
+
+.error-msg i, .empty-msg i {
+    display: block;
+    margin-bottom: 1rem;
+}

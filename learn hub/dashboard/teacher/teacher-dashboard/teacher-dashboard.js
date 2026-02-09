@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // 1. Auth Check
     const userJson = localStorage.getItem('user');
     if (!userJson) {
-        window.location.href = '../auth/login.html';
+        window.location.href = '../../../auth/login.html';
         return;
     }
     const user = JSON.parse(userJson);

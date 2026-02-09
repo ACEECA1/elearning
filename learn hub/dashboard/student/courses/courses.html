@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../../../index.css">
     <link rel="stylesheet" href="courses.css">
-
 </head>
 <body>
 
@@ -19,7 +18,7 @@
             </a>
             <div class="search-bar">
                 <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search courses...">
+                <input type="text" id="searchInput" placeholder="Search courses...">
             </div>
             <div class="nav-actions">
                 <button class="notification-btn"><i class="fas fa-bell"></i></button>
@@ -61,13 +60,35 @@
                     <p class="page-subtitle" id="welcomeMessage">Welcome back!</p>
                 </div>
 
-                <h2 class="section-title" style="margin: 2rem 0 1rem; color: var(--text-dark, #333);">Enrolled Courses</h2>
-                <div class="courses-grid" id="myCoursesGrid">
+                <!-- Search Results Section (Hidden by default) -->
+                <div id="searchResultsSection" class="search-results-section" style="display: none;">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            Search Results 
+                            <span id="searchQuery" class="search-query-text"></span>
+                        </h2>
+                        <button id="clearSearchBtn" class="btn-clear-search">
+                            <i class="fas fa-times"></i> Clear Search
+                        </button>
                     </div>
+                    <div class="courses-grid" id="searchResultsGrid"></div>
+                </div>
 
-                <h2 class="section-title" style="margin: 3rem 0 1rem; color: var(--text-dark, #333); border-top: 1px solid #eee; padding-top: 2rem;">Available Courses</h2>
-                <div class="courses-grid" id="availableCoursesGrid">
-                    </div>
+                <!-- My Courses Section -->
+                <div id="myCoursesSection">
+                    <h2 class="section-title" style="margin: 2rem 0 1rem; color: var(--text-dark, #333);">
+                        Enrolled Courses
+                    </h2>
+                    <div class="courses-grid" id="myCoursesGrid"></div>
+                </div>
+
+                <!-- Available Courses Section -->
+                <div id="availableCoursesSection">
+                    <h2 class="section-title" style="margin: 3rem 0 1rem; color: var(--text-dark, #333); border-top: 1px solid #eee; padding-top: 2rem;">
+                        Available Courses
+                    </h2>
+                    <div class="courses-grid" id="availableCoursesGrid"></div>
+                </div>
 
                 <footer class="footer">
                     <div class="footer-bottom">
@@ -80,6 +101,7 @@
 
     </div>
 
+    <!-- Enrollment Modal -->
     <div id="enrollModal" class="modal">
         <div class="modal-content">
             <span class="close-modal">&times;</span>

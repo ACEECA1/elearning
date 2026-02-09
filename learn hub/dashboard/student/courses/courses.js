@@ -2,15 +2,19 @@ import api from '../../../api.js';
 import config from '../../../config.js';
 
 const IMAGE_BASE_URL = config.IMAGE_BASE_URL;
+
+let currentUser = null;
+let isSearchMode = false;
+
 document.addEventListener("DOMContentLoaded", async () => {
     // 1. Auth Check
     const userJson = localStorage.getItem('user');
     if (!userJson) {
-        window.location.href = '../auth/login.html';
+        window.location.href = '../../../auth/login.html';
         return;
     }
-    const user = JSON.parse(userJson);
-    updateUserProfile(user);
+    currentUser = JSON.parse(userJson);
+    updateUserProfile(currentUser);
 
     // 2. Load Data
     await loadMyCourses();
@@ -18,10 +22,175 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // 3. Setup Listeners
     setupEventListeners();
-    setupModalListeners(); // <--- New Function
+    setupModalListeners();
+    setupSearchListeners(); // NEW
 });
 
-// --- LOADERS ---
+// --- SEARCH FUNCTIONALITY ---
+
+function setupSearchListeners() {
+    const searchInput = document.getElementById('searchInput');
+    const clearSearchBtn = document.getElementById('clearSearchBtn');
+
+    if (searchInput) {
+        let searchTimeout;
+        
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.trim();
+            
+            // Clear previous timeout
+            clearTimeout(searchTimeout);
+            
+            // If empty, clear search
+            if (query === '') {
+                clearSearch();
+                return;
+            }
+            
+            // Debounce: Wait 500ms after user stops typing
+            searchTimeout = setTimeout(() => {
+                performSearch(query);
+            }, 500);
+        });
+        
+        // Also search on Enter key
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                clearTimeout(searchTimeout);
+                const query = e.target.value.trim();
+                if (query) performSearch(query);
+            }
+        });
+    }
+    
+    if (clearSearchBtn) {
+        clearSearchBtn.addEventListener('click', clearSearch);
+    }
+}
+
+async function performSearch(query) {
+    const resultsSection = document.getElementById('searchResultsSection');
+    const resultsGrid = document.getElementById('searchResultsGrid');
+    const searchQueryText = document.getElementById('searchQuery');
+    const myCoursesSection = document.getElementById('myCoursesSection');
+    const availableCoursesSection = document.getElementById('availableCoursesSection');
+    
+    if (!resultsSection || !resultsGrid) return;
+    
+    // Show search results section, hide others
+    isSearchMode = true;
+    resultsSection.style.display = 'block';
+    myCoursesSection.style.display = 'none';
+    availableCoursesSection.style.display = 'none';
+    
+    // Update search query text
+    if (searchQueryText) {
+        searchQueryText.textContent = `for "${query}"`;
+    }
+    
+    // Show loading
+    resultsGrid.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Searching...</div>';
+    
+    try {
+        const results = await api.course.search(query);
+        renderSearchResults(resultsGrid, results);
+    } catch (error) {
+        console.error('Search error:', error);
+        resultsGrid.innerHTML = `
+            <div class="error-msg">
+                <i class="fas fa-exclamation-circle"></i>
+                <p>Search failed. Please try again.</p>
+            </div>
+        `;
+    }
+}
+
+function renderSearchResults(container, courses) {
+    container.innerHTML = '';
+    
+    if (!courses || courses.length === 0) {
+        container.innerHTML = `
+            <div class="empty-msg">
+                <i class="fas fa-search" style="font-size: 3rem; color: var(--text-light); margin-bottom: 1rem;"></i>
+                <p>No courses found matching your search.</p>
+            </div>
+        `;
+        return;
+    }
+    
+    // Check which courses the user is enrolled in
+    // We'll render them with different actions
+    courses.forEach(course => {
+        const card = document.createElement('div');
+        card.className = 'course-card';
+        
+        // Determine if enrolled (you might need to check this against user's enrolled courses)
+        const isEnrolled = checkIfEnrolled(course.id);
+        
+        let actionBtn = '';
+        if (isEnrolled) {
+            actionBtn = `<button class="course-btn btn-primary" onclick="window.location.href='../courses-deatils/course-details.html?id=${course.id}'">Continue Learning</button>`;
+        } else {
+            actionBtn = `<button class="course-btn btn-secondary enroll-trigger" data-id="${course.id}">Enroll Now</button>`;
+        }
+        
+        const thumbnailUrl = course.thumbnailPath 
+            ? `${IMAGE_BASE_URL}${course.thumbnailPath}`
+            : 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=250&fit=crop';
+        
+        card.innerHTML = `
+            <div class="course-image">
+                <img src="${thumbnailUrl}" alt="${course.title}" onerror="this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=250&fit=crop'">
+                <div class="course-badge">${isEnrolled ? 'Enrolled' : 'Available'}</div>
+            </div>
+            <div class="course-body">
+                <h3 class="course-title">${course.title || course.name}</h3>
+                <p class="course-description">${course.description || 'No description provided.'}</p>
+                ${actionBtn}
+            </div>
+        `;
+        container.appendChild(card);
+    });
+    
+    // Attach Click Listeners for "Enroll Now" buttons
+    document.querySelectorAll('.enroll-trigger').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const courseId = e.target.getAttribute('data-id');
+            openEnrollModal(courseId);
+        });
+    });
+}
+
+function clearSearch() {
+    const searchInput = document.getElementById('searchInput');
+    const resultsSection = document.getElementById('searchResultsSection');
+    const myCoursesSection = document.getElementById('myCoursesSection');
+    const availableCoursesSection = document.getElementById('availableCoursesSection');
+    
+    if (searchInput) searchInput.value = '';
+    
+    isSearchMode = false;
+    
+    if (resultsSection) resultsSection.style.display = 'none';
+    if (myCoursesSection) myCoursesSection.style.display = 'block';
+    if (availableCoursesSection) availableCoursesSection.style.display = 'block';
+}
+
+// Helper function to check if user is enrolled
+// You might want to cache this data or check against enrolled courses list
+function checkIfEnrolled(courseId) {
+    // This is a simple check - you might want to improve this
+    // by storing enrolled course IDs when loading
+    const myCoursesGrid = document.getElementById('myCoursesGrid');
+    if (myCoursesGrid) {
+        const enrolledCourses = myCoursesGrid.querySelectorAll('.course-card');
+        // This is a basic check - improve as needed
+        return false; // For now, return false
+    }
+    return false;
+}
+
+// --- EXISTING LOADERS ---
 
 async function loadMyCourses() {
     const grid = document.getElementById('myCoursesGrid');
@@ -67,25 +236,23 @@ function renderCourses(container, courses, type) {
         const card = document.createElement('div');
         card.className = 'course-card';
 
-        // LOGIC: 
-        // If type is 'my_course', we show "Continue Learning" (Enter).
-        // If type is 'available', we show "Enroll Now" (Open Modal).
-        
         let actionBtn = '';
         if (type === 'my_course') {
             actionBtn = `<button class="course-btn btn-primary" onclick="window.location.href='../courses-deatils/course-details.html?id=${course.id}'">Continue Learning</button>`;
         } else {
-            // We use data attributes to pass ID to the click handler
             actionBtn = `<button class="course-btn btn-secondary enroll-trigger" data-id="${course.id}">Enroll Now</button>`;
         }
-        console.log("Course Thumbnail Path:", course.thumbnailPath);
+        
+        const thumbnailUrl = course.thumbnailPath 
+            ? `${IMAGE_BASE_URL}${course.thumbnailPath}`
+            : 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=250&fit=crop';
+        
         card.innerHTML = `
             <div class="course-image">
-                <img src= "${IMAGE_BASE_URL + course.thumbnailPath}" alt="${course.title}" ">
+                <img src="${thumbnailUrl}" alt="${course.title}" onerror="this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=250&fit=crop'">
                 <div class="course-badge">${type === 'my_course' ? 'Enrolled' : 'Open'}</div>
             </div>
             <div class="course-body">
-                <div class="course-meta">ID: ${course.id}</div>
                 <h3 class="course-title">${course.title || course.name}</h3>
                 <p class="course-description">${course.description || 'No description provided.'}</p>
                 ${actionBtn}
@@ -94,7 +261,6 @@ function renderCourses(container, courses, type) {
         container.appendChild(card);
     });
 
-    // Attach Click Listeners for "Enroll Now" buttons
     if (type === 'available') {
         document.querySelectorAll('.enroll-trigger').forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -115,7 +281,7 @@ const confirmBtn = document.getElementById('confirmEnrollBtn');
 
 function openEnrollModal(courseId) {
     modalCourseIdInput.value = courseId;
-    modalKeyInput.value = ""; // Clear previous input
+    modalKeyInput.value = "";
     modal.style.display = "block";
     modalKeyInput.focus();
 }
@@ -125,24 +291,18 @@ function closeEnrollModal() {
 }
 
 function setupModalListeners() {
-    // Close on X click
     if(closeModal) closeModal.addEventListener('click', closeEnrollModal);
 
-    // Close on outside click
     window.addEventListener('click', (e) => {
         if (e.target === modal) closeEnrollModal();
     });
 
-    // Confirm Enrollment
     if(confirmBtn) {
         confirmBtn.addEventListener('click', async () => {
             const courseId = modalCourseIdInput.value;
             const code = modalKeyInput.value.trim();
 
             if (!courseId) return;
-
-            // Optional: If you want to force a code, check `if(!code) ...` here. 
-            // Currently it allows empty code if the course is public.
 
             const originalText = confirmBtn.textContent;
             confirmBtn.textContent = "Processing...";
@@ -154,7 +314,10 @@ function setupModalListeners() {
                 alert("Successfully enrolled!");
                 closeEnrollModal();
                 
-                // Refresh both lists
+                // Refresh lists
+                if (isSearchMode) {
+                    clearSearch();
+                }
                 loadMyCourses();
                 loadAvailableCourses();
 
@@ -171,7 +334,6 @@ function setupModalListeners() {
 // --- GENERAL LISTENERS ---
 
 function setupEventListeners() {
-    // Logout
     const profileBtn = document.getElementById('userProfile');
     if (profileBtn) {
         profileBtn.addEventListener('click', async () => {
@@ -196,9 +358,4 @@ function updateUserProfile(user) {
     if (roleEl) roleEl.textContent = user.role;
     if (welcomeEl) welcomeEl.textContent = `Welcome back, ${user.firstName}!`;
     if (avatarEl) avatarEl.innerHTML = `<span>${user.firstName.charAt(0)}</span>`;
-}
-
-function getRandomColor() {
-    const colors = ['#5b4acf', '#10b981', '#f59e0b', '#ef4444', '#3b82f6'];
-    return colors[Math.floor(Math.random() * colors.length)];
 }
