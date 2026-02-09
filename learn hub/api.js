@@ -1,4 +1,5 @@
-const API_BASE_URL = 'http://192.168.100.3:8080/api';
+import config from './config.js';
+const API_BASE_URL = config.API_BASE_URL;
 
 const api = {
     async request(endpoint, method = 'GET', body = null) {

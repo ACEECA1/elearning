@@ -1,6 +1,7 @@
 import api from '../../../api.js';
+import config from '../../../config.js';
 
-const IMAGE_BASE_URL = `http://192.168.100.3:8080/api/`;
+const IMAGE_BASE_URL = config.IMAGE_BASE_URL;
 let currentCourseId = null;
 let currentCourse = null;
 let moduleToDelete = null;

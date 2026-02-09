@@ -1,5 +1,7 @@
 import api from '../../../api.js';
-const IMAGE_BASE_URL = `http://192.168.100.3:8080/api/`;
+import config from '../../../config.js';
+
+const IMAGE_BASE_URL = config.IMAGE_BASE_URL;
 document.addEventListener("DOMContentLoaded", async () => {
     // 1. Auth Check
     const userJson = localStorage.getItem('user');

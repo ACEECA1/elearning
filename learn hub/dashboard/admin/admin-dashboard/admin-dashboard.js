@@ -1,5 +1,4 @@
 import api from '../../../api.js';
-
 let currentUser = null;
 
 document.addEventListener("DOMContentLoaded", async () => {

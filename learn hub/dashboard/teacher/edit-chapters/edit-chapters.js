@@ -1,6 +1,5 @@
 import api from '../../../api.js';
 
-const IMAGE_BASE_URL = `http://192.168.100.3:8080/api/`;
 
 let currentChapterId = null;
 let currentChapter = null;

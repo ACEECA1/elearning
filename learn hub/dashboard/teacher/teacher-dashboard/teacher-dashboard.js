@@ -1,6 +1,6 @@
 import api from '../../../api.js';
-
-const IMAGE_BASE_URL = `${window.location.protocol}//${window.location.hostname}:8080/api/`;
+import config from '../../../config.js';
+const IMAGE_BASE_URL = config.IMAGE_BASE_URL;
 let courseToDeleteId = null;
 
 document.addEventListener("DOMContentLoaded", async () => {

@@ -317,5 +317,3 @@ window.closeDeleteStudentModal = function() {
     document.getElementById('deleteStudentModal').style.display = 'none';
     currentDeleteStudentId = null;
 };
-
-console.log('%c👨‍🎓 Admin Students Page Loaded', 'color: #5b4acf; font-size: 16px; font-weight: bold;');

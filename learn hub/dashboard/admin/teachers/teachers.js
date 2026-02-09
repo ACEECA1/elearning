@@ -317,5 +317,3 @@ window.closeDeleteTeacherModal = function() {
     document.getElementById('deleteTeacherModal').style.display = 'none';
     currentDeleteTeacherId = null;
 };
-
-console.log('%c👨‍🏫 Admin Teachers Page Loaded', 'color: #5b4acf; font-size: 16px; font-weight: bold;');
