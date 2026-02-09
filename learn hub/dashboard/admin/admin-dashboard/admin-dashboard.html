@@ -20,22 +20,22 @@
 
             <div class="search-bar">
                 <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search courses, teachers...">
+                <input type="text" placeholder="Search courses, teachers..." id="searchInput">
             </div>
 
             <div class="nav-actions">
                 <button class="notification-btn" id="notificationBtn">
                     <i class="fas fa-bell"></i>
-                    <span class="notification-badge">2</span>
+                    <span class="notification-badge" id="notificationCount">0</span>
                 </button>
 
-                <div class="user-profile">
+                <div class="user-profile" id="userProfile" style="cursor: pointer;">
                     <div class="user-info-header">
-                        <div class="user-name-header">Alex Johnson</div>
-                        <div class="user-role-header">Admin</div>
+                        <div class="user-name-header" id="userName">Loading...</div>
+                        <div class="user-role-header" id="userRole">Admin</div>
                     </div>
-                    <div class="user-avatar">
-                        <span>AJ</span>
+                    <div class="user-avatar" id="userAvatar">
+                        <span>-</span>
                     </div>
                 </div>
             </div>
@@ -60,7 +60,7 @@
                         </a>
                     </li>
                     <li class="admin-menu-item">
-                        <a href="../student/students.html" class="admin-link">
+                        <a href="../students/students.html" class="admin-link">
                             <i class="fas fa-user-graduate"></i>
                             <span>Students</span>
                         </a>
@@ -81,7 +81,7 @@
                 <div class="dashboard-header">
                     <div>
                         <h1 class="dashboard-title">Dashboard Overview</h1>
-                        <p class="dashboard-subtitle">Welcome back, Admin</p>
+                        <p class="dashboard-subtitle">Welcome back, <span id="adminNameSubtitle">Admin</span></p>
                     </div>
                 </div>
 
@@ -93,7 +93,9 @@
                         </div>
                         <div class="stat-content">
                             <div class="stat-label">Total Students</div>
-                            <div class="stat-value">12,345</div>
+                            <div class="stat-value" id="totalStudents">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
                         </div>
                     </div>
 
@@ -103,7 +105,9 @@
                         </div>
                         <div class="stat-content">
                             <div class="stat-label">Active Courses</div>
-                            <div class="stat-value">234</div>
+                            <div class="stat-value" id="totalCourses">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
                         </div>
                     </div>
 
@@ -113,7 +117,9 @@
                         </div>
                         <div class="stat-content">
                             <div class="stat-label">Active Teachers</div>
-                            <div class="stat-value">156</div>
+                            <div class="stat-value" id="totalTeachers">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
                         </div>
                     </div>
 
@@ -122,66 +128,14 @@
                 <div class="registrations-section">
                     <div class="section-header">
                         <h2 class="section-title">Recent Registrations</h2>
-                        <a href="#" class="view-all-link">View All</a>
+                        <a href="../students/students.html" class="view-all-link">View All</a>
                     </div>
 
-                    <div class="registrations-list">
-                        
-                        <div class="registration-item">
-                            <div class="registration-avatar">
-                                <i class="fas fa-user"></i>
-                            </div>
-                            <div class="registration-info">
-                                <div class="registration-name">Student Name</div>
-                                <div class="registration-email">student@uni.edu</div>
-                            </div>
-                            <span class="registration-badge new-badge">New</span>
+                    <div class="registrations-list" id="registrationsList">
+                        <div class="loading-state">
+                            <i class="fas fa-spinner fa-spin fa-2x"></i>
+                            <p>Loading registrations...</p>
                         </div>
-
-                        <div class="registration-item">
-                            <div class="registration-avatar">
-                                <i class="fas fa-user"></i>
-                            </div>
-                            <div class="registration-info">
-                                <div class="registration-name">Student Name 2</div>
-                                <div class="registration-email">student2@uni.edu</div>
-                            </div>
-                            <span class="registration-badge new-badge">New</span>
-                        </div>
-
-                        <div class="registration-item">
-                            <div class="registration-avatar">
-                                <i class="fas fa-user"></i>
-                            </div>
-                            <div class="registration-info">
-                                <div class="registration-name">Student Name 3</div>
-                                <div class="registration-email">student3@uni.edu</div>
-                            </div>
-                            <span class="registration-badge new-badge">New</span>
-                        </div>
-
-                        <div class="registration-item">
-                            <div class="registration-avatar">
-                                <i class="fas fa-user"></i>
-                            </div>
-                            <div class="registration-info">
-                                <div class="registration-name">Student Name 4</div>
-                                <div class="registration-email">student4@uni.edu</div>
-                            </div>
-                            <span class="registration-badge new-badge">New</span>
-                        </div>
-
-                        <div class="registration-item">
-                            <div class="registration-avatar">
-                                <i class="fas fa-user"></i>
-                            </div>
-                            <div class="registration-info">
-                                <div class="registration-name">Student Name 5</div>
-                                <div class="registration-email">student5@uni.edu</div>
-                            </div>
-                            <span class="registration-badge new-badge">New</span>
-                        </div>
-
                     </div>
                 </div>
 
@@ -200,8 +154,9 @@
                             </p>
                         </div>
 
-
                         <div class="footer-section">
+                            <h4>Quick Links</h4>
+                            <ul class="footer-links">
                                 <li><a href="../../../index.html#contact">Contact</a></li>
                             </ul>
                         </div>
@@ -230,6 +185,6 @@
         <i class="fas fa-bars"></i>
     </button>
 
-    <script src="admin-dashboard.js"></script>
+    <script type="module" src="admin-dashboard.js"></script>
 </body>
 </html>

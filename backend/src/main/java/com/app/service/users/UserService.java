@@ -24,17 +24,26 @@ public class UserService {
     private final NotificationService notificationService = new NotificationService();
     public int userCount() throws Exception {
         try (Connection conn = Database.getConnection()) {
-            return userDAO.count(conn);
+            System.out.println("Counting users...");
+            int count = userDAO.count(conn);
+            System.out.println("User count: " + count);
+            return count;
         }
     }
     public int studentCount() throws Exception {
         try (Connection conn = Database.getConnection()) {
-            return studentDAO.count(conn);
+            System.out.println("Counting students...");
+            int count = studentDAO.count(conn);
+            System.out.println("Student count: " + count);
+            return count;
         }
     }
     public int teacherCount() throws Exception {
         try (Connection conn = Database.getConnection()) {
-            return teacherDAO.count(conn);
+            System.out.println("Counting teachers...");
+            int count = teacherDAO.count(conn);
+            System.out.println("Teacher count: " + count);
+            return count;
         }
     }
     public User getUserById(int id) throws Exception {
@@ -81,6 +90,7 @@ public class UserService {
             student.setVerified(true);
 
             studentDAO.insert(conn, student);
+            System.out.println("Added student: " + student.getId());
             notificationService.sendStudentWelcomeNotification(student.getId());
         }
     }
@@ -99,6 +109,7 @@ public class UserService {
             teacher.setVerified(true);
 
             teacherDAO.insert(conn, teacher);
+            System.out.println("Added teacher: " + teacher.getId());
             notificationService.sendTeacherWelcomeNotification(teacher.getId());
         }
     }
@@ -116,6 +127,7 @@ public class UserService {
             admin.setVerified(true);
 
             adminDAO.insert(conn, admin);
+            System.out.println("Added admin: " + admin.getId());
         }
     }
 
@@ -135,6 +147,7 @@ public class UserService {
 
             studentDAO.update(conn, student);
             notificationService.sendUpdateNotification(student.getId());
+            System.out.println("Updated student: " + student.getId());
         }
     }
 
@@ -154,6 +167,7 @@ public class UserService {
 
             teacherDAO.update(conn, teacher);
             notificationService.sendUpdateNotification(teacher.getId());
+            System.out.println("Updated teacher: " + teacher.getId());
         }
     }
 

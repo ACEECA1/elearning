@@ -96,7 +96,7 @@ public class CourseServlet extends HttpServlet {
 
             // 2. /api/course/list (Teacher's created courses)
             } else if ("/list".equals(pathInfo)) {
-                if (!"TEACHER".equalsIgnoreCase(role)) {
+                if (!"TEACHER".equalsIgnoreCase(role) && !"ADMIN".equalsIgnoreCase(role)) {
                     throw new Exception("Access Denied: Only teachers can view their created courses.");
                 }
                 List<Course> courses = courseService.getCoursesByTeacher(userId);

@@ -108,7 +108,7 @@ public class UserServlet extends HttpServlet {
                 return;
             }
         }
-        else if ("student/count".equals(pathInfo)) {
+        else if ("/student/count".equals(pathInfo)) {
             try{
                 int count = userService.studentCount();
                 out.print("{\"studentCount\": " + count + "}");
@@ -120,7 +120,7 @@ public class UserServlet extends HttpServlet {
                 return;
             }
         }
-        else if ("teacher/count".equals(pathInfo)) {
+        else if ("/teacher/count".equals(pathInfo)) {
             try{
                 int count = userService.teacherCount();
                 out.print("{\"teacherCount\": " + count + "}");
